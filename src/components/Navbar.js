@@ -1,44 +1,33 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
-import { FiShoppingCart } from 'react-icons/fi';
-import { BsChatLeft } from 'react-icons/bs';
-import { RiNotification3Line } from 'react-icons/ri';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+import {RiUserSearchLine} from 'react-icons/ri';
+import { MdKeyboardArrowDown,MdKeyboardArrowUp } from 'react-icons/md';
 
-import avatar from '../data/logo192.png';
-
-import { useStateContext } from '../contexts/ContextProvider';
-import {UserProfile} from '../components';
-
-const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
- 
-    <button
-      type="button"
-      onClick={() => customFunc()}
-      style={{ color }}
-      className="relative text-xl rounded-full p-3 hover:bg-light-gray"
-    >
-      <span
-        style={{ background: dotColor }}
-        className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2"
-      />
-      {icon}
-    </button>
- 
-);
+import {useStateContext} from '../contexts/StateContext';
+import {useProfileContext} from '../contexts/ProfileContext';
+import {UserProfile, Button, Logo} from './';
+import {IPFS_GATEWAY} from '../utils/ERC725Config';
+import swal from 'sweetalert';
 
 const Navbar = () => {
-  const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
+  const {activeMenu, setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize} = useStateContext();
+  const {isProfileLoaded, connectProfile, profileJSONMetadata, pendingProfileJSONMetadata} = useProfileContext();
+  const [scrollHeight, setScrollHeight] = useState(0);
+  
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
-
     window.addEventListener('resize', handleResize);
-
     handleResize();
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollHeight(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   useEffect(() => {
     if (screenSize <= 900) {
@@ -47,39 +36,49 @@ const Navbar = () => {
       setActiveMenu(true);
     }
   }, [screenSize]);
+  
+  const handleMenuClick = () => {
+      if(activeProfile && JSON.stringify(pendingProfileJSONMetadata)!==JSON.stringify(profileJSONMetadata)){
+        swal({
+          title: "You have edits that have not been uploaded to the Lukso network. Are you sure you want to continue?",
+          text:  "Your edits will be stored as draft as long as you do not disconnect your profile.",
+          buttons: [true, "Yes"],
+        })
+        .then((value) => {
+          if(value)
+          setActiveProfile(current=>!current);
+        });
+      }
+      else{
+        setActiveProfile(current=>!current);
+      } 
+  }
 
-  const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
   return (
-    <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
-
-      <NavButton title="Menu" customFunc={handleActiveMenu} color={currentColor} icon={<AiOutlineMenu />} />
-      <div className="flex">
-        <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={currentColor} icon={<RiNotification3Line />} />
-      
-          <div
-            className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-            onClick={() => handleClick('userProfile')}
-          >
-            <img
-              className="rounded-full w-8 h-8"
-              src={avatar}
-              alt="user-profile"
-            />
-            <p>
-              <span className="text-gray-400 text-14">Hi,</span>{' '}
-              <span className="text-gray-400 font-bold ml-1 text-14">
-                Fabian
-              </span>
-            </p>
-            <MdKeyboardArrowDown className="text-gray-400 text-14" />
+    <div className="flex justify-between items-center h-14 mb-4 relative">
+      <div onClick={()=>setActiveMenu(!activeMenu)} className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44"><AiOutlineMenu/></div>
+      {scrollHeight===0 && <div><Logo customFunc = {""} customProps ={"hover:text-white"}/></div>}
+      <div className="flex mt-1 mb-1 mr-1">
+        {
+        isProfileLoaded ?
+          <div className={`flex justify-between items-center gap-2 cursor-pointer py-2 px-3  rounded-lg transition-all duration-500
+          bg-slate-600 from-white hover:bg-gradient-to-t ${activeProfile?"bg-gradient-to-t  opacity-70":"bg-gradient-to-b shadow-md shadow-black/80 "}`}  
+            onClick={handleMenuClick}>
+            {
+              profileJSONMetadata.profileImage.length ? 
+                <img className="rounded-full w-6 h-6" src={profileJSONMetadata.profileImage[0].url.replace("ipfs://", IPFS_GATEWAY)} />
+                : 
+                <div className="text-gray-400">
+                    <RiUserSearchLine/>
+                </div>
+            }
+            <p className="font-bold ml-1 text-14 text-black flex flex-row items-center gap-2"> {profileJSONMetadata.name} {activeProfile?<MdKeyboardArrowUp/>:<MdKeyboardArrowDown/> }</p>
           </div>
-       
-
-      
-      
-        {isClicked.notification && (<div>User Profile</div>)}
-        {isClicked.userProfile && (<div><UserProfile/></div>)}
+          :
+          <Button buttonText="Connect Universal Profile" buttonFunc={()=>connectProfile()}/>
+        }
+        {activeProfile && <UserProfile/>}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import React from 'react'
 import { BsShieldFillCheck } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import { RiHeart2Fill } from "react-icons/ri";
-import {Button, Banner, ConnectWallet} from '../components';
+import {Banner} from '../components';
 
 
 const About = () => {
@@ -12,7 +12,7 @@ const About = () => {
   const adjectiveStyles = "min-h-[69px] flex justify-center items-center border border-violet-400 text-lg text-violet-900 hover:shadow-xl";
 
   const ServiceCard = ({ color, title, icon, subtitle }) => (
-    <div className="flex flex-row justify-start items-center white-glassmorphism p-3 m-2 cursor-pointer hover:shadow-xl w-5/6">
+    <div className="flex flex-row justify-start items-center white-glassmorphism p-3 m-2 hover:shadow-xl w-5/6">
       <div className={`w-10 h-10 rounded-full flex justify-center items-center ${color}`}>
         {icon}
       </div>
@@ -30,13 +30,17 @@ const About = () => {
   return (
     <div className="mt-4">
 
-    
-    <ConnectWallet/>
+    <Banner 
+             colorFrom = {"from-cyan-500"} 
+             title = {"About LUKSO"} 
+             subtitle = {""}
+             buttonText = {""}
+        />
     
     <div className="flex w-full justify-center items-center mx-4 my-10">
       <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
-        <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
-          Protect your assets <br /> with MyLuksoVault
+        <h1 className="text-4xl text-white py-1">
+          What are Lukso Standard Proposals (LSPs)?
         </h1>
         <p className="text-left mt-5 text-white font-light md:w-9/12 w-11/12 text-base">
           Designed using the Lukso Standard Proposal 9 (LSP9)
@@ -79,6 +83,14 @@ const About = () => {
         />
       </div>
     </div>
+        <div>
+          <ol className='pl-4 text-white'>
+            <li>created by...</li>
+             <li>building blocks (LSPs)</li>
+              <li>learn more: links</li>
+              <li>https://lukso.network/faq</li>
+          </ol>
+        </div>
     </div>
   )
 }

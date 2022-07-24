@@ -2,16 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {ContextProvider} from './contexts/ContextProvider';
-import {TransactionsProvider} from './contexts/TransactionContext';
-
+import {StateProvider} from './contexts/StateContext';
+import {ProfileProvider} from './contexts/ProfileContext';
+import {AssetsProvider} from './contexts/AssetsContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ContextProvider>
-      <TransactionsProvider>
-        <App />
-      </TransactionsProvider>
-    </ContextProvider>
+    <StateProvider>
+      <ProfileProvider>
+        <AssetsProvider>
+          <App />
+        </AssetsProvider>
+      </ProfileProvider>
+    </StateProvider>
   </React.StrictMode>
 );

@@ -1,87 +1,50 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { FiSettings } from 'react-icons/fi';
-import './App.css';
-import { useStateContext } from './contexts/ContextProvider';
-
-import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Home, CoffeeTest, Hackathon, About, GetStarted } from './pages';
-
+import { useStateContext } from './contexts/StateContext';
+import { Navbar, Footer, Sidebar} from './components';
+import { Home, MyLuksoWallet, Hackathon, About, GetStarted, MyProfile, MyAssets, CreateProfile, CreateToken, CreateNFT, CreateVault } from './pages';
 
 
 const App = () => {
-  const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
-
-  useEffect(() => {
-    const currentThemeColor = localStorage.getItem('colorMode');
-    const currentThemeMode = localStorage.getItem('themeMode');
-    if (currentThemeColor && currentThemeMode) {
-      setCurrentColor(currentThemeColor);
-      setCurrentMode(currentThemeMode);
-    }
-  }, []);
+  const {activeMenu} = useStateContext();
 
   return (
-    <div className="gradient-bg-welcome vault-vignette">
+    <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 -z-20 contrast-100" style={{boxShadow: "inset 0 0 15px black"}}>
       <BrowserRouter>
-        <div className="flex relative dark:bg-main-dark-bg">
-          <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
-        
-              <button
-                type="button"
-                onClick={() => setThemeSettings(true)}
-                style={{ background: currentColor, borderRadius: '50%' }}
-                className="text-3xl text-white p-3 hover:drop-shadow-xl hover:bg-light-gray"
-              >
-                <FiSettings />
-              </button>
-
-           
-          </div>
-          {activeMenu ? (
-            <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
-              <Sidebar />
-            </div>
-          ) : (
-            <div className="w-0 dark:bg-secondary-dark-bg">
-              <Sidebar />
-            </div>
-          )}
-          <div
-            className={
-              activeMenu
-                ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full  '
-                : 'bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 '
-            }
-          >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
+        <div className="flex relative">
+          {
+            activeMenu ?
+              <div className="w-72 transition-all duration-300 sticky ease-in">
+                <Sidebar />
+              </div>
+              :
+              <div className="w-0 transition-all duration-300">
+                <Sidebar />
+              </div>
+          }
+          <div className={activeMenu ? 'min-h-screen w-full' : 'w-full min-h-screen flex-2'}>
+            <div className="sticky w-full top-0 z-10">
               <Navbar />
             </div>
-            <div>
-              {themeSettings && (<ThemeSettings />)}
-
+            <div>   
               <Routes>
-                {/* dashboard  */}
-                <Route path="/" element={(<Home />)} />
-          
+                <Route path="/" element={(<MyLuksoWallet />)} />
+                <Route path="/home" element={(<Home />)} />
+                <Route path="/myluksowallet" element={(<MyLuksoWallet />)} />
                 <Route path="/hackathon" element={(<Hackathon />)} />
-                <Route path="/get-started" element={(<GetStarted />)} />
+                <Route path="/getstarted" element={(<GetStarted />)} />
                 <Route path="/about" element={(<About />)} />
-                <Route path="/coffee" element={(<CoffeeTest />)} />
-              
-                {/* <Route path="/career-info" element={(<Ecommerce />)} />
-                <Route path="/resume-builder" element={(<Ecommerce />)} />
-                <Route path="/resume-database" element={(<Ecommerce />)} />
-
-              
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/employees" element={<Employees />} />
-                <Route path="/customers" element={<Customers />} />
- */}
-
+                <Route path="/myuniversalprofile" element={(<MyProfile />)} />
+                <Route path="/mytokens" element={(<MyAssets LSP_7_8_or_9="LSP7" LSP_5_10_or_12="LSP5"/>)} />
+                <Route path="/myNFTs" element={(<MyAssets LSP_7_8_or_9="LSP8" LSP_5_10_or_12="LSP5"/>)} />
+                <Route path="/myvaults" element={(<MyAssets LSP_7_8_or_9="LSP9" LSP_5_10_or_12="LSP5"/>)} />
+                <Route path ="/createprofile" element={(<CreateProfile />)} />
+                <Route path ="/createtoken" element={(<CreateToken />)} />
+                <Route path ="/createnft" element={(<CreateNFT />)} />
+                <Route path ="/createvault" element={(<CreateVault />)} /> 
               </Routes>
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       </BrowserRouter>
