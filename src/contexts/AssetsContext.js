@@ -1,46 +1,31 @@
+//context provider for account balance, LSP7, and LSP8 related functions
+
 import React, { useEffect, useState, createContext, useContext } from "react";
-import ERC725js from "@erc725/erc725.js";
 import {
+  web3Provider,
+  web3, // same as web3Provider
   INTERFACE_IDS,
-  ERC725Y_INTERFACE_IDS,
-  web3,
   LSP3Schema,
   LSP4Schema,
   LSP4Contract,
   LSP8Schema,
   LSP7Contract,
-  LSP8Contract,
-  provider,
-  config,
+  LSP7MintableContract,
+  LSP8MintableContract,
   IPFS_GATEWAY,
+  createErc725Instance,
 } from "../utils/ERC725Config";
-
-const { ERC725 } = require("@erc725/erc725.js");
+import { useProfileContext } from "./ProfileContext";
+import swal from "sweetalert";
 require("isomorphic-fetch");
 
 const AssetsContext = createContext();
 
-//  const SAMPLE_PROFILE_ADDRESS = "0xa907c1904c22DFd37FF56c1f3c3d795682539196";
-// const SAMPLE_ASSET_ADDRESS = "0x923F49Bac508E4Ec063ac097E00b4a3cAc68a353";
-
-// const SAMPLE_PROFILE_ADDRESS = process.env.REACT_APP_MLV_PROFILE_ADDRESS;
-// const SAMPLE_ASSET_ADDRESS = "0xA1A57B4129F1ec8d63F1509E9b3BE8edf36A43D6";
-
 export const AssetsProvider = ({ children }) => {
-  const defaultMetadata = {
-    description: "",
-    links: ["test"],
-    icon: [],
-    images: ["test", "test2"],
-    assets: [],
-  };
-
-  const [accountBalance, setAccountBalance] = useState(0); // LYXe/(t) balance
+  const { currentAccount, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
+  const [accountBalance, setAccountBalance] = useState(0); // LYX balance
   const [receivedAssets, setReceivedAssets] = useState(""); // array of all LSP5 Received Assets for the connected Universal Profile
   const [issuedAssets, setIssuedAssets] = useState(""); // array of all LSP12 Issued Assets for the connected Universal Profile
-  const [vaults, setVaults] = useState(""); // array of all LSP10 Received Vaults for the connected Universal Profile
-
-  const [ownedAssets, setOwnedAssets] = useState(""); // @TO-DO split into owned [received, issued, vaults]? what is difference between received and owned?
 
   // used to get token name or symbol
   const getAssetByKey = async (assetAddress, assetKey) => {
@@ -48,53 +33,47 @@ export const AssetsProvider = ({ children }) => {
     return await decodeAssetData(assetKey, assetData, assetAddress);
   };
 
-  // @desc Sets accountBalance state variable to LYXe/(t) balance
+  // calls the decimals function from the LSP7 contract
+  // **** currently not used ****
+  const getDecimals = async assetAddress => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
+      return await assetContract.methods.decimals().call();
+    } catch (error) {
+      return console.log("Decimals could not be fetched");
+    }
+  };
+
+  // @desc Sets accountBalance for profile
   const updateAccountBalance = async address => {
-    const balance = web3.utils.fromWei(await web3.eth.getBalance(address), "ether");
+    const balance = web3.utils.fromWei(await web3.eth.getBalance(address));
     setAccountBalance(balance);
+    return;
   };
 
   // @desc Used to retrieve the assets tied to a specific address and assetType
   // @param address: Universal Profile address
-  // @param assetType: LSP5ReceivedAssets[], LSP10Vaults[], LSP12IssuedAssets[]
+  // @param assetType: LSP5ReceivedAssets[], LSP12IssuedAssets[]
   // @returns Promise of array of asset addresses
   async function fetchAllAssets(address, assetType) {
     try {
-      const profile = new ERC725(LSP3Schema, address, provider, config);
+      const profile = createErc725Instance(LSP3Schema, address);
       const result = await profile.fetchData(assetType);
       assetType === "LSP5ReceivedAssets[]" && setReceivedAssets(result.value);
-      assetType === "LSP10Vaults[]" && setVaults(result.value);
       assetType === "LSP12IssuedAssets[]" && setIssuedAssets(result.value);
       return result.value;
     } catch (error) {
-      return console.log("This is not an ERC725 Contract");
+      return console.log(error);
     }
-  }
-
-  // TODO
-  async function fetchOwnedAssets(address, assetType) {
-    const digitalAssets = await fetchAllAssets(address, assetType);
-    const assets = [];
-
-    for (let i = 0; i < digitalAssets.length; i++) {
-      const contractInstance = new web3.eth.Contract(LSP8Contract.abi, digitalAssets[i]);
-
-      const isCurrentOwner = await contractInstance.methods.balanceOf(address).call();
-      if (isCurrentOwner > 0) {
-        assets[assets.length] = digitalAssets[i];
-      }
-    }
-    setOwnedAssets(assets); //to-do why this not working
-    return assets;
   }
 
   // @desc Checks if a supplied contract supports a particular interface
   // @param assetAddress: Smart contract address of the asset
-  // @param interfaceType: Contract used for Contract to InterfaceId mapping (current implementation uses LSP7DigitalAsset, LSP8IdentifiableDigitalAsset, LSP9Vault)
+  // @param interfaceType: Contract used for Contract to InterfaceId mapping (current implementation uses LSP7DigitalAsset, LSP8IdentifiableDigitalAsset)
   // @returns Promise of type boolean; true if assetAddress supports a specific interface, otherwise false
   const supportsInterface = async (assetAddress, interfaceType) => {
     try {
-      const contractInstance = new web3.eth.Contract(LSP4Contract.abi, assetAddress); //TO-DO does this work for LSP9
+      const contractInstance = new web3.eth.Contract(LSP4Contract.abi, assetAddress);
       return await contractInstance.methods.supportsInterface(INTERFACE_IDS[interfaceType]).call();
     } catch (error) {
       return console.log("Contract could not be checked for interface");
@@ -114,7 +93,8 @@ export const AssetsProvider = ({ children }) => {
   // code from https://github.com/lukso-network/lukso-playground/blob/main/fetch-asset/current/read_asset_full.js
   async function decodeAssetData(keyName, encodedData, address) {
     try {
-      const digitalAsset = new ERC725(LSP4Schema, address, provider, config);
+      const digitalAsset = createErc725Instance(LSP4Schema, address);
+      //const digitalAsset = new ERC725(LSP4Schema, address, provider, config);
       return digitalAsset.decodeData({ keyName: keyName, value: encodedData });
     } catch (error) {
       console.log("Data of an asset could not be decoded");
@@ -177,50 +157,84 @@ export const AssetsProvider = ({ children }) => {
   const getBalanceOf = async (assetAddress, profileAddress) => {
     try {
       const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
-      const balanceOf = await assetContract.methods.balanceOf(profileAddress).call();
-      return web3.utils.fromWei(balanceOf);
+      const balanceOf = web3.utils.fromWei(await assetContract.methods.balanceOf(profileAddress).call());
+      return balanceOf > 0.5 ? balanceOf : Number.parseFloat(balanceOf).toExponential(2);
     } catch (error) {
       return console.log("Balance of an asset could not be fetched");
     }
   };
 
-  //Tummi Gummi- 0x923F49Bac508E4Ec063ac097E00b4a3cAc68a353
-  const test = async profileAddress => {
-    console.log("test");
-    const LSP7contractId = "0x7cf1e07F395BD61D6e609633D34a2063234a6aAD";
-    const LSP8contractId = "0xA1A57B4129F1ec8d63F1509E9b3BE8edf36A43D6";
-    const profileId = "0xC7d7315A1DDBbf92aBD068588bBA1e864F20F0f5";
-    const contractInstance = new web3.eth.Contract(LSP4Contract.abi, LSP8contractId);
+  //
+  const mintToken = (assetAddress, mintAmount, mintToAddress, contract) => {
+    if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    if (!mintToAddress) mintToAddress = currentAccount;
+    if (mintAmount <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
+    if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
+    if (contract !== LSP7MintableContract && contract !== LSP8MintableContract)
+      return swal("This feature currently only supports Lukso's official LSP7Mintable and LSP8Mintable Contracts.", "", "warning");
 
-    // await contractInstance.methods.balanceOf(profileAddress).call().then(res => console.log(res));
+    const mintFunction = async (assetAddress, mintAmount, mintToAddress, contract) => {
+      try {
+        const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
+        const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
+        const assetFunction = assetContract.methods.mint(mintToAddress, web3.utils.toWei(mintAmount.toString()), false, "0x");
+        // address to, uint256 amount, bool force, bytes memory data
 
-    // await contractInstance.methods.totalSupply().call().then(res => console.log(web3.utils.fromWei(res, 'ether')));
+        if (useRelay) {
+          return await executeViaKeyManager(assetFunction.encodeABI, "Please wait. Minting your asset via a key manager..."); // not working
+        } else {
+          swal("Please wait. Minting your asset...", { button: false, closeOnClickOutside: false });
+          return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
+        }
+      } catch (err) {
+        swal("Something went wrong.", JSON.stringify(err), "error");
+        console.log(err);
+      }
+    };
 
-    // await contractInstance.methods.owner().call().then(res => console.log(res));
+    mintFunction(assetAddress, mintAmount, mintToAddress, contract).then(curr => {
+      if (curr) swal("Congratulations!", `${mintAmount} tokens were minted to ${mintToAddress}.`, "success");
+    });
+  };
 
-    await Promise.all([
-      contractInstance.methods.supportsInterface(INTERFACE_IDS.LSP7DigitalAsset).call(),
-      contractInstance.methods.supportsInterface(INTERFACE_IDS.LSP8IdentifiableDigitalAsset).call(),
-    ]).then(res => console.log(res));
+  const transferToken = (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress, balanceOf) => {
+    if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    if (!transferToAddress) transferToAddress = currentAccount;
+    if (!transferFromAddress) transferFromAddress = currentAccount;
+    if (transferAmount > balanceOf) return swal("Transfer amount exceeds balance.", "", "warning");
+    if (transferAmount <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
+    if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
+    if (contract !== LSP7MintableContract && contract !== LSP8MintableContract)
+      return swal("This feature currently only supports Lukso's official LSP7Mintable and LSP8Mintable Contracts.", "", "warning");
 
-    // const erc725 = new ERC725(
-    //     [...LSP4Schema, LSP8Schema],
-    //     profileAddress,
-    //     provider, config
-    // );
+    const transferFunction = async (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress) => {
+      try {
+        const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
+        const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
+        const assetFunction = assetContract.methods.transfer(
+          transferFromAddress,
+          transferToAddress,
+          web3.utils.toWei(transferAmount.toString()),
+          false,
+          "0x"
+        );
+        // function transfer(address from, address to, uint256 amount, bool force, bytes memory data) external;
 
-    // const data = await erc725.fetchData(
-    //     'LSP4TokenName',
-    //     'LSP4TokenSymbol',
-    //     {
-    //     keyName: 'LSP7MetadataJSON:<bytes32>',
-    //     dynamicKeyParts: '0x923F49Bac508E4Ec063ac097E00b4a3cAc68a353',
-    //     },
-    //     'LSP4Metadata',
-    // );
-    // console.log(data)
-    // const owner = await erc725.getOwner();
-    // console.log("owner: " + owner)
+        if (useRelay) {
+          return await executeViaKeyManager(assetFunction.encodeABI, "Please wait. Transferring your asset via a key manager..."); // not working
+        } else {
+          swal("Please confirm transfer...", { button: false, closeOnClickOutside: false });
+          return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
+        }
+      } catch (err) {
+        swal("Something went wrong.", JSON.stringify(err), "error");
+        console.log(err);
+      }
+    };
+
+    transferFunction(assetAddress, transferAmount, transferToAddress, contract, transferFromAddress).then(curr => {
+      if (curr) swal("Congratulations!", `${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+    });
   };
 
   return (
@@ -229,17 +243,19 @@ export const AssetsProvider = ({ children }) => {
         accountBalance,
         setAccountBalance,
         updateAccountBalance,
-        defaultMetadata,
         getAssetMetadata,
         getAssetByKey,
+        getDecimals,
         getTotalSupply,
         getBalanceOf,
-        test,
         receivedAssets,
         setReceivedAssets,
+        issuedAssets,
+        setIssuedAssets,
         fetchAllAssets,
-        fetchOwnedAssets,
         supportsInterface,
+        mintToken,
+        transferToken,
       }}>
       {children}
     </AssetsContext.Provider>

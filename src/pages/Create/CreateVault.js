@@ -1,9 +1,21 @@
-import React from 'react'
+import React from "react";
+
+import {DeployVault } from "../../components/";
+
 
 const CreateVault = () => {
-  return (
-    <div>CreateVault</div>
-  )
-}
+ 
 
-export default CreateVault
+  
+
+  return (
+    <>
+      <DeployVault/>
+
+      
+      
+    </>
+  );
+};
+
+export default CreateVault;

@@ -1,130 +1,119 @@
-import React from "react";
-import { KeyManager, Button_Shadow } from "../../components";
-import {
-  LSP3Schema,
-  provider,
-  config,
-  web3,
-  UniversalProfileContract,
-  LSP6Contract,
-  LSP7Contract,
-} from "../../utils/ERC725Config";
+import React, { useEffect } from "react";
+import { GrantPermissions, GetPermissions, ButtonShadow, UpdateProfile, FormContainer } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";
-import { ethers } from "ethers";
-const { ethereum } = window;
-const { ERC725 } = require("@erc725/erc725.js");
-const { LSPFactory } = require("@lukso/lsp-factory.js");
+import { useStateContext } from "../../contexts/StateContext";
 
-const testJSON = {
-  LSP3Profile: {
-    name: "MyLuksoWallet",
-    description:
-      "This is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\n",
-    links: [
-      { title: "...", url: "..." },
-      { title: "", url: "https://test" },
-    ],
-    tags: ["myluksowallet", "new tag", "new tag"],
-    avatar: [],
-    profileImage: [
-      {
-        width: 192,
-        height: 192,
-        hashFunction: "keccak256(bytes)",
-        hash: "0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b",
-        url: "ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR",
-      },
-      {
-        width: 192,
-        height: 192,
-        hashFunction: "keccak256(bytes)",
-        hash: "0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b",
-        url: "ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR",
-      },
-      {
-        width: 192,
-        height: 192,
-        hashFunction: "keccak256(bytes)",
-        hash: "0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b",
-        url: "ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR",
-      },
-      {
-        width: 192,
-        height: 192,
-        hashFunction: "keccak256(bytes)",
-        hash: "0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b",
-        url: "ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR",
-      },
-      {
-        width: 180,
-        height: 180,
-        hashFunction: "keccak256(bytes)",
-        hash: "0xeb41471392725596da7d34be6c6c2eb077d4514679c1543db25a1016c17567d5",
-        url: "ipfs://QmSE3kd3i8p62EXow2y1MMB7kSDvADH2mAjdJ8DwYL5d2D",
-      },
-    ],
-    backgroundImage: [{ width: 1024, height: 576, hashFunction: "keccak256(bytes)", hash: "0x...", url: "ipfs://..." }],
-  },
-};
 
 const MyProfile = () => {
-  const { setCurrentAccount, profileJSONMetadata, fetchProfileMetadata, fetchProfileData } = useProfileContext();
-  let profile;
-  const testFunction = () => {
-    var MyContract = new web3.eth.Contract(LSP7Contract.abi, "0xE6AA7bcb973959e4cBaabf43ba908698F8c03C9F");
-    var owner = MyContract.methods.owner().call();
-    console.log(owner);
+  const { setPendingProfileJSONMetadata } = useProfileContext();
+  const { theme, setTheme, UPColor, setUPColor, UPTextColor, setUPTextColor} = useStateContext();
 
-    const test = async () => {
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-      const etherProvider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = etherProvider.getSigner();
-      await signer.getAddress();
-      setCurrentAccount(accounts[0]);
-      profile = new ERC725(LSP3Schema, accounts[0], provider, config);
-      const result1 = await profile.fetchData().then(res => console.log(res));
-      const result2 = await profile.fetchData("LSP3Profile").then(res => console.log(res));
-      const result3 = await profile.getData().then(res => console.log(res));
-      const result4 = await profile.getData("LSP3Profile").then(res => console.log(res));
-
-      // const PRIVATE_KEY = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY;
-
-      // const myEOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
-
-      //   const universalProfileContract = new web3.eth.Contract(UniversalProfileContract.abi, accounts[0]);
-      //   const keyManagerAddress = await universalProfileContract.methods.owner().call();
-      //   const keyManagerContract = new web3.eth.Contract(LSP6Contract.abi, keyManagerAddress);
-      //   console.log(  encodedData.keys,  encodedData.values)
-      //   const abiPayload = await universalProfileContract.methods["setData(bytes32[],bytes[])"](
-      //       encodedData.keys,
-      //       encodedData.values
-      //   ).encodeABI();
-      //   const final = await keyManagerContract.methods.execute(abiPayload).send({from: myEOA.address, gasLimit: 300_000 });
-      //   console.log(final)
-      //  console.log(abiPayload);
-      //   const result5 = profile.decodeData([
-      //     {
-      //       keyName: 'LSP3Profile',
-      //       value:
-      //         '0x6f357c6a1222dfc66aa67e964949d8a4b733c140652bc23e53409e02762adf21d9693959697066733a2f2f516d656638784b6b62704e3276514539373838724e713879684e4a6848457a6d33756e7854614e6a637944413442',
-      //     },
-      //   ]);
-      //   console.log(result5)
-    };
-    //test();
-    //0x6f357c6a1222dfc66aa67e964949d8a4b733c140652bc23e53409e02762adf21d9693959697066733a2f2f516d656638784b6b62704e3276514539373838724e713879684e4a6848457a6d33756e7854614e6a637944413442
+  const setToDefault = async () => {
+    setTheme("slate");
+    setUPColor("#FFFFFF");
+    setUPTextColor("#000000");
   };
 
+  useEffect(() => {
+    setPendingProfileJSONMetadata(current => ({ ...current, MLWTheme: theme, MLWUPColor: UPColor, MLWUPTextColor: UPTextColor }));
+  }, [theme, UPColor, UPTextColor]);
+
   return (
-    <div className="text-white">
-      <KeyManager />
-      {/* <UpdateProfile/> */}
-      <Button_Shadow
-        buttonText={"Test Feature"}
-        buttonFunc={testFunction}
-        buttonColor={"bg-red-500"}
-        buttonTextColor={"text-red-800"}
-      />
+    <div className="flex flex-row mx-32 mt-16">
+      <div className="flex flex-col w-1/2">
+        <div className="text-sky-500 font-semibold text-3xl">Universal Profile Settings</div>
+        <div className="text-2xl text-white">Your settings follow your profile </div>
+
+    
+          <FormContainer title={"Profile Themes"} subtitle={"Settings will be uploaded to the blockchain"}>
+          <div className="flex flex-row items-center mb-4 justify-between h-8">
+            <div className=" text-white font-semibold">Theme Settings</div>
+            <select
+              value={theme}
+              onChange={e => setTheme(e.target.value)}
+              className={`rounded border-2 border-white bg-black text-center h-11 capitalize text-white`}>
+              <option className="bg-slate-600" value="slate">
+                slate
+              </option>
+              <option className="bg-gray-600" value="gray">
+                gray
+              </option>
+              <option className="bg-zinc-600" value="zinc">
+                zinc
+              </option>
+              <option className="bg-neutral-600" value="neutral">
+                neutral
+              </option>
+              <option className="bg-stone-600" value="stone">
+                stone
+              </option>
+              <option className="bg-red-600" value="red">
+                red
+              </option>
+              <option className="bg-orange-600" value="orange">
+                orange
+              </option>
+              <option className="bg-amber-600" value="amber">
+                amber
+              </option>
+              <option className="bg-yellow-600" value="yellow">
+                yellow
+              </option>
+              <option className="bg-lime-600" value="lime">
+                lime
+              </option>
+              <option className="bg-green-600" value="green">
+                green
+              </option>
+              <option className="bg-emerald-600" value="emerald">
+                emerald
+              </option>
+              <option className="bg-teal-600" value="teal">
+                teal
+              </option>
+              <option className="bg-cyan-600" value="cyan">
+                cyan
+              </option>
+              <option className="bg-sky-600" value="sky">
+                sky
+              </option>
+              <option className="bg-indigo-600" value="indigo">
+                indigo
+              </option>
+              <option className="bg-violet-600" value="violet">
+                violet
+              </option>
+              <option className="bg-purple-600" value="purple">
+                purple
+              </option>
+              <option className="bg-pink-600" value="pink">
+                pink
+              </option>
+              <option className="bg-rose-600" value="rose">
+                rose
+              </option>
+            </select>
+          </div>
+          <div className="flex flex-row items-center mb-4 justify-between h-8">
+            <div className=" text-white font-semibold">Universal Profile Color</div>
+            <input type="color" value={UPColor} onChange={e => setUPColor(e.target.value)} className="h-8 w-8 rounded "></input>
+          </div>
+          <div className="flex flex-row items-center mb-4 justify-between h-8">
+            <div className=" text-white font-semibold">Universal Profile Text Color</div>
+            <input type="color" value={UPTextColor} onChange={e => setUPTextColor(e.target.value)} className="h-8 w-8 rounded"></input>
+          </div>
+
+          <div className="flex items-center justify-between mt-8">
+            <ButtonShadow buttonText={"Reset"} buttonFunc={setToDefault} buttonColor={"bg-gray-700"} buttonTextColor={"white"} />
+            <UpdateProfile />
+          </div>
+          </FormContainer>
+       
+      </div>
+      <div className="text-white">
+        <GetPermissions />
+        <GrantPermissions />
+      </div>
     </div>
   );
 };

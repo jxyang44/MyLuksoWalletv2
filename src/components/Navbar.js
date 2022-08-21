@@ -2,29 +2,40 @@ import React, { useState, useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiUserSearchLine } from "react-icons/ri";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-
+import { useLocation } from "react-router-dom";
 import { useStateContext } from "../contexts/StateContext";
 import { useProfileContext } from "../contexts/ProfileContext";
-import { UserProfile, Button, Logo } from "./";
+import { UserProfile, Button, ButtonShadow, Logo } from "./";
 import { IPFS_GATEWAY } from "../utils/ERC725Config";
+import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
 
 const Navbar = () => {
-  const { activeMenu, setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize } = useStateContext();
-  const { isProfileLoaded, connectProfile, profileJSONMetadata, pendingProfileJSONMetadata } = useProfileContext();
-  const [scrollHeight, setScrollHeight] = useState(0);
+  const { activeMenu, setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize, scrollHeight, setScrollHeight } = useStateContext();
+  const {
+    isProfileLoaded,
+    activateAccountChangedListener,
+    connectProfile,
+    profileJSONMetadata,
+    pendingProfileJSONMetadata,
+    loginWithKey,
+    useRelay,
+    setUseRelay,
+  } = useProfileContext();
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => setScrollHeight(window.scrollY);
+    window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    handleResize();
+    activateAccountChangedListener();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -35,7 +46,7 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
-  const handleMenuClick = () => {
+  const handleProfileClick = () => {
     if (activeProfile && JSON.stringify(pendingProfileJSONMetadata) !== JSON.stringify(profileJSONMetadata)) {
       swal({
         title: "You have edits that have not been uploaded to the Lukso network. Are you sure you want to continue?",
@@ -49,11 +60,29 @@ const Navbar = () => {
     }
   };
 
+  const handleMenuClick = () => {
+    // if (pathname.toLowerCase() === "/myluksowallet" && !activeMenu) {
+    //   swal({
+    //     text: "Exit the MyLuksoWallet DApp?",
+    //     buttons: [true, "Yes"],
+    //   }).then(value => {
+    //     if (value) setActiveMenu(curr => !curr);
+    //   });
+    // } else {
+      setActiveMenu(curr => !curr);
+    //}
+  };
+
+  const handleRelay = () => {
+    useRelay
+      ? swal("Relay Service Disabled", "Gas fees will be paid from your Universal Profile balance. Please make sure your account is funded!", "")
+      : swal("Relay Service Enabled", "MyLuksoWallet will pay your gas fees! This service is only free for the duration of L16 testnet.", "");
+    setUseRelay(curr => !curr);
+  };
+
   return (
     <div className="flex justify-between items-center h-14 mb-4 relative">
-      <div
-        onClick={() => setActiveMenu(!activeMenu)}
-        className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44">
+      <div onClick={handleMenuClick} className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44">
         <AiOutlineMenu />
       </div>
       {scrollHeight === 0 && (
@@ -61,31 +90,46 @@ const Navbar = () => {
           <Logo customFunc={""} customProps={"hover:text-white"} />
         </div>
       )}
-      <div className="flex mt-1 mb-1 mr-1">
+      <div className="flex flex-col items-end gap-1 mt-6 mb-1 mr-1">
         {isProfileLoaded ? (
+        <>
           <div
             className={`flex justify-between items-center gap-2 cursor-pointer py-2 px-3  rounded-lg transition-all duration-500
           bg-slate-600 from-white hover:bg-gradient-to-t ${
             activeProfile ? "bg-gradient-to-t  opacity-70" : "bg-gradient-to-b shadow-md shadow-black/80 "
           }`}
-            onClick={handleMenuClick}>
+            onClick={handleProfileClick}>    
             {profileJSONMetadata.profileImage.length ? (
-              <img
-                className="rounded-full w-6 h-6"
-                src={profileJSONMetadata.profileImage[0].url.replace("ipfs://", IPFS_GATEWAY)}
-              />
+              <img className="rounded-full w-6 h-6" src={profileJSONMetadata.profileImage[0].url.replace("ipfs://", IPFS_GATEWAY)} />
             ) : (
               <div className="text-gray-400">
                 <RiUserSearchLine />
               </div>
             )}
             <p className="font-bold ml-1 text-14 text-black flex flex-row items-center gap-2">
-              {" "}
               {profileJSONMetadata.name} {activeProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
             </p>
           </div>
+             <button
+             className={`text-white text-sm font-semibold  w-fit border-[1px] border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
+               useRelay ? "bg-green-500 contrast-100" : "bg-gray-300 contrast-20"
+             }`}
+             onClick={handleRelay}>
+             Use Relay: {useRelay ? "On" : "Off"}
+           </button>
+           </>
         ) : (
-          <Button buttonText="Connect Universal Profile" buttonFunc={() => connectProfile()} />
+          <div className="flex flex-col gap-1 items-end">
+            <Button buttonText="Connect Profile" buttonFunc={() => connectProfile()} />
+            <div className="text-white text-sm font-semibold flex flex-col gap-1 w-fit">
+             
+              <button
+                className="border-[1px] border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"
+                onClick={() => loginWithKey("UP Address")}>
+                <MdOutlineLogin /> &nbsp; UP Address Login
+              </button>
+            </div>
+          </div>
         )}
         {activeProfile && <UserProfile />}
       </div>

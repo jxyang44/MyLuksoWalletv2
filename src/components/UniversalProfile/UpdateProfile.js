@@ -1,122 +1,130 @@
-import React, {useState, useEffect} from 'react';
-import {web3, lspFactoryInstance, createErc725Instance, IPFS_GATEWAY, LSP6Contract, UniversalProfileContract} from '../../utils/ERC725Config';
-import {Button_Shadow} from '..'
-import {useProfileContext} from '../../contexts/ProfileContext';
-import swal from 'sweetalert';
-
-
-const PRIVATE_KEY = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; //jxyang metamask private key - dev account: only used to pay gas
-
-//something doesn't work right for when uploading background image
-const testJSON = {"LSP3Profile":{"name":"MyLuksoWallet","description":"This is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\nThis is my lukso wallet and I like it a lot.\n","links":[{"title":"...","url":"..."},{"title":"","url":"https://test"}],"tags":["myluksowallet","new tag","new tag"],"avatar":[],"profileImage":[{"width":192,"height":192,"hashFunction":"keccak256(bytes)","hash":"0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b","url":"ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR"},{"width":192,"height":192,"hashFunction":"keccak256(bytes)","hash":"0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b","url":"ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR"},{"width":192,"height":192,"hashFunction":"keccak256(bytes)","hash":"0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b","url":"ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR"},{"width":192,"height":192,"hashFunction":"keccak256(bytes)","hash":"0x8fd4fe09432f8a26bebac42a8be53b9cd83c19bd0c820e28f6819979d3073a9b","url":"ipfs://QmcVWq7RGEswoyx8URRaP6SXJtLA9LWxbyd3VWaSwhL8YR"},{"width":180,"height":180,"hashFunction":"keccak256(bytes)","hash":"0xeb41471392725596da7d34be6c6c2eb077d4514679c1543db25a1016c17567d5","url":"ipfs://QmSE3kd3i8p62EXow2y1MMB7kSDvADH2mAjdJ8DwYL5d2D"}],"backgroundImage":[{"width":1024,"height":576,"hashFunction":"keccak256(bytes)","hash":"0x...","url":"ipfs://..."}]}}
+import React, { useState, useEffect } from "react";
+import {
+  web3Provider,
+  LSP3Schema,
+  createLSPFactoryWindowInstance,
+  createErc725Instance,
+  IPFS_GATEWAY,
+  LSP6Contract,
+  UniversalProfileContract,
+  MM_PrivateKey,
+} from "../../utils/ERC725Config";
+import { ButtonShadow } from "..";
+import { useProfileContext } from "../../contexts/ProfileContext";
+import swal from "sweetalert";
 
 const UpdateProfile = () => {
-    const {isProfileLoaded, currentAccount, profileJSONMetadata, setProfileJSONMetadata, pendingProfileJSONMetadata} = useProfileContext();
-    const [isEdited, setIsEdited] = useState(false); //false if pendingProfileJSONMetadata = profileJSONMetadata
-    
-    //updates isEdited as pendingProfileJSONMetadata changes
-    useEffect(() => {
-        if(isProfileLoaded === false) {
-            setIsEdited(false);
-            return;
-        }
-        JSON.stringify(pendingProfileJSONMetadata)===JSON.stringify(profileJSONMetadata) ? setIsEdited(false) : setIsEdited(true);
-    },[pendingProfileJSONMetadata])
+  const {
+    web3Window,
+    useRelay,
+    isProfileLoaded,
+    currentAccount,
+    profileJSONMetadata,
+    setProfileJSONMetadata,
+    pendingProfileJSONMetadata,
+    executeViaKeyManager,
+  } = useProfileContext();
+  const [isEdited, setIsEdited] = useState(false); //false if pendingProfileJSONMetadata = profileJSONMetadata, handled in useEffect hook below
 
-    //primary logic to update profile information on the blockchain
-    //code largely extracted from Lukso docs: https://docs.lukso.tech/guides/universal-profile/edit-profile
-    const editProfileInfo = async () => {
-        try{
-            const jsonFile = {"LSP3Profile": pendingProfileJSONMetadata}; //pendingProfileJSONMetadata is (mainly) updated in UserProfile.js
+  useEffect(() => {
+    if (isProfileLoaded === false) {
+      setIsEdited(false);
+      return;
+    }
+    JSON.stringify(pendingProfileJSONMetadata) === JSON.stringify(profileJSONMetadata) ? setIsEdited(false) : setIsEdited(true);
+  }, [pendingProfileJSONMetadata]);
 
-            // const jsonFile = testJSON;
-            const myEOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
-
-            swal("Uploading profile metadata...", {button: false, closeOnClickOutside: false});
-            const uploadResult = await lspFactoryInstance.UniversalProfile.uploadProfileData(jsonFile.LSP3Profile);
-            const lsp3ProfileIPFSUrl = uploadResult.url;
-            console.log(uploadResult.url, uploadResult)
-            const erc725 = createErc725Instance(currentAccount);
-            const encodedData = erc725.encodeData({
-                keyName: "LSP3Profile",
-                value: {
-                    hashFunction: "keccak256(utf8)",
-                    hash: web3.utils.keccak256(JSON.stringify(jsonFile)),
-                    url: lsp3ProfileIPFSUrl,
-                },
-            });
-            console.log(encodedData)
-            swal("Fetching key manager address...", {button: false, closeOnClickOutside: false});
-            
-            const universalProfileContract = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
-            const keyManagerAddress = await universalProfileContract.methods.owner().call();
-            const keyManagerContract = new web3.eth.Contract(LSP6Contract.abi, keyManagerAddress);
-            //console.log(keyManagerAddress)
-            swal("Encoding metadata...", {button: false, closeOnClickOutside: false});
-            const abiPayload = await universalProfileContract.methods["setData(bytes32[],bytes[])"](
-                encodedData.keys,
-                encodedData.values
-            ).encodeABI();
-            console.log(encodedData)
-       
-
-            swal("Setting Universal Profile data...", {button: false, closeOnClickOutside: false});
-            return await keyManagerContract.methods.execute(abiPayload).send({from: myEOA.address, gasLimit: 300_000 });
-        } catch (error) {
-            swal("Something went wrong.",`${error}`,"warning");
-        }
+  //TO-DO add limits to name, description character lengths?
+  const handleUploadEdits = () => {
+    if (isProfileLoaded === false) {
+      swal("You are not connected to an account.");
+      return;
+    }
+    if (!isEdited) {
+      swal("You have not modified your Universal Profile.");
+      return;
     }
 
-    //add limits to metadata characters lengths?
-    //fix tags changes
-    const handleUploadEdits = () => {
-        if(isProfileLoaded === false) {
-            swal("You are not connected to an account.");
-            return;
-        }
-        if(!isEdited){
-          swal("You have not modified your Universal Profile.");
-          return;
-        } 
-
-        const edits = []; //used to prompt the user to confirm the metadata fields that were changed
-        for (const [key,newValue] of Object.entries(pendingProfileJSONMetadata)) {
-         
-          if(newValue instanceof File) {
-            edits.push({key, newValue: newValue.name, oldValue: "old profile"});
-              //profileJSONMetadata[key][0].name || profileJSONMetadata[key][0].url?.replace("ipfs://", IPFS_GATEWAY)});
-          }
-          else if (newValue && newValue !== profileJSONMetadata[key]) {
-            edits.push({key, newValue, oldValue: profileJSONMetadata[key]});   
-          }
-        }
-
-        
-        swal({
-          title: "Please confirm upload of these changes to the Lukso network. Once confirmed, your edits cannot be reverted.",
-          text:`${edits.map((edit)=>`\nUPDATE: "${edit.key}" \nFROM: "${edit.oldValue}" \nTO: "${edit.newValue}"\n`)}`,
-          buttons: {
-            cancel: true,
-            confirm: true,
-          },
-        })
-        .then((value) => {
-          if(value) {
-            editProfileInfo()
-            .then((res)=> { 
-              console.log(res);
-                setProfileJSONMetadata(pendingProfileJSONMetadata)
-                swal("Congratulations!","Your Universal Profile has been updated on the Lukso network!","success")})
-            .catch(() => {
-                swal("Profile could not be updated.", "", "error");
-            });
-          }
-        })
+    const edits = []; //used to display the metadata fields that were changed to the user
+    for (const [key, newValue] of Object.entries(pendingProfileJSONMetadata)) {
+      if (newValue instanceof File) {
+        edits.push({
+          key,
+          newValue: newValue.name,
+          oldValue: profileJSONMetadata[key][0]?.url?.replace("ipfs://", IPFS_GATEWAY) || profileJSONMetadata[key][0]?.name || "old picture",
+        });
+      } else if (newValue && newValue !== profileJSONMetadata[key]) {
+        edits.push({ key, newValue: JSON.stringify(newValue), oldValue: JSON.stringify(profileJSONMetadata[key]) });
       }
+    }
 
-    return (
-        <Button_Shadow buttonText={"Upload Edits"} buttonFunc={handleUploadEdits} buttonColor={"bg-green-500"} buttonTextColor ={"text-green-800"}/>       
-    )
-  }
+    swal({
+      title: "Please confirm upload of these changes to the Lukso network. Once confirmed, your edits cannot be reverted.",
+      text: `${edits.map(edit => `\nUPDATE: "${edit.key}" \nFROM: "${edit.oldValue}" \nTO: "${edit.newValue}"\n`)}`,
+      buttons: {
+        cancel: true,
+        confirm: true,
+      },
+    }).then(value => {
+      if (value) {
+        editProfile().then(res => {
+          console.log(res);
+          if (res !== undefined && res) {
+            setProfileJSONMetadata(pendingProfileJSONMetadata);
+            swal("Congratulations!", "Your Universal Profile has been updated on the Lukso blockchain!", "success");
+          }
+        });
+      }
+    });
+  };
+
+  //primary logic to update profile information on the blockchain
+  const editProfile = async () => {
+    try {
+      console.log("------------------ STARTING PROFILE UPDATE PROCESS ------------------");
+      const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
+      const jsonFile = { LSP3Profile: pendingProfileJSONMetadata }; //pendingProfileJSONMetadata is updated in UserProfile.js
+      console.log("------------------ client-side data ------------------\n", jsonFile);
+
+      swal("Uploading profile metadata...", { button: false, closeOnClickOutside: false });
+      const lspFactory = createLSPFactoryWindowInstance();
+      const uploadResult = await lspFactory.UniversalProfile.uploadProfileData(jsonFile.LSP3Profile); //no gas needed
+      console.log("------------------ uploaded IPFS data ------------------\n", uploadResult, uploadResult.url, uploadResult.json);
+
+      const erc725 = createErc725Instance(LSP3Schema, currentAccount);
+      const encodedData = erc725.encodeData({
+        keyName: "LSP3Profile",
+        value: {
+          hashFunction: "keccak256(utf8)",
+          hash: web3.utils.keccak256(JSON.stringify(uploadResult.json)),
+          url: uploadResult.url,
+        },
+      });
+      console.log("------------------ encoded data ------------------\n", encodedData);
+
+      const universalProfileContract = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
+
+      if (useRelay) {
+        //use key manager
+        return executeViaKeyManager(
+          universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).encodeABI,
+          "Setting Universal Profile data..."
+        );
+      } else {
+        //pay from account balance
+        swal("Setting Universal Profile data...", { button: false, closeOnClickOutside: false });
+        return await universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).send({
+          from: currentAccount,
+          gasLimit: 300_000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      swal("Something went wrong.", JSON.stringify(error.message), "warning");
+    }
+  };
+
+  return <ButtonShadow buttonText={"Upload Edits"} buttonFunc={handleUploadEdits} buttonColor={"bg-green-500"} buttonTextColor={"text-green-800"} />;
+};
 
 export default UpdateProfile;

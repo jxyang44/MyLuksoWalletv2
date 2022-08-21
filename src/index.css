@@ -139,6 +139,87 @@ body {
   display: block;
 }
 
+/*----- image perspective for home page images -----*/
+.perspective-l {
+  transform:
+    perspective(800px)
+    rotateY(25deg) scale(0.9)
+    rotateX(10deg);
+  filter: blur(2px);
+  opacity: 0.5;
+}
+
+.perspective-l-animation{
+  animation: customPerspectiveL 3s forwards;
+}
+
+@keyframes customPerspectiveL {
+  100% {
+    transform:
+    perspective(800px)
+    rotateY(-15deg)
+    translateY(-50px)
+    rotateX(10deg)
+    scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+.perspective-r {
+  transform:
+    perspective(800px)
+    rotateY(25deg) scale(0.9)
+    rotateX(10deg);
+  filter: blur(1px);
+  opacity: 0.5;
+}
+
+.perspective-r-animation{
+  animation: customPerspectiveR 3s forwards;
+}
+
+@keyframes customPerspectiveR {
+  100% {
+    transform:
+    perspective(800px)
+    rotateY(15deg) scale(1.1)
+    
+    rotateX(10deg);
+  
+  filter: blur(0);
+  opacity: 1;
+  }
+}
+
+/*----- cards for home page images -----*/
+.LSP-card-home {
+  background-color: #17141d;
+  box-shadow: -1rem 0 3rem #000;
+  transition: 0.6s ease-out;
+}
+
+.LSP-card-home:not(:first-child) {
+    margin-left: -350px;
+}
+
+.LSP-card-home:hover {
+  transform: translateY(-20px);
+  z-index: 99;
+  transition: 0.3s ease-out;
+}
+
+.LSP-card-home:hover ~ .LSP-card-home {
+  position: relative;
+  left: 50px;
+  transition: 0.3s ease-out;
+}
+
+
+
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

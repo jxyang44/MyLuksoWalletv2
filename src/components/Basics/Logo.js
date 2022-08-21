@@ -1,11 +1,11 @@
 import React from "react";
-import { AiOutlineWallet } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import LogoSVG from '../../assets/Logos/MLW_logo_color.svg';
 const Logo = ({ customFunc, customProps }) => {
   return (
     <Link to="/" onClick={customFunc} className={`flex text-blue-500 hover:text-blue-400 ${customProps}`}>
-      <span className="text-4xl">
-        <AiOutlineWallet />
+      <span className="text-4xl w-8 h-8">
+        <img src={LogoSVG} alt="Logo" />
       </span>
       <span
         className="text-2xl py-1 pr-3 tracking-tight font-bold text-transparent bg-clip-text 

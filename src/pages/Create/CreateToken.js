@@ -1,137 +1,98 @@
-import React from 'react'
-import {Banner, Button_Shadow} from '../../components'
-import {useProfileContext} from '../../contexts/ProfileContext';
-import {web3, lspFactoryInstance, options, LSP7MintableContract} from '../../utils/ERC725Config.js'
+import React, { useState, useEffect } from "react";
+import { Banner, LSP7TokenCoin, CreateLSP7Form, MintLSP7Form } from "../../components";
 
-const PRIVATE_KEY = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; //jxyang metamask private key - dev account
-const myEOA = web3.eth.accounts.wallet.add(PRIVATE_KEY);
+const initialFormState = {
+  tokenName: "",
+  tokenSymbol: "",
+  tokenDescription: "",
+  tokenIcon: "",
+  tokenIconURL: "",
+  tokenImageFront: "",
+  tokenImageFrontURL: "",
+  tokenImageBack: "",
+  tokenImageBackURL: "",
+  mintAmount: 1,
+  backgroundColor: "#000000",
+  textColor: "#FFFFFF",
+  isCreator: true,
+  isNotDivisible: false,
+  tokenSupply: "",
+};
+
+const initialFormState2 = {
+  tokenAddress: "",
+  mintAmount: "",
+};
 
 const CreateToken = () => {
-  const {currentAccount} = useProfileContext();
+  const [formValues, setFormValues] = useState(initialFormState);
+  const [formValues2, setFormValues2] = useState(initialFormState2);
+  const [recentLSP7Address, setRecentLSP7Address] = useState(""); //stores the most recent address of the deployed token (will override with each deployment)
 
- 
-  
-  const mintToken = () => {
-  
-  }
-
-  const handleCreateTokenContract = () => {
-    
-    const createTokenContract = async () => {
-      
-      const LSP4MetaData = {
-        description: "description",
-        icon: [],
-        links: [],
-        images: [],
-        assets: [],
-      };
-
-      const tokenParams = {
-        name: "test_name",
-        symbol: "test_symbol",
-        controllerAddresses: [currentAccount], // the "issuer" of the asset, that is allowed to change meta data
-        creators: [currentAccount], // Array of ERC725Account addresses that define the creators of the digital asset.
-        isNFT: false, // Token decimals set to 18
-        digitalAssetMetadata: LSP4MetaData,
-      }
-     
-
-
-
-      try {
-        const myToken = new web3.eth.Contract(LSP7MintableContract.abi, {
-          gas: 5_000_000,
-          gasPrice: '1000000000',
-        });
-  
-  
-        console.log(myToken)
-        const deployedToken = await myToken.deploy({
-          data: LSP7MintableContract.bytecode,
-          arguments: [
-            'My LSP7 Token', // token name
-            'LSP7', // token symbol
-            myEOA.address, // new owner, who will mint later
-            false, // isNFT = TRUE, means NOT divisble, decimals = 0)
-          ],
-
-        }).send({from: myEOA.address});
-      
-       console.log(deployedToken.options.address, currentAccount);
-       const myToken2 = new web3.eth.Contract(LSP7MintableContract.abi, deployedToken.options.address);
-       console.log(myToken2)
-       const owner2 = await myToken2.methods.owner().call();
-       console.log(owner2)
-        return await deployedToken.methods.mint(currentAccount, 100, false, '0x').send({
-          from: myEOA.address, gasLimit: 300_000
-        });
-      
-
-      } catch (err) {
-        console.warn(err.message);
-        return;
-      }
-    }
-
-
-    createTokenContract().then( res => {console.log(res)
-      
-    
-    })
-  }
-
-  const transferToken = () => {
-    const transfer = async () => {
-      // const tokenPayload = myToken.methods
-      //   .transfer(currentAccount, currentAccount, 15, false, '0x')
-      //   .encodeABI();
-
-      // // 2. generate payload for Universal Profile to execute the token transfer on the token contract
-      // const upPayload = myUniversalProfile.methods
-      //   .execute(
-      //     0, // operation 0 CALL
-      //     myToken._address,
-      //     0, // 0  LYX sent
-      //     tokenPayload
-      //     )
-      //   .encodeABI();
-
-      // // 3. execute via the KeyManager
-      // await myKeyManager.methods.execute(upPayload).send({
-      //   from: myEOA,
-      //   gas: 5_000_000,
-      //   gasPrice: '1000000000',
-      // });
-    }
-  transfer();
-  }
+  //add separate mint form for token creation
+  useEffect(() => {
+    setFormValues2({ ...formValues, tokenAddress: recentLSP7Address });
+  }, [recentLSP7Address]);
 
   return (
     <div>
-      <Banner 
-          colorFrom = {"from-green-500"} 
-          title = {"LSP7 - Digital Asset (Based on ERC20)"} 
-          subtitle = {"Use when all assets have the same metadata.\nFor example, a fungible token or a collection of digital clothing items."}
-          buttonText = {""}
-      />
-      <Button_Shadow buttonText={"Create LSP7 Contract"} buttonFunc={handleCreateTokenContract} buttonColor={"bg-green-500"} buttonTextColor ={"text-sky-800"} />
-      <Button_Shadow buttonText={"Mint Token"} buttonFunc={mintToken} buttonColor={"bg-green-500"} buttonTextColor ={"text-sky-800"} />
-      <Button_Shadow buttonText={"Transfer Token"} buttonFunc={transferToken} buttonColor={"bg-green-500"} buttonTextColor ={"text-sky-800"} />
-  </div>
-  )
-}
+      {/* <Banner colorFrom={"from-green-500"} title={""} subtitle={""} buttonText={""} /> */}
+      <div className="flex flex-row ml-4">
+        <div className="flex flex-col w-1/2 text-white items-left text-left">
+          <div className="text-sky-500 font-semibold text-2xl">LSP7 - Digital Asset (Based on ERC20)</div>
+          <div className="text-3xl">Deploy a LS7 Token with Lukso's LSP7Mintable Contract</div>
 
-export default CreateToken
+          <div className="flex flex-row mr-8 gap-2 mt-16">
+            <CreateLSP7Form
+              formValues={formValues}
+              setFormValues={setFormValues}
+              initialFormState={initialFormState}
+              setRecentLSP7Address={setRecentLSP7Address}
+            />
+            <div className="flex flex-col items-center justify-center">
+              <MintLSP7Form
+                formValues={formValues2}
+                setFormValues={setFormValues2}
+                initialFormState={initialFormState2}
+                LSP={"LSP7"}
+              />
+              <div className="my-2">
+                Most recently deployed LSP7 token contract (from local storage):{" "}
+                <span className="text-green-500 font-bold">{localStorage.getItem("recentLSP7Address") ?? "N/A"} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-1/2 flex items-end">
+          <LSP7TokenCoin createToken={formValues} />
+        </div>
+      </div>
+    </div>
+  );
+};
+export default CreateToken;
 
-  // const contracts = await lspFactoryInstance.LSP7DigitalAsset.deploy(
-        //   {
-        //     name: "test_name",
-        //     symbol: "test_symbol",
-        //     controllerAddresses: [currentAccount], // the "issuer" of the asset, that is allowed to change meta data
-        //     creators: [currentAccount], // Array of ERC725Account addresses that define the creators of the digital asset.
-        //     isNFT: false, // Token decimals set to 18
-        //     digitalAssetMetadata: LSP4MetaData,
-        //   },
-        //   options
-        // );
+// manually deploy - if needed later
+// const myToken = new web3.eth.Contract(LSP7MintableContract.abi, {
+//   gas: 5_000_000,
+//   gasPrice: "1000000000",
+// });
+
+// swal("Deploying token...", { button: false, closeOnClickOutside: false });
+// const deployedToken = await myToken
+//   .deploy({
+//     data: LSP7MintableContract.bytecode,
+//     arguments: [
+//       formValues.tokenName, // token name
+//       formValues.tokenSymbol, // token symbol
+//       currentAccount, // new owner, who will mint later
+//       formValues.isNotDivisible, // isNFT = TRUE, means NOT divisible, decimals = 0
+//     ],
+//   })
+//   .send({ from: currentAccount, gasLimit: 5_000_000 });
+
+// swal("Setting token metadata...", { button: false, closeOnClickOutside: false });
+//   const LSP4Metadata = {
+//     description: formValues.tokenDescription,
+
+//   }

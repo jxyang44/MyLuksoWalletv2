@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as LuksoLogoFill } from "../../assets/lukso_logo_fill.svg";
+import { ReactComponent as LuksoLogoFill } from "../../assets/Logos/Lukso_Modified/lukso_logo_fill.svg";
 
 const StepDot = ({ dotRef }) => {
   const scrollToView = () => {

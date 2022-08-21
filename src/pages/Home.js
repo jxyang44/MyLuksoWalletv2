@@ -15,9 +15,7 @@ const Home = () => {
       <Welcome />
       <DigitalIdentity />
       <WhatisMyLuksoWallet />
-
       <AssetCards />
-
       <GetStarted />
       <AboutUs />
       <Footer />

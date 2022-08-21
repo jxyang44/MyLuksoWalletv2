@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Button_Shadow, StepDot } from "../";
+import React, {useState, useRef } from "react";
+import { ButtonShadow, StepDot } from "../";
 
 const StepLeft = ({
   title,
@@ -14,6 +14,7 @@ const StepLeft = ({
   button2Color,
   button2TextColor,
 }) => {
+  const [isTextActive, setIsTextActive] = useState(false);
   const dotRef = useRef();
   return (
     <div ref={dotRef} className="flex flex-row justify-end items-center">
@@ -21,14 +22,14 @@ const StepLeft = ({
         <div
           className={`flex justify-between items-center flex-row h-64 px-4 my-5 w-5/6 border-4 rounded-xl border-teal-200`}>
           <div className="flex flex-col gap-4 mr-16 ml-8">
-            <Button_Shadow
+            <ButtonShadow
               buttonText={buttonText}
               buttonFunc={buttonFunc}
               buttonColor={buttonColor}
               buttonTextColor={buttonTextColor}
             />
             {button2Text && (
-              <Button_Shadow
+              <ButtonShadow
                 buttonText={button2Text}
                 buttonFunc={button2Func}
                 buttonColor={button2Color}
@@ -44,7 +45,7 @@ const StepLeft = ({
             <p className="w-fit text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-l from-teal-100 to-teal-300">
               {subtitle}
             </p>
-            <ul className="text-md mt-2 list-disc list-inside">
+            {isTextActive ? <ul className="text-md mt-2 list-disc list-inside">
               {text.map((item, index) => {
                 return (
                   <li className="leading-tight" key={index}>
@@ -52,7 +53,7 @@ const StepLeft = ({
                   </li>
                 );
               })}
-            </ul>
+            </ul> : <button className="text-blue-500 hover:text-blue-300" onClick={()=>setIsTextActive(true)}>Learn More</button>}
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
-import { Button_Shadow } from "..";
-import { ReactComponent as LuksoLogoInner } from "../../assets/lukso_logo_inner.svg";
-import { ReactComponent as LuksoLogoOuter } from "../../assets/lukso_logo_outer.svg";
+import { ButtonShadow } from "..";
+import { ReactComponent as LuksoLogoInner } from "../../assets/Logos/Lukso_Modified/lukso_logo_inner.svg";
+import { ReactComponent as LuksoLogoOuter } from "../../assets/Logos/Lukso_Modified/lukso_logo_outer.svg";
 
 const Banner = ({ colorFrom, title, subtitle, buttonText, buttonFunc, buttonColor, buttonTextColor }) => {
   return (
@@ -19,7 +19,7 @@ const Banner = ({ colorFrom, title, subtitle, buttonText, buttonFunc, buttonColo
         </div>
       </div>
       <div className="mr-8 justify-self-end">
-        <Button_Shadow
+        <ButtonShadow
           buttonText={buttonText}
           buttonFunc={buttonFunc}
           buttonColor={buttonColor}

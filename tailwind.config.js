@@ -18,6 +18,8 @@ module.exports = {
           'spin-CCW-10': 'spinCCW 10s linear infinite',
           'spin-CCW-20': 'spinCCW 20s linear infinite',
           'fadeInLeft': 'fadeInLeft 1s forwards',
+          'coin-spin-appear': 'coinSpinAppear 0.6s forwards ease-in',
+          'coin-spin-disappear': 'coinSpinDisappear 1.0s forwards ease-out',
         },
         keyframes: {
           wiggle: {
@@ -43,7 +45,15 @@ module.exports = {
             '0%' : { transform: 'translateX(-3%)', opacity:'0' },
             '60%' : { transform: 'translateX(1%)' },
             '100%' : { transform: 'translateX(0%)', opacity:'1' }
-          }
+          },
+          coinSpinAppear: {
+            '0%' : { transform: 'rotateY(0deg)'},
+            '100%' : { transform: 'rotateY(90deg)'}
+          },
+          coinSpinDisappear: {
+            '0%' : { transform: 'rotateY(90deg)'},
+            '100%' : { transform: 'rotateY(0deg)'}
+          },
         }
       }
     },   

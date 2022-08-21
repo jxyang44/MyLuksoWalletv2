@@ -1,0 +1,201 @@
+.envelope {
+  box-shadow: 5px 5px 5px 0px black;
+}
+
+.token-card-test {
+  background-color: #4158d0;
+  background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 46%, #ffcc70 100%);
+
+  /* background-color: #FA8BFF;
+    background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%); */
+}
+
+.fade-in {
+  animation: fadeIn ease-in-out 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1000px) scaleX(0.1) translateY(100px) translateZ(-1000px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+/* Dots */
+.slick-dots {
+  position: relative;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex !important;
+  overflow-x: auto;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  border: white solid 3px;
+  box-shadow: 0px 0px 5px 0px white;
+  border-radius: 14px;
+  width: fit-content;
+  padding: 10px 40px 6px 40px;
+}
+
+.slick-dots li {
+  width: fit-content;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.slick-dots li div:hover,
+.slick-dots li div:focus {
+  color: theme("colors.sky.500");
+  background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
+}
+
+.slick-dots li.slick-active {
+  box-shadow: #4158d0 0px 0px 0px 2px;
+  color: theme("colors.sky.500");
+}
+
+/* My Assets Carousel Menu */
+.assets-carousel-dots {
+  position: relative;
+  transform-origin: 0%;
+  transform: translateX(-110%) translateY(-40vmax);
+  overflow-y: auto;
+  max-height: 40vmax;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border: white solid 2px;
+  border-radius: 10px;
+  width: fit-content;
+  padding: 20px 6px 20px 6px;
+}
+
+.assets-carousel-dots li {
+  width: 100%;
+  height: fit-content;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.assets-carousel-dots li div:hover,
+.assets-carousel-dots li div:focus {
+  color: theme("colors.sky.500");
+  background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
+}
+
+.assets-carousel-dots li.slick-active {
+  box-shadow: #4158d0 0px 0px 0px 2px;
+  color: theme("colors.sky.500");
+}
+
+/* Flip Wallet Animation */
+
+.flipCloseL {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform-origin: 102% center;
+  animation: flipCloseL 3s forwards;
+}
+
+.flipOpenL {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform-origin: 102% center;
+  animation: flipOpenL 2s linear forwards;
+}
+
+.flipCloseR {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform-origin: -5% center;
+  animation: flipLeftward 3s forwards;
+}
+.flipOpenR {
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transform-origin: 105% center;
+  animation: flipRightward 3s forwards;
+}
+
+@keyframes flipCloseL {
+  0% {
+    transform: rotateY(0deg);
+    box-shadow: none;
+  }
+  40% {
+    z-index: 999;
+    transform: perspective(100vmax) rotateY(90deg);
+  }
+  80% {
+    transform: perspective(100vmax) rotateY(175deg);
+    box-shadow: 0px 15px 20px white;
+    /* theme("colors.slate.300"); */
+  }
+  100% {
+    transform: rotateY(180deg);
+    z-index: 999;
+    box-shadow: initial;
+  }
+}
+
+@keyframes flipOpenL {
+  0% {
+    z-index: 999;
+    transform: perspective(100vmax) rotateY(180deg);
+    box-shadow: initial;
+  }
+  20% {
+    transform: perspective(100vmax) rotateY(90deg);
+    box-shadow: 0px 15px 20px white;
+  }
+  100% {
+    transform: rotateY(0deg);
+    z-index: 999;
+    box-shadow: none;
+  }
+}
+
+@keyframes flipCloseR {
+  0% {
+    transform: perspective(0vmax) rotate(0deg);
+    box-shadow: none;
+  }
+  40% {
+    z-index: 999;
+    transform: perspective(100vmax) rotateY(-90deg);
+  }
+  80% {
+    transform: perspective(100vmax) rotateY(-175deg);
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    /* theme("colors.slate.300"); */
+  }
+  100% {
+    transform: rotateY(-180deg);
+    z-index: 999;
+    box-shadow: none;
+  }
+}
+
+/* LSP7 tilt */
+
+.tilted-coin {
+  transform-style: preserve-3d;
+  transform-origin: left top;
+  transform:  perspective(1200px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(1vmax);
+  opacity: 1;
+  transition: transform 0.4s ease-out;
+}
+
+.tilted-coin:hover {
+  transform-style: preserve-3d;
+  transform-origin: left top;
+  transform:  perspective(1200px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(0vmax);
+  opacity: 1;
+}

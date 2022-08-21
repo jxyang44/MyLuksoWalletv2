@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/StateContext";
 import { Navbar, Footer, Sidebar } from "./components";
 import {
   Home,
   MyLuksoWallet,
-  Hackathon,
-  About,
+  AboutLukso,
   GetStarted,
   MyProfile,
   MyAssets,
-  CreateProfile,
+  RelayService,
   CreateToken,
   CreateNFT,
   CreateVault,
+  ProfileSearch,
 } from "./pages";
 
 const App = () => {
-  const { activeMenu } = useStateContext();
+  const { theme, activeMenu, THEMES } = useStateContext();
+  const [background, setBackground] = useState(THEMES.background[theme]);
+
+  useEffect(() => {
+    setBackground(THEMES.background[theme]);
+  }, [theme]);
 
   return (
-    <div
-      className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 -z-20 contrast-100"
-      style={{ boxShadow: "inset 0 0 15px black" }}>
+    <div className={`bg-gradient-to-br  from-slate-900 via-slate-800 to-slate-800 -z-20 contrast-100`} style={{ boxShadow: "inset 0 0 15px black" }}>
+      <div className={`absolute inset-0 bg-gradient-to-br ${background} rounded-lg blur opacity-25`}></div>
       <BrowserRouter>
         <div className="flex relative">
           {activeMenu ? (
@@ -40,20 +44,18 @@ const App = () => {
             </div>
             <div>
               <Routes>
-                <Route path="/" element={<MyLuksoWallet />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/myluksowallet" element={<MyLuksoWallet />} />
-                <Route path="/hackathon" element={<Hackathon />} />
                 <Route path="/getstarted" element={<GetStarted />} />
-                <Route path="/about" element={<About />} />
+                <Route path="/aboutlukso" element={<AboutLukso />} />
                 <Route path="/myuniversalprofile" element={<MyProfile />} />
-                <Route path="/mytokens" element={<MyAssets LSP_7_8_or_9="LSP7" LSP_5_10_or_12="LSP5" />} />
-                <Route path="/myNFTs" element={<MyAssets LSP_7_8_or_9="LSP8" LSP_5_10_or_12="LSP5" />} />
-                <Route path="/myvaults" element={<MyAssets LSP_7_8_or_9="LSP9" LSP_5_10_or_12="LSP5" />} />
-                <Route path="/createprofile" element={<CreateProfile />} />
+                <Route path="/myassets" element={<MyAssets />} />
+                <Route path="/relayservice" element={<RelayService />} />
                 <Route path="/createtoken" element={<CreateToken />} />
                 <Route path="/createnft" element={<CreateNFT />} />
                 <Route path="/createvault" element={<CreateVault />} />
+                <Route path="/profilesearch" element={<ProfileSearch />} />
               </Routes>
             </div>
             {/* <Footer /> */}

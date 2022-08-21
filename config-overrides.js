@@ -20,5 +20,11 @@ module.exports = function override(config) {
       Buffer: ["buffer", "Buffer"],
     }),
   ]);
+  config.module.rules.unshift({ //for react-dnd-html5-backend
+    test: /\.m?js$/,
+    resolve: {
+      fullySpecified: false, 
+    },
+  });
   return config;
 };

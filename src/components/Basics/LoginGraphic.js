@@ -1,9 +1,10 @@
 import React from "react";
 import { RiUserSearchLine } from "react-icons/ri";
-import { Button_Shadow } from "..";
+import { ButtonShadow } from "..";
 import { useNavigate } from "react-router-dom";
-
+import { useProfileContext } from "../../contexts/ProfileContext";
 const LoginGraphic = () => {
+  const { connectProfile } = useProfileContext();
   let navigate = useNavigate();
   return (
     <div className="flex flex-col items-center gap-8 m-20">
@@ -14,12 +15,20 @@ const LoginGraphic = () => {
         <RiUserSearchLine />
       </div>
       <div className="text-green-500">Please connect a Universal Profile to view your assets.</div>
-      <Button_Shadow
-        buttonText={"Instructions"}
-        buttonFunc={() => navigate("../getstarted")}
-        buttonColor={"bg-slate-500"}
-        buttonTextColor={"text-black"}
-      />
+      <div className="flex flex-row gap-6">
+        <ButtonShadow
+          buttonText={"Connect Profile"}
+          buttonFunc={() => connectProfile()}
+          buttonColor={"bg-blue-500"}
+          buttonTextColor={"text-black"}
+        />
+        <ButtonShadow
+          buttonText={"Instructions"}
+          buttonFunc={() => navigate("../getstarted")}
+          buttonColor={"bg-slate-500"}
+          buttonTextColor={"text-black"}
+        />
+      </div>
     </div>
   );
 };
