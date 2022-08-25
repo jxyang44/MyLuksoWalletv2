@@ -10,15 +10,12 @@
   <p align="center">
     A frontend management tool for Lukso Standard Proposals.
     <br />
-    Projection Submission for LUKSO Build UP! #1
-    <br />
     Submission for LUKSO Build UP! #1
     <br />
     <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission</strong></a>
     <br />
-
-    ·
-  <a href="https://www.myluksowallet.com">Current Version</a>
+    
+    <a href="https://www.myluksowallet.com">Current Version</a>
     .
     <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Report Bug</a>
     ·
