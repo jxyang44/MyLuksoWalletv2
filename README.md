@@ -1,12 +1,7 @@
-# MyLuksoWallet
-Projection Submission for LUKSO Build UP! #1
-Submission for LUKSO Build UP! #1
-
-
 
 <br />
 <div align="center">
-  <a href="https://user-images.githubusercontent.com/58372066/186786266-d6c1365e-66ff-46fe-aae2-6ac92156f462.png">
+  <a href="https://myluksowallet-hackathon.netlify.app">
     <img src="https://user-images.githubusercontent.com/58372066/186786266-d6c1365e-66ff-46fe-aae2-6ac92156f462.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -17,8 +12,7 @@ Submission for LUKSO Build UP! #1
     <br />
     <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission</strong></a>
     <br />
-    <br />
-   
+
     ·
   <a href="https://www.myluksowallet.com">Current Version</a>
     .
@@ -27,6 +21,12 @@ Submission for LUKSO Build UP! #1
     <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Request Feature</a>
   </p>
 </div>
+
+<!-- HEADER -->
+# MyLuksoWallet
+Projection Submission for LUKSO Build UP! #1
+Submission for LUKSO Build UP! #1
+
 
 
 
