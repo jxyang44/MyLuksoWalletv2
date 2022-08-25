@@ -1,4 +1,4 @@
-//component for visualizing token coin
+//for visualizing LSP7 token coin
 
 import React, { useEffect, useState } from "react";
 
@@ -7,8 +7,7 @@ import { useAssetsContext } from "../../contexts/AssetsContext";
 import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract } from "../../utils/ERC725Config";
 import { useSwipeable } from "react-swipeable";
 import { Address, MintForm, TransferForm, OptionsPanel } from "..";
-import {Name, Background} from './LSP7Components'
-
+import { Name, Background } from "./LSP7Components";
 
 const subFontStyle = ` font-bold font-['']`;
 const defaultPanel = {
@@ -42,13 +41,13 @@ const TokenCoin = ({ assetAddress, createToken }) => {
       //getDecimals(assetAddress).then(res => console.log(res.value));
       getAssetMetadata(assetAddress).then(res => {
         setAssetMetadata(cur => ({ ...cur, ...res }));
-        console.log("metadata results:", res, assetMetadata); 
-        if (res.icon && res.icon.length > 0) {
+        console.log("metadata results:", res, assetMetadata);
+        res.icon && res.icon.length > 0 && 
           setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
-        }
-        if (res.images && res.images.length > 0) {
+        
+        if (res.images && res.images[0] !== null && res.images.length > 0) {
           setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-          setAssetImageBack(res.images[0][1]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
+          if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
         }
         //TO-DO something with assets key if it exists
       });
@@ -57,14 +56,14 @@ const TokenCoin = ({ assetAddress, createToken }) => {
     }
   }, []);
 
-  //handles when user is using the CREATE token panel  (since no assetAddress to retrieve metadata)
+  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet
   useEffect(() => {
     if (!createToken) return;
     setAssetName(createToken.tokenName);
     setAssetSymbol(createToken.tokenSymbol);
     setAssetIcon(createToken.tokenIconURL);
-    setAssetImageFront(createToken.tokenImageFrontURL);
-    setAssetImageBack(createToken.tokenImageBackURL);
+    setAssetImageFront(createToken.imageFrontURL);
+    setAssetImageBack(createToken.imageBackURL);
     createToken.isCreator ? setCreators(currentAccount) : setCreators();
     setAssetMetadata({
       description: createToken.tokenDescription,
@@ -72,7 +71,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
       textColor: createToken.textColor,
     });
     setBalanceOf(createToken.mintAmount);
-    setTotalSupply(createToken.mintAmount);
+    setTotalSupply(createToken.mintAmount); //TO-DO change if using capped
   }, [createToken]);
 
   //flip animation
@@ -107,9 +106,8 @@ const TokenCoin = ({ assetAddress, createToken }) => {
             flipDisappear && "animate-coin-spin-disappear"
           }`}
           style={{ transform: `translateZ(10px)`, backgroundColor: assetMetadata.backgroundColor, color: assetMetadata.textColor }}>
-          
-          <Background assetImage = {assetImageFront} />
-          <Name assetName={assetName} rotationOffset={0}/>
+          <Background assetImage={assetImageFront} />
+          <Name assetName={assetName} rotationOffset={0} />
 
           {assetIcon !== "" && (
             <div className={`absolute top-1/2 -translate-y-1/2 w-[30%] aspect-square flex justify-center items-center rounded-full opacity-50 p-2`}>
@@ -120,7 +118,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
             className="absolute flex flex-col items-center top-1/2 -translate-y-1/2 text-2xl w-[30%] aspect-square overflow-x-auto justify-center rounded-full text-center shadow-white shadow-lg"
             style={{ background: `radial-gradient(#AAA 20%, transparent, ${assetMetadata.backgroundColor})` }}>
             <p className="font-['Times'] text-3xl font-bold ">Owned</p>
-            <p className="text-3xl mt-1 font-semibold brightness-50">{balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+            <p className="text-3xl mt-1 font-semibold brightness-50">{balanceOf}</p>
             <p className="text-2xl uppercase font-semibold brightness-50">{assetSymbol}</p>
           </div>
           <div className="absolute bottom-[16vmin] -translate-y-1/2 text-xl text-center brightness-25 bg-white rounded p-2 bg-opacity-50">
@@ -136,36 +134,44 @@ const TokenCoin = ({ assetAddress, createToken }) => {
             flipDisappear && "animate-coin-spin-disappear"
           }`}
           style={{ transform: `translateZ(10px)`, backgroundColor: assetMetadata.backgroundColor, color: assetMetadata.textColor }}>
-             <Background assetImage = {assetImageBack} />
-          <Name assetName={assetName} rotationOffset={0}/>
-          
+          <Background assetImage={assetImageBack} />
+          <Name assetName={assetName} rotationOffset={0} />
+
           <div>
-            {isPanelActive.permissions && <div className="animate-fadeInLeft">permissions</div>}
+            {isPanelActive.permissions && <div className="animate-fadeInLeft">Permissions(TO-DO)</div>}
             {isPanelActive.mint && <MintForm assetAddress={assetAddress} contract={LSP7MintableContract} />}
             {isPanelActive.transfer && <TransferForm assetAddress={assetAddress} contract={LSP7MintableContract} balanceOf={balanceOf} />}
           </div>
           <OptionsPanel defaultPanel={defaultPanel} isPanelActive={isPanelActive} setIsPanelActive={setIsPanelActive} />
-        
-          <div className="italic font-semibold text-xl z-10 text-center">
+
+          <div className="flex flex-col italic font-bold text-xl z-10 text-center items-center overflow-x-auto w-4/6">
             <div className="flex gap-1">
-              <span className={"text-lg not-italic" + subFontStyle}>Contract address:</span>
+              <span className={"text-xl not-italic" + subFontStyle}>Contract address:</span>
               <Address address={assetAddress} />
             </div>
             <div>
-              <span className={"text-lg not-italic" + subFontStyle}>Total supply:</span> {totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {assetSymbol}
+              <span className={"text-xl not-italic" + subFontStyle}>Total supply:</span>{" "}
+              {totalSupply.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {assetSymbol}
             </div>
             <div>
-              <span className={"text-lg not-italic" + subFontStyle}>Your balance:</span> {balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {assetSymbol}
+              <span className={"text-xl not-italic" + subFontStyle}>Your balance:</span> {balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+              {assetSymbol}
             </div>
-            {assetMetadata.description && <div>
-              <span className={"text-lg not-italic" + subFontStyle}>Description:</span> {assetMetadata.description}
-            </div>}
-            {creators && <div>
-              <span className={"text-lg not-italic" + subFontStyle}>Creators:</span> {creators} 
-            </div>}
-            {assetMetadata.links && <div>
-              <span className={"text-lg not-italic" + subFontStyle}>Links:</span> {assetMetadata.links} 
-            </div>}
+            {assetMetadata.description && (
+              <div>
+                <span className={"text-xl not-italic" + subFontStyle}>Description:</span> {assetMetadata.description}
+              </div>
+            )}
+            {creators && (
+              <div>
+                <span className={"text-xl not-italic" + subFontStyle}>Creators:</span> {creators}
+              </div>
+            )}
+            {assetMetadata.links && (
+              <div>
+                <span className={"text-xl not-italic" + subFontStyle}>Links:</span> {assetMetadata.links}
+              </div>
+            )}
           </div>
         </div>
       )}

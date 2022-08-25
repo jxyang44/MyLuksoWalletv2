@@ -15,16 +15,16 @@ const ProfileSearch = () => {
       }
       const batch = new web3.eth.BatchRequest();
 
-      blockNumbers.forEach(async blockNumber => {
+      blockNumbers.map(async blockNumber => {
         const block = await web3.eth.getBlock(blockNumber);
-        block!==null && block.transactions.length >0 && block.transactions.forEach(async transactionAddress => {
+        block!==null && block.transactions.length >0 && block.transactions.map(async transactionAddress => {
           batch.add(await web3.eth.getTransaction.request(transactionAddress, "latest", (err,res) => {console.log(err,res)}));
         });
       });
       batch.execute();
       console.log(batch.requests);
       setTimeout(()=>{
-        batch.requests.forEach((transaction, i) => {
+        batch.requests.map((transaction, i) => {
           console.log(i,transaction.params[0]);
         })
       },5000
@@ -38,7 +38,7 @@ const ProfileSearch = () => {
       web3.eth.getPastLogs({address: "0xC7d7315A1DDBbf92aBD068588bBA1e864F20F0f5", fromBlock:latest-2000 , toBlock: latest}).then(console.log)
       // const block = await web3.eth.getBlock(latestBlock);
       // console.log(block);
-      // block.transactions.forEach(async transactionAddress => {
+      // block.transactions.map(async transactionAddress => {
       //   let t = await web3.eth.getTransaction(transactionAddress);
       //   console.log(t);
     };

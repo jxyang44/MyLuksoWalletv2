@@ -24,8 +24,10 @@ export const MM_PrivateKey = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; 
 export const MLW_ControllerAddress = process.env.REACT_APP_MLW_CONTROLLER_ADDRESS;
 export const myEOA = web3.eth.accounts.wallet.add(MM_PrivateKey);
 
-//----- LSP Factory configs -----
+
+
 export const createLSPFactoryWindowInstance = () => new LSPFactory(window.ethereum, { chainId: chainId });
+
 export const createLSPFactoryPrivateKeyInstance = () => new LSPFactory(RPC_ENDPOINT, { deployKey: MM_PrivateKey, chainId: chainId });
 export const standardDeployOptions = {
   // ipfsGateway: IPFS_GATEWAY_INFURA,

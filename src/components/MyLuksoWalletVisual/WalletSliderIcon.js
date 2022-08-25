@@ -2,15 +2,15 @@ import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { AiOutlineWallet } from "react-icons/ai";
 import { useDrop } from "react-dnd";
-
+import { BsFillPersonLinesFill } from "react-icons/bs";
 const WalletSliderIcon = ({ index }) => {
-  const { accountAddresses } = useProfileContext();
+  const { accountAddresses,currentAccount } = useProfileContext();
 
-  function selectBackgroundColor(isActive, canDrop) {
+  function selectStyle(isActive, canDrop) {
     if (isActive) {
-      return "#CCC";
+      return "bg-green-500 scale-110 border-4 border-white rounded-lg";
     } else if (canDrop) {
-      return "#475569";
+      return "bg-sky-500 rounded-lg border-4 border-white";
     } else {
       return "";
     }
@@ -20,7 +20,7 @@ const WalletSliderIcon = ({ index }) => {
     () => ({
       accept: ["LSP7", "LSP8"],
       drop: () => ({
-        name: `${accountAddresses.vaults[index]}`,
+        name: `${index===0 ? currentAccount : accountAddresses.vaults[index - 1]}`,
         allowedDropEffect: "move",
       }),
       collect: monitor => ({
@@ -31,15 +31,25 @@ const WalletSliderIcon = ({ index }) => {
     ["move"]
   );
   const isActive = canDrop && isOver;
-  const backgroundColor = selectBackgroundColor(isActive, canDrop);
+  const style = selectStyle(isActive, canDrop);
 
   return (
-    <div ref={drop} className="flex flex-col text-[6rem] text-white items-center" style={{ backgroundColor: backgroundColor }}>
-        <AiOutlineWallet />
-      <div className="text-base -translate-y-2 text-center">
-        {accountAddresses.vaults[index] && accountAddresses.vaults[index].substring(0, 12)}
-        {accountAddresses.vaults[index] && accountAddresses.vaults[index].length > 12 && "..."}
-      </div>
+    <div ref={drop} className={`flex flex-col lg:text-[6rem] md:text-[4rem] text-[1rem] text-white items-center ${style}`}>
+      {index === 0 ? (
+        <>
+          <BsFillPersonLinesFill />
+          <div className="lg:text-base text-xs -translate-y-1 text-center">
+           Universal Profile
+          </div>
+        </>
+      ) : (
+        <>
+          <AiOutlineWallet />
+          <div className="lg:text-base text-xs -translate-y-1 text-center">
+            Vault {accountAddresses.vaults[index - 1] && accountAddresses.vaults[index - 1].substring(0, 8)}...
+          </div>
+        </>
+      )}
     </div>
   );
 };

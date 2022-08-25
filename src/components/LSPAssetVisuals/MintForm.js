@@ -4,7 +4,7 @@ import { useAssetsContext } from "../../contexts/AssetsContext";
 const MintForm = ({ assetAddress,contract }) => {
   const [mintAmount, setMintAmount] = useState(0);
   const [mintToAddress, setMintToAddress] = useState("");
-  const { mintToken } = useAssetsContext();
+  const { mintLSP7 } = useAssetsContext();
 
   const mintInputs = [
     {
@@ -27,7 +27,7 @@ const MintForm = ({ assetAddress,contract }) => {
     <div className="flex flex-col animate-fadeInLeft">
       <Input
         fields={mintInputs}
-        customFunc={()=>mintToken(assetAddress, mintAmount, mintToAddress, contract)}
+        customFunc={()=>mintLSP7(assetAddress, mintAmount, mintToAddress, contract)}
         buttonDescription="Mint"
         themeColor="from-green-500 to-green-600"
         themeText="text-green-700"

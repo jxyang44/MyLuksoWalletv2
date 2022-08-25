@@ -1,11 +1,11 @@
 import React from "react";
 
-const Loading = () => {
+const Loading = ({horizontal,size,textOff}) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className={`${horizontal ? "flex flex-row items-start justify-start":"flex flex-col items-center"}`}>
       <svg
         aria-hidden="true"
-        className="flex-auto w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-sky-600"
+        className={`flex-auto text-gray-200 animate-spin dark:text-gray-600 fill-sky-600 ${size ?? "w-16 h-16"}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +18,7 @@ const Loading = () => {
           fill="currentFill"
         />
       </svg>
-      <span className="text-white">Loading...</span>
+      {!textOff&&<span className="text-white">Loading...</span>}
     </div>
   );
 };

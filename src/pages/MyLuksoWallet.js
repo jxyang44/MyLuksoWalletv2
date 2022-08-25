@@ -10,7 +10,7 @@ import "./MyLuksoWallet.css";
 
 const MyLuksoWallet = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
-  const { isProfileLoaded, accountAddresses } = useProfileContext();
+  const { isProfileLoaded, accountAddresses ,currentAccount, pendingProfileJSONMetadata} = useProfileContext();
 
   useEffect(() => {
     setActiveMenu(false);
@@ -42,9 +42,9 @@ const MyLuksoWallet = () => {
       ) : isProfileLoaded ? (
         <div className="flex flex-col fade-in">
           <Slider {...sliderSettings}>
-          
+          <WalletContainer walletAddress={currentAccount} walletMetadata={{vaultAddress: currentAccount, vaultName: pendingProfileJSONMetadata?.name, vaultDescription:pendingProfileJSONMetadata?.description, vaultColor:pendingProfileJSONMetadata?.MLWUPColor }}/>
             {accountAddresses.vaults.map((vault, i) => {
-              return <WalletContainer key={vault+i} walletAddress={vault}/>;
+              return <WalletContainer key={vault+i} walletAddress={vault} walletMetadata={pendingProfileJSONMetadata[`MLW_Vault_${vault}`]}/>;
             })}
           </Slider>
         </div>

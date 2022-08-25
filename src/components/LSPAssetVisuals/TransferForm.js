@@ -8,7 +8,7 @@ const Transfer = ({ assetAddress,contract, balanceOf }) => {
   const [transferAmount, setTransferAmount] = useState(0);
   const [transferToAddress, setTransferToAddress] = useState("");
   //const [transferFromAddress, setTransferFromAddress] = useState("");
-  const { transferToken } = useAssetsContext();
+  const { transferLSP7 } = useAssetsContext();
 
   const transferInputs = [
     {
@@ -40,7 +40,7 @@ const Transfer = ({ assetAddress,contract, balanceOf }) => {
     <div className="flex flex-col animate-fadeInLeft">
       <Input
         fields={transferInputs}
-        customFunc={()=>transferToken(assetAddress, transferAmount, transferToAddress, contract, currentAccount, balanceOf)}
+        customFunc={()=>transferLSP7(assetAddress, transferAmount, transferToAddress, contract, currentAccount, balanceOf)}
         buttonDescription="Transfer"
         themeColor="from-blue-500 to-blue-600"
         themeText="text-blue-700"

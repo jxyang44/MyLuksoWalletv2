@@ -27,28 +27,6 @@ export const StateProvider = ({ children }) => {
   }
 
   const THEMES = {
-    sidebarBackground: {
-      slate: `from-slate-800 via-slate-600 to-slate-500`,
-      gray: "from-gray-800 via-gray-600 to-gray-500",
-      zinc: "from-zinc-800 via-zinc-600 to-zinc-500",
-      neutral: "from-neutral-800 via-neutral-600 to-neutral-500",
-      stone: "from-stone-800 via-stone-600 to-stone-500",
-      red: "from-red-800 via-red-600 to-red-500",
-      orange: "from-orange-800 via-orange-600 to-orange-500",
-      amber: "from-amber-800 via-amber-600 to-amber-500",
-      yellow: "from-yellow-800 via-yellow-600 to-yellow-500",
-      lime: "from-lime-800 via-lime-600 to-lime-500",
-      green: "from-green-800 via-green-600 to-green-500",
-      emerald: "from-emerald-800 via-emerald-600 to-emerald-500",
-      teal: "from-teal-800 via-teal-600 to-teal-500",
-      cyan: "from-cyan-800 via-cyan-600 to-cyan-500",
-      sky: "from-sky-800 via-sky-600 to-sky-500",
-      indigo: "from-indigo-800 via-indigo-600 to-indigo-500",
-      violet: "from-violet-800 via-violet-600 to-violet-500",
-      purple: "from-purple-800 via-purple-600 to-purple-500",
-      pink: "from-pink-800 via-pink-600 to-pink-500",
-      rose: "from-rose-800 via-rose-600 to-rose-500",
-    },
     background: {
       slate: `from-slate-900 via-slate-800 to-slate-800`,
       gray: "from-gray-900 via-gray-800 to-gray-800",
@@ -120,7 +98,6 @@ export const StateProvider = ({ children }) => {
 
   // const THEMES = {
   //   background: `from-${theme}-900 via-${theme}-800 to-${theme}-800`,
-  //   sidebarBackground: `from-${theme}-800 via-${theme}-600 to-${theme}-500`,
   //   hoverLink: `hover:bg-${theme}-900`,
   //   activeLink: `from-${theme}-700 to-${theme}-900`,
   // };

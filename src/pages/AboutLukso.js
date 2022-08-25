@@ -85,17 +85,15 @@ const AboutLukso = () => {
 
       <div className="flex w-full justify-center items-center my-10">
         <div className="flex  justify-start items-start flex-col">
-          <h1 className="text-4xl text-white py-1">What are Lukso Standard Proposals (LSPs)?</h1>
-          <p className="text-left mt-5 text-white font-light  text-base">
-            Designed using the Lukso Standard Proposal 9 (LSP9)
-          </p>
+          
 
         </div>
 
       
       </div>
       <Introduction />
-      <LSPs />
+      {/* <LSPs /> */}
+      <Socials/>
       whitepaper, 
       <div>
         <ol className="pl-4 text-white">

@@ -3,17 +3,17 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 import { EditText } from "react-edit-text";
 import { RiDeleteBackLine, RiAddLine } from "react-icons/ri";
 
-const ProfileLinks = () => {
+const ProfileLinks = ({ editMode }) => {
   const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
   return (
     <div className="flex flex-row text-sm mb-4 items-center justify-between text-center gap-2 border-2 rounded-2xl bg-slate-800 bg-opacity-50 py-3 px-2">
-      <div className="text-base w-22">
+      <div className="text-base text-white">
         Links <span className="italic font-semibold">({pendingProfileJSONMetadata.links.length || 0}):</span>
       </div>
       {pendingProfileJSONMetadata.links.length > 0 && (
         <div className="flex flex-col italic text-normal text-white w-[350px]">
           {pendingProfileJSONMetadata.links.map((link, index) => {
-            return (
+            return editMode ? (
               <div className="flex flex-row items-center gap-1" key={link + index}>
                 <EditText
                   defaultValue={link.title}
@@ -70,14 +70,16 @@ const ProfileLinks = () => {
                   <RiDeleteBackLine />
                 </button>
               </div>
+            ) : (
+              <a href={pendingProfileJSONMetadata.links[index].url} className="text-lg not-italic z-50 text-left text-blue-500 hover:text-blue-300" rel="noreferrer" target="_blank">{pendingProfileJSONMetadata.links[index].title}</a>
             );
           })}
         </div>
       )}
 
-      {pendingProfileJSONMetadata.links.length < 5 && (
+      {(pendingProfileJSONMetadata.links.length < 5 && editMode) && (
         <button
-          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:text-blue-400"
+          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
           onClick={() =>
             setPendingProfileJSONMetadata(current => ({ ...current, links: [...current.links, { title: "new title", url: "new url" }] }))
           }>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Banner, ButtonShadow, GrantPermissions } from "../components";
+import { Banner, ButtonClean, GrantPermissions } from "../components";
 import { web3Provider, MM_PublicKey, createLSPFactoryPrivateKeyInstance } from "../utils/ERC725Config.js";
 import swal from "sweetalert";
 import { AiOutlineCopy } from "react-icons/ai";
@@ -25,7 +25,7 @@ const CreateProfile = () => {
     //add template to make new profile metadata
 
     async function createUniversalProfile() {
-      swal("Please wait. Creating a new Universal Profile account...","","")
+      swal("Creating a new Universal Profile account...");
       const lspFactory = createLSPFactoryPrivateKeyInstance();
       const deployedContracts = await lspFactory.UniversalProfile.deploy(
         {
@@ -41,6 +41,9 @@ const CreateProfile = () => {
                 url: "https://www.myluksowallet.com",
               },
             ],
+            UPColor: "slate",
+            MLWUPColor: "#FFFFFF",
+            MLWUPTextColor: "#000000",
           },
         },
         {
@@ -56,7 +59,7 @@ const CreateProfile = () => {
                   \n Status:  ${deploymentEvent?.status}
                   \n Contract Address:  ${deploymentEvent?.contractAddress}
                   `,
-                { button: false, closeOnClickOutside: false }
+                { button: false }
               );
             },
             error: error => {
@@ -81,16 +84,17 @@ const CreateProfile = () => {
 
       return deployedContracts;
     }
-
-    createUniversalProfile();
+    swal("Do you want to create a new Universal Profile account?", "", { buttons: true }).then(res => {
+      if (res) createUniversalProfile();
+    });
   };
 
   return (
     <div className="text-white">
       <Banner
         colorFrom={"from-sky-500"}
-        title={"Transaction Relay Service"}
-        subtitle={`We pay for all your gas, while funds last! BALANCE: ${Math.round(MLWbalance * 100) / 100} LYX`}
+        title={"Relay Service (RELAY DISABLED - Work in Progress 👷)"}
+        subtitle={`Grant permissions works - use at your own risk. BALANCE: ${Math.round(MLWbalance * 100) / 100} LYX`}
         buttonText={""}
       />
       <div className="flex flex-row mx-20 gap-20">
@@ -98,11 +102,14 @@ const CreateProfile = () => {
           <p className="italic text-slate-300">
             For the duration of the Hackathon, MyLuksoWallet will fund all gas fees for your Universal Profile if you create a <b>Free Account</b>{" "}
             with us. This feature is only possible through Lukso's relay transaction service.{" "}
-            <button className="text-blue-500 hover:text-blue-300 font-semibold" onClick={() => setExpandKMText(curr => !curr)}>
+          </p>
+          <button className="text-blue-500 hover:text-blue-300 font-semibold text-left" onClick={() => setExpandKMText(curr => !curr)}>
               CLICK HERE to learn more about Key Managers and relay transactions.
             </button>
-          </p>
-
+          <div className="lg:text-2xl text-xl underline">Enable Relay Service</div>
+          <GrantPermissions />
+          By adding MyLuksoWallet as a permissioned account, we will be able to transact on your behalf. ONLY USE FOR DISPOSABLE ACCOUNTS.
+        
           {expandKMText && (
             <>
               <div className="text-2xl font-semibold">Key Managers (LSP6)</div>
@@ -130,49 +137,39 @@ const CreateProfile = () => {
                 <a
                   href="https://docs.lukso.tech/standards/universal-profile/lsp6-key-manager"
                   className="text-blue-500 hover:text-blue-300"
-                  target="_blank" rel="noreferrer">
+                  target="_blank"
+                  rel="noreferrer">
                   Key Managers and relay transactions.
                 </a>
                 &nbsp;A Key Manager enables permissioned accounts (controllers) to execute transactions on the Universal Profile's behalf. Gas for the
                 transaction is then paid for by a designated controller account.
               </p>
-              <p>
-                By creating a <b>Free Account</b> with MyLuksoWallet, we will be designated as a controller for your account, and pay for all
-                transaction fees through a relay service. This is currently only available on the L16 testnet, since funds are not backed by real
-                money. In the future, MyLuksoWallet will integrate more advanced relay protocols, such as subscription services, ad revenue, or a
-                variety of other innovations to pay for blockchain operations.
-              </p>
             </>
           )}
         </div>
         <div className="flex flex-col w-1/2 gap-1">
-          <div className="text-2xl underline">Enable Relay Service</div>
-          <GrantPermissions />
-          You must first enable MyLuksoWallet as a permissioned account before using our relay service.
-          <div className="mt-8 text-2xl underline">Create Account with MyLuksoWallet</div>
+        <div className="lg:text-2xl text-xl underline">Create Account with MyLuksoWallet</div>
           <div className="text-red-500">
-            (WARNING: Use only if you do not intend to use your Universal Profile outside of MyLuksoWallet. This feature does not import your profile into the extension.)
+            (WARNING: Use only if you do not intend to use your Universal Profile outside of MyLuksoWallet. This feature does not import your profile
+            into the extension.)
           </div>
-          <ButtonShadow
-            buttonText={"Create Free Account"}
-            buttonFunc={handleCreateProfile}
-            buttonColor={"bg-green-500"}
-            buttonTextColor={"text-green-800"}
-          />
+          <div>
+            <ButtonClean buttonText={"Create Test Account"} buttonFunc={handleCreateProfile} />
+          </div>
           <p>
             This option is completely <b>FREE</b> and is <em>only available for L16 testnet</em>. MyLuksoWallet will create a Universal Profile for
             you and pay for all your gas fees. Since you not are deploying a profile through the extension, you will need to manually keep track of
             your keys. Once your profile is deployed, log-in by pasting your UP address using the "UP Address Login" button found in the upper right
-            corner of this screen.
+            corner of this screen. This option will deploy the MLW EOA as a controller, so you can interact with the blockchain without an extension.
           </p>
           <p>
-            <br></br> If the relay address is depleted, please help us replenish the wallet&nbsp;
+            <br></br> If the controlling account is depleted, please help us replenish the wallet&nbsp;
             <a href="https://faucet.l16.lukso.network/" className="text-blue-500 hover:text-blue-300 font-semibold" target="_blank" rel="noreferrer">
               using the L16 faucet.
             </a>
           </p>
           <p>
-            Relayer Contract Address:{" "}
+            Relayer Contract Address:
             <button
               className="text-blue-600 font-semibold hover:text-blue-300 flex-inline"
               onClick={() => navigator.clipboard.writeText(MM_PublicKey)}>

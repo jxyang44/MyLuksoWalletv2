@@ -14,6 +14,7 @@ import {
   CreateNFT,
   CreateVault,
   ProfileSearch,
+  MyVaults
 } from "./pages";
 
 const App = () => {
@@ -25,8 +26,8 @@ const App = () => {
   }, [theme]);
 
   return (
-    <div className={`bg-gradient-to-br  from-slate-900 via-slate-800 to-slate-800 -z-20 contrast-100`} style={{ boxShadow: "inset 0 0 15px black" }}>
-      <div className={`absolute inset-0 bg-gradient-to-br ${background} rounded-lg blur opacity-25`}></div>
+    <div className={`bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 -z-20 h-full w-full`} style={{ boxShadow: "inset 0 0 15px black" }}>
+      <div className={`fixed inset-0 w-full h-full bg-gradient-to-br ${background} rounded-lg blur opacity-25`}></div>
       <BrowserRouter>
         <div className="flex relative">
           {activeMenu ? (
@@ -51,9 +52,10 @@ const App = () => {
                 <Route path="/aboutlukso" element={<AboutLukso />} />
                 <Route path="/myuniversalprofile" element={<MyProfile />} />
                 <Route path="/myassets" element={<MyAssets />} />
+                <Route path="/myvaults" element={<MyVaults />} />
                 <Route path="/relayservice" element={<RelayService />} />
-                <Route path="/createtoken" element={<CreateToken />} />
-                <Route path="/createnft" element={<CreateNFT />} />
+                <Route path="/createtoken" element={<CreateToken LSP="LSP7"/>} />
+                <Route path="/createnft" element={<CreateToken LSP="LSP8" />} />
                 <Route path="/createvault" element={<CreateVault />} />
                 <Route path="/profilesearch" element={<ProfileSearch />} />
               </Routes>

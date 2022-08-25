@@ -13,7 +13,7 @@ const LSPs = () => {
 
   return (
     <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full gap-10 relative px-32">
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-pink-100 to-sky-400 rounded-lg blur-xl opacity-60 -z-10"></div>
+
       <div className="flex flex-col justify-center gap-2 w-1/2">
         <div className="text-sky-300 text-5xl font-semibold italic">What is LUKSO?</div>
 

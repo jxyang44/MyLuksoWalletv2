@@ -1,29 +1,19 @@
-import React from "react";
+//displays permissions associated with an account
 
+import React from "react";
 import { FaUserLock } from "react-icons/fa";
-import { LSP6Schema, createErc725Instance } from "../../utils/ERC725Config";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
 
+//@param address target account to get permissions from
+//@param addressOf optional parameter if permissioned account is not connected account (e.g. vault) - (defaults to connected account if blank)
 const GetPermissions = ({ address, addressOf, children }) => {
-  const { currentAccount } = useProfileContext();
-  
+  const { currentAccount, getPermissionsOfAddresses } = useProfileContext();
+
   const checkPermissions = () => {
-    if (!addressOf) addressOf = currentAccount;
-    swal("Please wait. Checking permissions...");
-    async function getPermissionedAddresses() {
-      const erc725 = createErc725Instance(LSP6Schema, addressOf);
-      const addressPermission = await erc725.getData({
-        keyName: "AddressPermissions:Permissions:<address>",
-        dynamicKeyParts: address,
-      });
-      const decodedPermission = erc725.decodePermissions(addressPermission.value);
-      swal(
-        `Permissions for ${address} on ${addressOf}: `,
-        JSON.stringify(decodedPermission, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")
-      );
-    }
-    getPermissionedAddresses();
+    getPermissionsOfAddresses(address, addressOf).then(res =>
+      swal(`Permissions for ${address} on ${addressOf}: `, JSON.stringify(res, null, 1).replaceAll("true", "✅").replaceAll("false", "❌"))
+    );
   };
 
   return (

@@ -3,26 +3,26 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 import { EditText } from "react-edit-text";
 import { RiDeleteBackLine, RiAddLine } from "react-icons/ri";
 
-const ProfileTags = () => {
+const ProfileTags = ({ editMode }) => {
   const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
   return (
     <div className="flex flex-row text-sm mb-4 items-center justify-between text-center gap-1 border-2 rounded-2xl bg-slate-800 bg-opacity-50 py-3 px-2">
-      <div className="text-base  w-22">
+      <div className={`text-base text-white`}>
         Tags <span className="italic font-semibold">({pendingProfileJSONMetadata.tags.length || 0}):</span>
       </div>
       {pendingProfileJSONMetadata.tags.length > 0 && (
         <div className="flex flex-row flex-wrap justify-start gap-2 italic text-normal text-white w-[350px]">
           {pendingProfileJSONMetadata.tags.map((tag, index) => {
-            return (
+            return editMode ? (
               <div className="flex flex-row items-center gap-1" key={tag + index}>
                 <EditText //TO-DO why is this only allowing 1 letter a time...
                   defaultValue={tag}
                   inputClassName="bg-success"
                   placeholder="#tag"
-                  value={pendingProfileJSONMetadata.tags[index]}
-                  onChange={e => {
+                  onSave={e => {
+                    console.log(e)
                     const tempTags = [...pendingProfileJSONMetadata.tags];
-                    tempTags[index] = e.target.value;
+                    tempTags[index] = e.value;
                     setPendingProfileJSONMetadata(current => ({ ...current, tags: tempTags }));
                   }}
                   style={{
@@ -46,14 +46,16 @@ const ProfileTags = () => {
                   <RiDeleteBackLine />
                 </button>
               </div>
+            ) : (
+              <div className="text-lg text-left z-50">#{pendingProfileJSONMetadata.tags[index]}</div>
             );
           })}
         </div>
       )}
 
-      {pendingProfileJSONMetadata.tags.length < 12 && (
+      {(pendingProfileJSONMetadata.tags.length < 12 && editMode) && (
         <button
-          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:text-blue-400"
+          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
           onClick={() => setPendingProfileJSONMetadata(current => ({ ...current, tags: [...current.tags, "new tag"] }))}>
           <RiAddLine />
         </button>

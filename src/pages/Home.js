@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-import { Welcome, DigitalIdentity, AssetCards, Footer, WhatisMyLuksoWallet, GetStarted, AboutUs } from "./Home/index";
+import { Welcome, DigitalIdentity, AssetCards, WhatisMyLuksoWallet, GetStarted, AboutUs } from "./Home/index";
+import {Footer} from '../components'
 import { useStateContext } from "../contexts/StateContext";
 
 const Home = () => {

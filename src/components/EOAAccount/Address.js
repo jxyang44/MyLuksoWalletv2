@@ -1,3 +1,6 @@
+//formatting for contract address
+//adds copy address function, link to block explorer, and shortening address text
+
 import React from "react";
 import { AiOutlineFileSearch, AiOutlineCopy } from "react-icons/ai";
 const Address = ({ address, left, right }) => {
@@ -12,7 +15,7 @@ const Address = ({ address, left, right }) => {
       <button className="text-blue-400 flex flex-row justify-end items-center hover:text-blue-50" onClick={() => navigator.clipboard.writeText(address)}>
         {address && address.length > 20 ? shortenAddress(address, left || 14, right || 7) : address}
         <AiOutlineCopy />
-        <div class="opacity-0 hover:opacity-100 transition duration-300 w-fit absolute hover:translate-x-3 hover:translate-y-5 text-white z-10 text-xs">Copy Address</div>
+        <div className="opacity-0 hover:opacity-100 transition duration-300 w-fit absolute hover:translate-x-3 hover:translate-y-5 text-white z-10 text-xs">Copy Address</div>
       </button>
       <a
         className="hover:text-blue-50 text-blue-400 flex flex-row justify-end"

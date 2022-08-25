@@ -13,17 +13,17 @@ const WhatisMyLuksoWallet = () => {
   }, [scrollHeight]);
 
   return (
-    <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full relative px-32 metal-bg">
+    <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full relative lg:px-32 px-8 metal-bg">
       <div className="absolute inset-0 bg-gradient-to-bl from-black via-sky-500 to-black rounded-lg blur-xl opacity-25 -z-10"></div>
       <div ref={imgRef} className={`flex justify-center items-center w-5/12 perspective-r ${persAnimation && "perspective-r-animation"}`}>
         <img src={keyhole} alt="Keyhole" />
       </div>
-      <div className="flex flex-col justify-center gap-2 w-7/12 ml-24 ">
-        <div className="text-3xl font-semibold text-sky-500 text-center">What is MyLuksoWallet</div>
-        <div className="text-xl mt-2 text-center">
-          <div className="text-5xl mb-2">A front-end tool to creatively manage and showcase your digital assets</div>
+      <div className="flex flex-col justify-center gap-2 w-7/12 lg:ml-24 ml-12">
+        <div className="lg:text-3xl text-2xl font-semibold text-sky-500 text-center">What is MyLuksoWallet</div>
+        <div className="lg:text-xl text-xl lg:mt-2 text-center">
+          <div className="lg:text-5xl text-2xl mb-2">A front-end tool to creatively manage and showcase your digital assets</div>
           {learnMore ? (
-            <div className="relative text-base my-4 mx-2 rounded-lg p-4 pt-6 border-2 border-slate-300 text-sky-500 bg-slate-800 bg-opacity-90">
+            <div className="relative lg:text-base md:text-sm my-4 mx-2 rounded-lg p-4 pt-6 border-2 border-slate-300 text-sky-500 bg-slate-800 bg-opacity-90">
               <p>
                 <span className="italic text-blue-400 font-semibold">MyLuksoWallet</span> utilizes Lukso Standard Proposals (LSPs) to create a
                 user-friendly experience for both Web3 newcomers and veterans alike. We abstract away the need to purchase cryptocurrency on an
@@ -47,14 +47,14 @@ const WhatisMyLuksoWallet = () => {
             </div>
           ) : (
             <>
-              <p className="text-2xl">
+              <p className="lg:text-2xl text-xl">
                 View and mint tokens (LSP7) and customized NFTs (LSP8).
                 <br></br>
                 Transfer assets between vaults (LSP9) and more!
               </p>
 
               <button
-                className="mt-10 bg-slate-800 rounded-lg p-4 border-2 bg-opacity-90 border-slate-300 text-sky-500 text-2xl font-semibold hover:text-slate-700 hover:bg-slate-300 "
+                className="mt-10 bg-slate-800 rounded-lg p-4 border-2 bg-opacity-90 border-slate-300 text-sky-500 lg:text-2xl text-base font-semibold hover:text-slate-700 hover:bg-slate-300 -z-8"
                 onClick={() => setLearnMore(true)}>
                 📘 Learn More
               </button>

@@ -1,10 +1,14 @@
+//shows if user is not connected to a universal profile
+//provides options to connect, go to instructions, or proceed with sample account
+//TO-DO add example account
 import React from "react";
 import { RiUserSearchLine } from "react-icons/ri";
 import { ButtonShadow } from "..";
 import { useNavigate } from "react-router-dom";
 import { useProfileContext } from "../../contexts/ProfileContext";
+import {petOwner} from "../../utils/sampleAccounts";
 const LoginGraphic = () => {
-  const { connectProfile } = useProfileContext();
+  const { connectProfile,connectProfileUsingUPAddress } = useProfileContext();
   let navigate = useNavigate();
   return (
     <div className="flex flex-col items-center gap-8 m-20">
@@ -16,12 +20,13 @@ const LoginGraphic = () => {
       </div>
       <div className="text-green-500">Please connect a Universal Profile to view your assets.</div>
       <div className="flex flex-row gap-6">
-        <ButtonShadow
-          buttonText={"Connect Profile"}
-          buttonFunc={() => connectProfile()}
-          buttonColor={"bg-blue-500"}
+        <ButtonShadow //TO-DO
+          buttonText={"Connect Pet Owner (Example Profile)"}
+          buttonFunc={() => connectProfileUsingUPAddress(petOwner)}
+          buttonColor={"bg-slate-500"}
           buttonTextColor={"text-black"}
         />
+        <ButtonShadow buttonText={"Connect Profile"} buttonFunc={() => connectProfile()} buttonColor={"bg-blue-500"} buttonTextColor={"text-black"} />
         <ButtonShadow
           buttonText={"Instructions"}
           buttonFunc={() => navigate("../getstarted")}

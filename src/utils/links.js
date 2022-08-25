@@ -73,7 +73,7 @@ export const links = [
   },
 
   {
-    title: "Search",
+    title: "Search (Pending 👷)",
     links: [
       {
         name: "Universal Profile Search",

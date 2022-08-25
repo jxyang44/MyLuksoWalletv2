@@ -1,8 +1,8 @@
 //main container for universal profile dropdown
 import React, { useEffect, useState } from "react";
-import { AiTwotoneStar } from "react-icons/ai";
+import { AiTwotoneStar, AiOutlineWallet } from "react-icons/ai";
 import { GiTwoCoins } from "react-icons/gi";
-import { BsSafe } from "react-icons/bs";
+import { VscUnlock, VscLock } from "react-icons/vsc";
 import { RiUserSettingsFill } from "react-icons/ri";
 import {
   Address,
@@ -26,7 +26,8 @@ import UniversalCloudLogo from "../assets/Logos/Lukso_Original/Lukso_Signet_whit
 import "react-edit-text/dist/index.css";
 import swal from "sweetalert";
 
-const UserProfile = () => {
+const UniversalProfile = () => {
+  const [editMode, setEditMode] = useState(true); //allows profile to be edited
   const { UPColor, UPTextColor } = useStateContext();
   const {
     defaultMetadata,
@@ -73,19 +74,39 @@ const UserProfile = () => {
   return (
     <div
       className="transition absolute right-1 top-12 p-8 rounded-md w-2/6 origin-top-right scale-[.85] bg-opacity-30 bg-white text-black"
-      style={{ backgroundColor: UPColor, boxShadow: `0px 5px 10px 5px ${UPColor}`, color: UPTextColor }}>
-       <div className={`absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`} ></div>
+      style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000"}}>
+      <div className={`absolute h-full w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
+      {!editMode && (
+        <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>
+      )}
+      <button
+        className={`absolute z-50 top-1 right-1 border rounded-xl px-2 text-white ${
+          editMode ? "bg-green-500" : "bg-black"
+        } font-semibold hover:bg-slate-300 hover:text-slate-500 `}
+        onClick={() => setEditMode(curr => !curr)}>
+        {editMode ? (
+          <div className="flex flex-row items-center gap-1">
+            <VscUnlock /> Edit Mode
+          </div>
+        ) : (
+          <div className="flex flex-row items-center gap-1">
+            <VscLock /> View Mode
+          </div>
+        )}
+      </button>
       <div
-        className="flex flex-col justify-between items-center border-2 border-blue-400 rounded-md py-2 shadow-md shadow-blue-400/50 gap-0.5 bg-slate-800 bg-opacity-90"
+        className="flex flex-col justify-between items-center border-2 border-blue-400 rounded-md py-2 shadow-md shadow-blue-400/50 gap-0.5 bg-slate-800 bg-opacity-70 text-white  "
         style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
-        <div className="flex flex-row gap-2 text-2xl font-semibold font-header">
+        <div className="flex flex-row gap-2 text-2xl font-semibold font-header z-50">
           Universal Profile
           <a href={`https://l16.universalprofile.cloud/${currentAccount}`} target="_blank" className="hover:scale-105">
             <img src={UniversalCloudLogo} alt="Lukso Cloud Logo" className="w-8 h-8" />
           </a>
         </div>
-        <Address address={currentAccount} />
-        <LYXBalanceFuncs />
+        <div className="z-50">
+          <Address address={currentAccount} />
+          <LYXBalanceFuncs />
+        </div>
       </div>
 
       {isProfileLoaded ? (
@@ -100,7 +121,7 @@ const UserProfile = () => {
                 )}
               />
             ) : (
-              <UploadBannerImage id="banner" />
+              <UploadBannerImage id="banner" /> //if current image is not passed in props, use default text
             )}
           </div>
 
@@ -120,42 +141,46 @@ const UserProfile = () => {
             </div>
             <div className="w-2/3">
               <EditText
-                className="font-semibold text-xl"
                 defaultValue={profileJSONMetadata.name}
                 inputClassName="bg-success"
                 value={pendingProfileJSONMetadata.name}
                 onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
-                style={{ padding: "0px", margin: "0x", fontSize: "1.125rem", lineHeight: "1.75rem", fontWeight: "600", color: UPTextColor }}
+                style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "1.75rem", fontWeight: "600", color: UPTextColor }}
               />
               <EditTextarea
-                className="text-sm"
                 rows={4}
                 defaultValue={profileJSONMetadata.description}
                 inputClassName="bg-success"
                 value={pendingProfileJSONMetadata.description}
                 onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, description: e.target.value }))}
-                style={{ padding: "0px", margin: "0x", fontSize: "0.875rem", lineHeight: "1.25rem", color: UPTextColor }}
+                style={{ padding: "0px", margin: "0x", fontSize: "1.125rem", lineHeight: "1.25rem", color: UPTextColor }}
               />
             </div>
           </div>
 
-          <ProfileTags />
+          <ProfileTags editMode={editMode} />
 
-          <ProfileLinks />
+          <ProfileLinks editMode={editMode} />
 
           {/* <MyMenuItem icon={<AiOutlineLink/>} iconColor="bg-blue-500" linkTo="" header="MyLinks" items={profileJSONMetadata.links.length && pendingProfileJSONMetadata.links} itemType="link"/> */}
-          <div className="flex flex-row items-center flex-wrap">
+          <div className="flex flex-row items-center flex-wrap z-50">
+            <MyMenuItem icon={<AiOutlineWallet />} iconColor="bg-slate-800" linkTo="myluksowallet" header="MyLukso-Wallet" />
             <MyMenuItem icon={<RiUserSettingsFill />} iconColor="bg-orange-500" linkTo="myuniversalprofile" header="My Profile Config" />
-            <MyMenuItem icon={<GiTwoCoins />} iconColor="bg-green-700" linkTo="mytokens" header="My Tokens" />
-            <MyMenuItem icon={<AiTwotoneStar />} iconColor="bg-violet-600" linkTo="myNFTs" header="My NFTs" />
-            <MyMenuItem icon={<BsSafe />} iconColor="bg-slate-800" linkTo="myvaults" header="My Vaults" />
+            <MyMenuItem icon={<GiTwoCoins />} iconColor="bg-green-700" linkTo="myassets" header="My Assets" />
           </div>
 
-          <div className="flex flex-row self-end w-full gap-3">
-            <UpdateProfile />
-            <ButtonShadow buttonText={"Discard Edits"} buttonFunc={handleDiscardEdits} buttonColor={"bg-red-500"} buttonTextColor={"text-red-800"} />
-            <DisconnectProfile />
-          </div>
+          {editMode && (
+            <div className="flex flex-row self-end w-full gap-3">
+              <UpdateProfile />
+              <ButtonShadow
+                buttonText={"Discard Edits"}
+                buttonFunc={handleDiscardEdits}
+                buttonColor={"bg-red-500"}
+                buttonTextColor={"text-red-800"}
+              />
+              <DisconnectProfile />
+            </div>
+          )}
         </div>
       ) : (
         <Loading />
@@ -164,4 +189,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UniversalProfile;

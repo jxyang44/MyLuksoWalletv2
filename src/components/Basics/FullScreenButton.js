@@ -1,3 +1,5 @@
+//shows when the page requires fullscreen mode
+
 import React from "react";
 import { useStateContext } from "../../contexts/StateContext";
 const FullScreenButton = ({text}) => {

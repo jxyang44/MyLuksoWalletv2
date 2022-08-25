@@ -1,91 +1,102 @@
 import React, { useEffect, useState } from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract } from "../../utils/ERC725Config";
+import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract, LSP8MintableContract, web3Provider, LSP9Contract } from "../../utils/ERC725Config";
+import { Address } from "../../components";
 import { Name, Background } from "../LSPAssetVisuals/LSP7Components";
-import { useDrag, DragPreviewImage } from "react-dnd";
+import { useDrag } from "react-dnd";
 import swal from "sweetalert";
-import { MintForm } from "..";
-const WalletLSP7 = ({ assetAddress }) => {
+
+const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlySelected, handleSelected }) => {
   const { currentAccount } = useProfileContext();
-  const { getAssetMetadata, getAssetByKey, getBalanceOf } = useAssetsContext();
-  const [assetName, setAssetName] = useState("");
-  const [assetSymbol, setAssetSymbol] = useState("");
-  const [assetIcon, setAssetIcon] = useState("");
-  const [assetImageFront, setAssetImageFront] = useState("");
-  const [assetMetadata, setAssetMetadata] = useState({});
-  const [balanceOf, setBalanceOf] = useState("");
-  const [bringToFront, setBringToFront] = useState(false);
+  const { transferLSP7 } = useAssetsContext();
 
-  //retrieve asset metadata from blockchain
-  useEffect(() => {
-    if (assetAddress) {
-      getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value));
-      getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value));
-      //getDecimals(assetAddress).then(res => console.log(res.value));
-      getAssetMetadata(assetAddress).then(res => {
-        setAssetMetadata(cur => ({ ...cur, ...res }));
-        //console.log("metadata results:", res, res.backgroundColor, assetMetadata);
-        if (res.icon && res.icon.length > 0) {
-          setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
-        }
-        if (res.images && res.images.length > 0) {
-          setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-        }
-        //TO-DO something with assets key if it exists
-      });
-      currentAccount && getBalanceOf(assetAddress, currentAccount).then(res => setBalanceOf(res));
-    }
-  }, []);
-
-  const [{ opacity }, drag, preview] = useDrag(
+  const [{ opacity }, drag] = useDrag(
     () => ({
-      type: "LSP7",
-      item: { assetAddress },
+      type: LSP,
+      item: ` ${assets[index].address} `,
       end(item, monitor) {
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
-          swal("Success!", `You moved ${item.assetAddress} into ${dropResult.name}!`, "success");
+          if (dropResult.name === walletAddress) return swal(`"${assets[index].assetName}" (${assets[index].address}) is already in this wallet!`);
+          // swal(`Would you like to transfer "${assets[index].assetName}" (${item.assets[index].address}) from ${walletAddress} to ${dropResult.name}?`, {content: "input"})
+          console.log(assets[index].assetName);
+          swal(`Would you like to transfer "${assets[index].assetName}" (${assets[index].address}) from ${walletAddress} to ${dropResult.name}?`, {
+            buttons: true,
+          }).then(res => {
+            if (res)
+              swal(`You currently own ${assets[index].balanceOf} ${assets[index].assetSymbol}.`, "How much would you like to transfer?", {
+                content: "input",
+              }).then(input => {
+                if (!input) return swal("", "No input provided.", "error");
+                const valueNum = Number(input);
+                if (!valueNum) return swal("", "Input must be numeric.", "error");
+                if (valueNum <= 0) return swal("", "Input must be a positive number.", "error");
+                if (valueNum > Number(assets[index].balanceOf)) return swal("", "Transfer quantity exceeds your current balance.", "error");
+                console.log(assets[index].address, valueNum, dropResult.name, LSP7MintableContract, walletAddress, assets[index].balanceOf);
+                transferLSP7(
+                  assets[index].address,
+                  valueNum,
+                  dropResult.name,
+                  LSP7MintableContract,
+                  walletAddress,
+                  assets[index].balanceOf,
+                  walletAddress === currentAccount ? false : true
+                );
+              });
+          });
         }
       },
       collect: monitor => ({
         opacity: monitor.isDragging() ? 0.4 : 1,
       }),
     }),
-    [assetAddress]
+    [assets[index].address]
   );
 
   return (
-      <div className={`relative w-12 ${bringToFront && "order-last z-100"}`} onClick={() => setBringToFront(curr => !curr)}>
-    <div ref={preview} style={{ opacity }}>
+    <>
+      <div className={`relative w-12 ${!isCurrentlySelected && "opacity-0"}`} onClick={handleSelected}>
         <div
-          className={`w-[40vmax] aspect-square tilted-coin relative `}
+          className={`w-[40vmax] aspect-square relative ${assets[index].isSelected ? "selected-coin" : "tilted-coin"}`}
           ref={drag}
-          style={{ opacity }}
-         >
+          style={{ opacity }}>
           <div
             className={`font-['Arial'] cursor-default absolute w-[40vmax] aspect-square border-2 border-white top-0 rounded-full  
         flex flex-col shadow-lg shadow-white items-center justify-start bg-black`}
-            style={{ backgroundColor: assetMetadata.backgroundColor, color: assetMetadata.textColor }}>
-            <Background assetImage={assetImageFront} />
-            <Name assetName={assetName} rotationOffset={-70} />
+            style={{ backgroundColor: assets[index]?.backgroundColor, color: assets[index]?.textColor }}>
+            <Background assetImage={assets[index].assetImage1} />
+            <Name assetName={assets[index].assetName} rotationOffset={-70} />
 
-            {assetIcon !== "" && (
+            {assets[index].assetIcon !== "" && (
               <div className={`absolute top-1/2 -translate-y-1/2 w-[50%] aspect-square flex justify-center items-center rounded-full opacity-50 p-2`}>
-                <img src={assetIcon} className="w-full aspect-square select-none rounded-full"></img>
+                <img src={assets[index].assetIcon} className="w-full aspect-square select-none rounded-full"></img>
               </div>
             )}
+
             <div
               className="absolute flex flex-col items-center top-1/2 -translate-y-1/2 text-2xl w-[50%] aspect-square overflow-x-auto justify-center rounded-full text-center shadow-white shadow-lg"
-              style={{ background: `radial-gradient(#AAA 20%, transparent, ${assetMetadata.backgroundColor})` }}>
+              style={{ background: `radial-gradient(#AAA 20%, transparent, ${assets[index]?.backgroundColor})` }}>
               <p className="font-['Times'] text-4xl font-bold ">Owned</p>
-              <p className="text-8xl mt-1 font-semibold brightness-50">{balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-              <p className="text-3xl uppercase font-semibold brightness-50">{assetSymbol}</p>
+              {assets[index].balanceOf && (
+                <p
+                  className={`mt-1 font-semibold break-all brightness-50 ${
+                    assets[index].balanceOf.length < 5 ? "text-8xl" : assets[index].balanceOf.length < 10 ? "text-3xl" : "text-xl"
+                  }`}>
+                  {assets[index].balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </p>
+              )}
+              <p className="text-3xl uppercase font-semibold brightness-50">{assets[index].assetSymbol}</p>
             </div>
           </div>
+          {assets[index].isSelected && (
+            <div className="absolute -top-14 right-1/2 translate-x-1/2 text-4xl">
+              <Address address={assets[index].address} />
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

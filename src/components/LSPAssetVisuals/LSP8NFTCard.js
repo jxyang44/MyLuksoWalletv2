@@ -1,11 +1,12 @@
-//component for visualizing NFT card
+//component for visualizing LSP8s
+//TO-DO the design is a proto-type and the code is not finished. The idea is very similar to LSP7TokenCoin.js
 
 import React, { useEffect, useState } from "react";
-
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
 import { IPFS_GATEWAY, LSP4Schema } from "../../utils/ERC725Config";
-import { Address, ButtonShadow, Input, Alert, MintForm } from "..";
+import { Address, MintForm, OptionsPanel } from "..";
 
 const borderSpin = ` before:content-'' before:block before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 
   before:rounded-full`;
@@ -15,17 +16,17 @@ const [borderSpinOuter, borderSpinInner, animateOuter, animateInner] = [
   ` before:animate-spin-CCW-5`,
   ` before:animate-spin-CW-5`,
 ];
-const subFontStyle = ` font-bold text-transparent bg-clip-text bg-gradient-to-bl from-white to-slate-300`;
-const randomBackgrounds = ["token-wavy", "token-isometric", "token-topography", "token-glamorous", "token-signal", "token-diagonal-lines"];
+const subFontStyle = ` font-bold text-transparent bg-clip-text bg-gradient-to-bl from-white to-slate-300 lg:text-base text-sm not-italic `;
+// const randomBackgrounds = ["token-wavy", "token-isometric", "token-topography", "token-glamorous", "token-signal", "token-diagonal-lines"];
 const defaultPanel = {
   mint: false,
   transfer: false,
   permissions: false,
 };
 
-const NFTCardFull = ({ assetAddress }) => {
+const NFTCardFull = ({ assetAddress, createToken }) => {
   const { currentAccount } = useProfileContext();
-  const { getAssetMetadata, getAssetByKey, getTotalSupply, getBalanceOf } = useAssetsContext();
+  const { getAssetMetadata, getAssetByKey, getTotalSupply, getBalanceOf, getTokenIdsOf } = useAssetsContext();
   const [assetName, setAssetName] = useState("");
   const [assetSymbol, setAssetSymbol] = useState("");
   const [assetMetadata, setAssetMetadata] = useState("");
@@ -33,76 +34,101 @@ const NFTCardFull = ({ assetAddress }) => {
   const [assetIcon, setAssetIcon] = useState("");
   const [assetImageFront, setAssetImageFront] = useState("");
   const [assetImageBack, setAssetImageBack] = useState("");
+  const [tokenIDs, setTokenIDs] = useState("");
   const [totalSupply, setTotalSupply] = useState("");
   const [creators, setCreators] = useState("");
-
   const [isPanelActive, setIsPanelActive] = useState(defaultPanel);
-  const [background, setBackGround] = useState(randomBackgrounds[Math.floor(Math.random() * randomBackgrounds.length)]);
+  const [background, setBackGround] = useState("token-topography");
+  const [isExtraInfoActive, setIsExtraInfoActive] = useState(true);
+  // const [background, setBackGround] = useState(randomBackgrounds[Math.floor(Math.random() * randomBackgrounds.length)]);
 
   useEffect(() => {
-    getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value));
-    getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value));
-    getAssetMetadata(assetAddress).then(res => {
-      setAssetMetadata(cur => ({ ...cur, ...res }));
-      //console.log("metadata results:", res, res.backgroundColor, assetMetadata);
-      if (res.icon && res.icon.length > 0) {
-        setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
-      }
-      if (res.images && res.images.length > 0) {
-        setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-        setAssetImageBack(res.images[0][1]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
-      }
-      //TO-DO something with assets key if it exists
-      //place icon/picture/asset somewhere
-      console.log(res); //do something with assetmetadata if there are more fields (check array first, check typeof)
-    });
-    getTotalSupply(assetAddress).then(res => setTotalSupply(res));
-    currentAccount && getBalanceOf(assetAddress, currentAccount).then(res => setBalanceOf(res));
-  
+    if (!createToken && assetAddress) {
+      getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value));
+      getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value));
+      getTokenIdsOf(assetAddress, currentAccount).then(res => setTokenIDs(res));
+      getAssetMetadata(assetAddress).then(res => {
+        setAssetMetadata(cur => ({ ...cur, ...res }));
+        console.log("metadata results:", res, res.backgroundColor, assetMetadata);
+        if (res.icon && res.icon.length > 0) {
+          setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
+        }
+        if (res.images && res.images[0] !== null && res.images.length > 0) {
+          setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
+          if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
+        }
+        //TO-DO something with assets key if it exists
+        //place icon/picture/asset somewhere
+        console.log(res); //do something with assetmetadata if there are more fields (check array first, check typeof)
+      });
+      getTotalSupply(assetAddress).then(res => setTotalSupply(res));
+      currentAccount && getBalanceOf(assetAddress, currentAccount).then(res => setBalanceOf(res));
+    }
   }, []);
+
+  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet
+  useEffect(() => {
+    if (!createToken) return;
+    setAssetName(createToken.tokenName);
+    setAssetSymbol(createToken.tokenSymbol);
+    setAssetIcon(createToken.tokenIconURL);
+    setTokenIDs([createToken.tokenID]);
+    setAssetImageFront(createToken.imageFrontURL);
+    setAssetImageBack(createToken.imageBackURL);
+    createToken.isCreator ? setCreators(currentAccount) : setCreators();
+    setAssetMetadata({
+      description: createToken.tokenDescription,
+      backgroundColor: createToken.backgroundColor,
+      textColor: createToken.textColor,
+    });
+    setBalanceOf(createToken.mintAmount);
+    setTotalSupply(createToken.mintAmount); //TO-DO change if using capped
+  }, [createToken]);
 
   //bg idea: https://dribbble.com/shots/5784934-Gradients-and-textures-for-cryptocurrency-project/attachments/1247671?mode=media
   //add features for color mask: currently black-purple-pink
   return (
     <div className="flex flex-col items-center justify-start w-full">
       <div
-        className={`relative p-5 pr-7 flex justify-end items-start flex-col rounded-xl aspect-[1.618] w-full my-5 text-white bg-black bg-opacity-20 ring-2 ${background}`}>
-        <div className="absolute -inset-1 bg-gradient-to-br from-black via-purple-600 to-pink-600 rounded-lg blur opacity-25 "></div>
+        className={`relative p-2 flex justify-end items-start flex-col rounded-xl aspect-[1.618] w-full my-5 ring-2 bg-opacity-25 ${background}`}
+        style={{ color: assetMetadata.textColor, backgroundColor: assetMetadata.backgroundColor }}>
+        <div className="absolute -inset-1 rounded-lg blur opacity-25 -z-10"></div>
+
+        <div className="absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2 lg:w-48 lg:h-48 w-28 h-28 text-center flex justify-center items-center">
+          {assetImageBack && <img src={assetImageBack}></img>}
+        </div>
+
         <div className="flex justify-between flex-col w-full h-full">
-          <div className="flex justify-between items-start text-lg text-neutral-100 mix-blend-lighten">
+          <div className="flex justify-between items-start text-lg">
             <div className="flex flex-col h-full">
-              <div className={"italic font-bold text-4xl mb-1 text-white"}>
-                {assetName} ({assetSymbol})
+              <div className={"italic font-bold lg:text-4xl text-2xl mb-1 contrast-200"}>
+                {assetName} - {assetSymbol}
               </div>
               <div className="italic font-semibold text-xl">
                 <div className="flex gap-1">
-                  <span className={"text-lg not-italic" + subFontStyle}>Contract address:</span>
+                  <span className={subFontStyle}>Contract address:</span>
                   <Address address={assetAddress} />
                 </div>
-                <div>
-                  <span className={"text-lg not-italic" + subFontStyle}>Total supply:</span> {totalSupply} {assetSymbol}
-                </div>
-                <div>
-                  <span className={"text-lg not-italic" + subFontStyle}>Your balance:</span> {balanceOf} {assetSymbol}
+
+                <div className="mt-2 w-16 h-16">
+                  <img src={assetIcon}></img>
                 </div>
               </div>
             </div>
             {/* fix opacity of image */}
             <div
-              className={`relative w-3/12 aspect-square flex justify-center items-center rounded-full ${borderSpin} ${borderSpinOuter} ${
+              className={`relative w-3/12 lg:mt-4 lg:mr-4 mt-2 mr-2 aspect-square flex justify-center items-center rounded-full ${borderSpin} ${borderSpinOuter} ${
                 assetImageFront && animateOuter
               }`}>
               <div
                 className={`w-full relative p-4 aspect-square rounded-full flex justify-center items-center ${borderSpin} ${borderSpinInner} ${
                   assetImageFront && animateInner
                 }`}>
-                {assetImageFront ? (
-                  <div className="relative before:content-'' before:absolute before:backdrop-opacity-0 saturate-200 backdrop-saturate-0">
+                {assetImageFront && 
+                  <div className="relative before:content-'' before:absolute before:backdrop-opacity-0">
                     <img src={assetImageFront}></img>
-                  </div>
-                ) : (
-                  <div>No images detected</div>
-                )}
+                  </div>}
+              
               </div>
             </div>
           </div>
@@ -114,43 +140,34 @@ const NFTCardFull = ({ assetAddress }) => {
           </div>
 
           <div className="flex justify-between items-end">
-            <div className="rounded-lg p-3 w-2/6 h-full overflow-y-scroll bg-black bg-opacity-80">
-              <div className="underline text-slate-400 font-semibold">Asset Metadata (TO-DO)</div>
-              {/* {Object.keys(assetMetadata).map(obj => {
-                return (
-                  <>
-                    {!(assetMetadata[obj] === "" || (assetMetadata[obj] && !assetMetadata[obj].length)) && (
-                      <div className="text-sm text-slate-300 mix-blend-lighten">
-                        {obj}: {assetMetadata[obj] && assetMetadata[obj].map(item => item).join(", ")}
-                      </div>
-                    )}
-                  </>
-                );
-              })} */}
-            </div>
+            {isExtraInfoActive ? (
+              <div
+                className="relative rounded-lg p-1 w-3/6 lg:h-32 h-24 overflow-y-auto text-white lg:text-sm text-xs bg-slate-800">
+              
+                <div>
+                  <span className={subFontStyle}>Description:</span> {assetMetadata.description}
+                </div>
+                <div>
+                  <span className={subFontStyle}>Your tokens IDs:</span> {tokenIDs}
+                </div>
+                <div>
+                  <span className={subFontStyle}>Total supply:</span> {totalSupply} {assetSymbol}
+                </div>
+                <div>
+                  <span className={subFontStyle}>Your balance:</span> {balanceOf} {assetSymbol}
+                </div>
+                <div>
+                  <span className={subFontStyle}>Creators:</span> {creators}
+                </div>
+                <button className="text-white absolute top-0 right-0 text-xl" onClick={()=>setIsExtraInfoActive(false)}>
+                  <MdKeyboardArrowDown />
+                </button>
+              </div>
+            ) : (
+              <button className="lg:text-base text-sm bg-black bg-opacity-80 rounded-lg py-1 px-2 text-white" onClick={()=>setIsExtraInfoActive(true)}>Show more</button>
+            )}
 
-            <div className="flex flex-row gap-1 scale-90 text-lg bg-black bg-opacity-80 rounded-lg p-1">
-              |
-              <button
-                className="text-red-500 hover:text-white"
-                onClick={() => setIsPanelActive({ ...defaultPanel, permissions: !isPanelActive.permissions })}>
-                {" "}
-                Permissions{" "}
-              </button>
-              |
-              <button className="text-green-500 hover:text-white" onClick={() => setIsPanelActive({ ...defaultPanel, mint: !isPanelActive.mint })}>
-                {" "}
-                Mint{" "}
-              </button>
-              |
-              <button
-                className="text-blue-500 hover:text-white"
-                onClick={() => setIsPanelActive({ ...defaultPanel, transfer: !isPanelActive.transfer })}>
-                {" "}
-                Transfer{" "}
-              </button>
-              |
-            </div>
+            <OptionsPanel defaultPanel={defaultPanel} isPanelActive={isPanelActive} setIsPanelActive={setIsPanelActive} />
           </div>
         </div>
       </div>

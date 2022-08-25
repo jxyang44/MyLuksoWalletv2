@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiUserSearchLine } from "react-icons/ri";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+
 import { useStateContext } from "../contexts/StateContext";
 import { useProfileContext } from "../contexts/ProfileContext";
-import { UserProfile, Button, ButtonShadow, Logo } from "./";
+import { UniversalProfile, Button, Logo } from "./";
 import { IPFS_GATEWAY } from "../utils/ERC725Config";
 import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
 
 const Navbar = () => {
-  const { activeMenu, setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize, scrollHeight, setScrollHeight } = useStateContext();
+  const { setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize, scrollHeight, setScrollHeight, UPColor } = useStateContext();
   const {
     isProfileLoaded,
     activateAccountChangedListener,
@@ -23,7 +23,6 @@ const Navbar = () => {
     setUseRelay,
   } = useProfileContext();
 
-  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -47,17 +46,18 @@ const Navbar = () => {
   }, [screenSize]);
 
   const handleProfileClick = () => {
-    if (activeProfile && JSON.stringify(pendingProfileJSONMetadata) !== JSON.stringify(profileJSONMetadata)) {
-      swal({
-        title: "You have edits that have not been uploaded to the Lukso network. Are you sure you want to continue?",
-        text: "Your edits will be stored as draft as long as you do not disconnect your profile.",
-        buttons: [true, "Yes"],
-      }).then(value => {
-        if (value) setActiveProfile(current => !current);
-      });
-    } else {
-      setActiveProfile(current => !current);
-    }
+    setActiveProfile(current => !current);
+    // if (activeProfile && JSON.stringify(pendingProfileJSONMetadata) !== JSON.stringify(profileJSONMetadata)) {
+    //   swal({
+    //     title: "You have edits that have not been uploaded to the Lukso network. Are you sure you want to continue?",
+    //     text: "Your edits will be stored as draft as long as you do not disconnect your profile.",
+    //     buttons: [true, "Yes"],
+    //   }).then(value => {
+    //     if (value) setActiveProfile(current => !current);
+    //   });
+    // } else {
+    //   setActiveProfile(current => !current);
+    // }
   };
 
   const handleMenuClick = () => {
@@ -74,10 +74,11 @@ const Navbar = () => {
   };
 
   const handleRelay = () => {
-    useRelay
-      ? swal("Relay Service Disabled", "Gas fees will be paid from your Universal Profile balance. Please make sure your account is funded!", "")
-      : swal("Relay Service Enabled", "MyLuksoWallet will pay your gas fees! This service is only free for the duration of L16 testnet.", "");
-    setUseRelay(curr => !curr);
+    // useRelay
+    //   ? swal("Relay Service Disabled", "Gas fees will be paid from your Universal Profile balance. Please make sure your account is funded!", "")
+    //   : swal("Relay Service Enabled", "MyLuksoWallet will pay your gas fees! This service is only free for the duration of L16 testnet.", "");
+    // setUseRelay(curr => !curr);
+    swal("Under Construction 👷","This feature is not implemented yet.")
   };
 
   return (
@@ -94,10 +95,10 @@ const Navbar = () => {
         {isProfileLoaded ? (
         <>
           <div
-            className={`flex justify-between items-center gap-2 cursor-pointer py-2 px-3  rounded-lg transition-all duration-500
+            className={`flex justify-between items-center gap-1 cursor-pointer py-1 px-1 rounded-lg transition-all duration-500
           bg-slate-600 from-white hover:bg-gradient-to-t ${
             activeProfile ? "bg-gradient-to-t  opacity-70" : "bg-gradient-to-b shadow-md shadow-black/80 "
-          }`}
+          }`}  style={{ backgroundColor: UPColor ?? "#FFFFFF"}}
             onClick={handleProfileClick}>    
             {profileJSONMetadata.profileImage.length ? (
               <img className="rounded-full w-6 h-6" src={profileJSONMetadata.profileImage[0].url.replace("ipfs://", IPFS_GATEWAY)} />
@@ -106,12 +107,12 @@ const Navbar = () => {
                 <RiUserSearchLine />
               </div>
             )}
-            <p className="font-bold ml-1 text-14 text-black flex flex-row items-center gap-2">
+            <p className="font-bold ml-1 lg:text-base text-sm text-black flex flex-row items-center gap-2">
               {profileJSONMetadata.name} {activeProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
             </p>
           </div>
              <button
-             className={`text-white text-sm font-semibold  w-fit border-[1px] border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
+             className={`text-white lg:text-sm text-xs font-semibold  w-fit border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
                useRelay ? "bg-green-500 contrast-100" : "bg-gray-300 contrast-20"
              }`}
              onClick={handleRelay}>
@@ -124,14 +125,14 @@ const Navbar = () => {
             <div className="text-white text-sm font-semibold flex flex-col gap-1 w-fit">
              
               <button
-                className="border-[1px] border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"
+                className="border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"
                 onClick={() => loginWithKey("UP Address")}>
                 <MdOutlineLogin /> &nbsp; UP Address Login
               </button>
             </div>
           </div>
         )}
-        {activeProfile && <UserProfile />}
+        {activeProfile && <UniversalProfile />}
       </div>
     </div>
   );

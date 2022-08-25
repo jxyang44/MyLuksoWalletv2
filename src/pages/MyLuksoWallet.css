@@ -188,7 +188,7 @@
 .tilted-coin {
   transform-style: preserve-3d;
   transform-origin: left top;
-  transform:  perspective(1200px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(1vmax);
+  transform:  perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(1vmax);
   opacity: 1;
   transition: transform 0.4s ease-out;
 }
@@ -196,6 +196,16 @@
 .tilted-coin:hover {
   transform-style: preserve-3d;
   transform-origin: left top;
-  transform:  perspective(1200px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(0vmax);
+  transform:  perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(0vmax);
   opacity: 1;
+  z-index: 30;
+}
+
+.selected-coin {
+  transform-style: preserve-3d;
+  transform-origin: left top;
+  transform:  perspective(1200px) rotateY(-10deg) rotateX(5deg) scale(0.5) translateX(12vmax) translatey(-3vmax)  ;
+  opacity: 1;
+  z-index: 100;
+  transition: transform 0.4s ease-out;
 }

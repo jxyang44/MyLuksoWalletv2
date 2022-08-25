@@ -1,5 +1,7 @@
 import React from "react";
 import tokenExample from "../../assets/Home/token_example.png";
+import LSP7_example from "../../assets/Home/LSP7_example.png";
+import UP_example from "../../assets/Home/UP_example.png";
 import { Link } from "react-router-dom";
 
 const LSPInfo = {
@@ -7,7 +9,7 @@ const LSPInfo = {
     p1: "LSP7 - Digital Asset (Token)",
     p2: "Based on ERC20",
     p3: "Functionality: Mint, Transfer, Add/Revoke Operators (**TO-DO** - force EOA, total balance, mint for LYXe)",
-    image: tokenExample,
+    image: LSP7_example,
     p4: "A LSP7 fungible token is defined as a token that has the same metadata as another token.",
     p5: "A fungible token is visually represented by a coin in MyLuksoWallet.",
   },
@@ -31,47 +33,47 @@ const LSPInfo = {
     p1: "Universal Profile",
     p2: "New Lukso Account System",
     p3: "Functionality: Stores profile information, vaults, smart contracts, NFTs",
-    image: tokenExample,
-    p4: "Universal Profiles are ",
+    image: UP_example,
+    p4: "A Universal Profile allows the user to store and organize vaults.",
     p5: "The Universal Profile is visually represented by an ID card in MyLuksoWallet.",
   },
 };
 
 const AssetCard = ({ LSP }) => {
   return (
-    <div className="flex flex-col w-full h-full relative rounded-lg p-2 LSP-card-home justify-between">
+    <div className="flex flex-col w-full relative rounded-lg p-2 LSP-card-home justify-between">
       <div className="flex flex-col border-2 rounded-2xl">
         <div className="p-4 bg-gray-900 rounded-t-2xl">
-          <p className="text-xl">{LSP.p1}</p>
-          <p className="text-lg text-gray-500">{LSP.p2}</p>
+          <p className="lg:text-xl text-lg">{LSP.p1}</p>
+          <p className="lg:text-lg text-base text-gray-500">{LSP.p2}</p>
         </div>
         <div className="flex flex-col justify-evenly bg-gradient-to-br from-sky-500 py-4">
           <img className="rounded-lg mx-8 my-16" src={LSP.image} />
-          <div className="text-md text-white px-4">{LSP.p3}</div>
+          <div className="lg:text-base text-sm text-white px-4">{LSP.p3}</div>
         </div>
 
         <div className="p-4 bg-gray-900 rounded-b-2xl">
-          <p className="text-md text-white">{LSP.p4}</p>
+          <p className="lg:text-base text-sm text-white">{LSP.p4}</p>
         </div>
       </div>
-      <div className="my-3 text-lg text-white"> {LSP.p5} </div>
+      <div className="my-3 lg:text-lg text-base text-white"> {LSP.p5} </div>
     </div>
   );
 };
 
 const AssetCards = () => {
   return (
-    <div className="flex flex-col justify-center w-full px-32">
-      <div className="text-5xl text-center text-sky-500">
+    <div className="flex flex-col justify-center w-full lg:px-32 px-8">
+      <div className="lg:text-5xl text-4xl text-center text-sky-500">
         Visualize Digital Assets with the {""}
         <Link to="/myluksowallet" className="text-blue-500 font-semibold italic hover:text-white">
           MyLuksoWallet DApp
         </Link>
       </div>
-      <div className="text-2xl mt-2 mb-6 text-center">Tokens, NFT 2.0 and Vaults</div>
+      <div className="lg:text-2xl text-xl mt-2 mb-6 text-center">Tokens, NFT 2.0 and Vaults</div>
 
       <div className="flex flex-row justify-between">
-        <div className="text-xl mt-2 mb-6 text-left w-1/2">
+        <div className="lg:text-xl text-base mt-2 mb-6 text-left w-1/2">
           <p>
             In the physical world, wallets, bags, and purses are used to store important pieces of information. This could include IDs, credit cards,
             concert tickets, insurance information, receipts, cash, photos of loved ones, or even stickers of your favorite superhero. Each of these
@@ -93,7 +95,7 @@ const AssetCards = () => {
             Building on the idea of LSP9, the{" "}
             <Link to="/myluksowallet" className="text-blue-500 hover:text-blue-300 italic font-semibold">
               MyLuksoWallet DApp
-            </Link>{" "}
+            </Link>
             allows you to visualize blockchain concepts using their real-world physical counterparts.
             <ul className="list-disc list-inside ml-6">
               <li>Vaults (LSP9) as "wallets"</li>

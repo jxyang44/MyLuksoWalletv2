@@ -12,6 +12,8 @@ import {
   LSP7Contract,
   LSP7MintableContract,
   LSP8MintableContract,
+  LSP9Contract,
+  UniversalProfileContract,
   IPFS_GATEWAY,
   createErc725Instance,
 } from "../utils/ERC725Config";
@@ -164,77 +166,145 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
-  //
-  const mintToken = (assetAddress, mintAmount, mintToAddress, contract) => {
+  const mintLSP7 = (assetAddress, mintAmount, mintToAddress, contract) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!mintToAddress) mintToAddress = currentAccount;
     if (mintAmount <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
-    if (contract !== LSP7MintableContract && contract !== LSP8MintableContract)
-      return swal("This feature currently only supports Lukso's official LSP7Mintable and LSP8Mintable Contracts.", "", "warning");
+    if (contract !== LSP7MintableContract)
+      //double check that function parameters are passed correctly
+      return swal("This feature currently only supports Lukso's official LSP7Mintable Contract.", "", "warning");
 
-    const mintFunction = async (assetAddress, mintAmount, mintToAddress, contract) => {
-      try {
-        const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
-        const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
-        const assetFunction = assetContract.methods.mint(mintToAddress, web3.utils.toWei(mintAmount.toString()), false, "0x");
-        // address to, uint256 amount, bool force, bytes memory data
-
-        if (useRelay) {
-          return await executeViaKeyManager(assetFunction.encodeABI, "Please wait. Minting your asset via a key manager..."); // not working
-        } else {
-          swal("Please wait. Minting your asset...", { button: false, closeOnClickOutside: false });
-          return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
-        }
-      } catch (err) {
-        swal("Something went wrong.", JSON.stringify(err), "error");
-        console.log(err);
-      }
-    };
-
-    mintFunction(assetAddress, mintAmount, mintToAddress, contract).then(curr => {
+    mintFunction(assetAddress, web3.utils.toWei(mintAmount.toString()), mintToAddress, contract, "LSP7").then(curr => {
       if (curr) swal("Congratulations!", `${mintAmount} tokens were minted to ${mintToAddress}.`, "success");
     });
   };
 
-  const transferToken = (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress, balanceOf) => {
+  const getTokenOwnerOf = async (assetAddress, tokenID) => {
+    const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
+    return await assetContract.methods.tokenOwnerOf(web3.utils.padRight(web3.utils.stringToHex(tokenID), 64)).call();
+  };
+
+  const getTokenIdsOf = async (assetAddress, tokenOwner) => {
+    const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
+    return await assetContract.methods.tokenIdsOf(tokenOwner).call();
+  };
+
+  const mintLSP8 = (assetAddress, tokenID, mintToAddress, contract) => {
+    if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    if (!mintToAddress) mintToAddress = currentAccount;
+
+    getTokenOwnerOf(assetAddress, tokenID).then(res => {
+      if (res) return swal("This token ID is already taken.", "warning");
+    });
+
+    if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
+    if (contract !== LSP8MintableContract)
+      //double check that function parameters are passed correctly
+      return swal("This feature currently only supports Lukso's official LSP8Mintable Contract.", "", "warning");
+
+    mintFunction(assetAddress, web3.utils.padRight(web3.utils.stringToHex(tokenID), 64), mintToAddress, contract, "LSP8").then(curr => {
+      if (curr) swal("Congratulations!", `TokenID ${tokenID} was minted to ${mintToAddress}.`, "success");
+    });
+  };
+
+  //@param secondParam mintAmount for LSP7 and tokenID for LSP8
+  const mintFunction = async (assetAddress, secondParam, mintToAddress, contract, LSP) => {
+    try {
+      const web3 = useRelay ? web3Provider : web3Window;
+      const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
+
+      const assetFunction = assetContract.methods.mint(mintToAddress, secondParam, false, "0x");
+      // address to, uint256 amount, bool force, bytes memory data
+
+      if (useRelay) {
+        return await executeViaKeyManager(assetFunction.encodeABI, `Please wait. Minting your ${LSP} asset via a key manager...`); // not working
+      } else {
+        swal(`Please confirm. Minting your ${LSP} asset...`, { button: false });
+        return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
+      }
+    } catch (err) {
+      swal("Something went wrong.", JSON.stringify(err), "error");
+      console.log(err);
+    }
+  };
+
+  const transferLSP7 = (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress, balanceOf, fromVault) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!transferToAddress) transferToAddress = currentAccount;
     if (!transferFromAddress) transferFromAddress = currentAccount;
-    if (transferAmount > balanceOf) return swal("Transfer amount exceeds balance.", "", "warning");
-    if (transferAmount <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
+    if (Number(transferAmount) > Number(balanceOf)) return swal("Transfer amount exceeds balance.", "", "warning");
+    if (Number(transferAmount) <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
-    if (contract !== LSP7MintableContract && contract !== LSP8MintableContract)
-      return swal("This feature currently only supports Lukso's official LSP7Mintable and LSP8Mintable Contracts.", "", "warning");
+    if (contract !== LSP7MintableContract) return swal("This feature currently only supports Lukso's official LSP7Mintable Contract.", "", "warning");
 
-    const transferFunction = async (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress) => {
-      try {
-        const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
-        const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
-        const assetFunction = assetContract.methods.transfer(
-          transferFromAddress,
-          transferToAddress,
-          web3.utils.toWei(transferAmount.toString()),
-          false,
-          "0x"
-        );
+    transferFunction(assetAddress, web3.utils.toWei(transferAmount.toString()), transferToAddress, contract, transferFromAddress, fromVault, "LSP7").then(
+      curr => {
+        if (curr) {
+          swal("Congratulations!", `${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+          console.log(`Congratulations! ${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
+        }
+      }
+    );
+  };
+
+  const transferLSP8 = (assetAddress, tokenID, transferToAddress, contract, transferFromAddress, fromVault) => {
+    if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    if (!transferToAddress) transferToAddress = currentAccount;
+    if (!transferFromAddress) transferFromAddress = currentAccount;
+    //    function tokenOwnerOf(bytes32 tokenId) external view returns (address);
+    //check token owner exists
+    if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
+    if (contract !== LSP8MintableContract) return swal("This feature currently only supports Lukso's official LSP8Mintable Contract.", "", "warning");
+
+    transferFunction(
+      assetAddress,
+      web3.utils.padRight(web3.utils.stringToHex(tokenID), 64),
+      transferToAddress,
+      contract,
+      transferFromAddress,
+      fromVault,
+      "LSP8"
+    ).then(curr => {
+      if (curr) {
+        swal("Congratulations!", `TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+      }
+      console.log(`Congratulations! TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
+    });
+  };
+
+  //transfer
+  const transferFunction = async (assetAddress, secondParam, transferToAddress, contract, transferFromAddress, fromVault, LSP) => {
+    try {
+      const web3 = useRelay ? web3Provider : web3Window;
+      const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
+
+      if (fromVault) {
+        console.log("from vault");
+        const targetPayload = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x").encodeABI();
         // function transfer(address from, address to, uint256 amount, bool force, bytes memory data) external;
+
+        const myVault = new web3.eth.Contract(LSP9Contract.abi, transferFromAddress);
+        const vaultPayload = await myVault.methods.execute(0, transferToAddress, 0, targetPayload).encodeABI();
+        const owner = await myVault.methods.owner().call(); // TO-DO must equal transferFrom (for now - employ key manager later)
+        if (owner !== currentAccount) console.log("is not owner of vault - function should revert");
+        const myUP = new web3.eth.Contract(UniversalProfileContract.abi, owner);
+        console.log(myVault, vaultPayload, owner, myUP);
+        return await myUP.methods.execute(0, transferToAddress, 0, vaultPayload).send({ from: owner, gasLimit: 300_000 });
+      } else {
+        const assetFunction = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x");
 
         if (useRelay) {
           return await executeViaKeyManager(assetFunction.encodeABI, "Please wait. Transferring your asset via a key manager..."); // not working
         } else {
-          swal("Please confirm transfer...", { button: false, closeOnClickOutside: false });
+          swal(`Please confirm. Transferring your ${LSP} transfer...`, { button: false });
           return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
         }
-      } catch (err) {
-        swal("Something went wrong.", JSON.stringify(err), "error");
-        console.log(err);
       }
-    };
-
-    transferFunction(assetAddress, transferAmount, transferToAddress, contract, transferFromAddress).then(curr => {
-      if (curr) swal("Congratulations!", `${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
-    });
+    } catch (err) {
+      swal("Something went wrong.", JSON.stringify(err), "error");
+      console.log(err);
+    }
   };
 
   return (
@@ -254,8 +324,11 @@ export const AssetsProvider = ({ children }) => {
         setIssuedAssets,
         fetchAllAssets,
         supportsInterface,
-        mintToken,
-        transferToken,
+        mintLSP7,
+        mintLSP8,
+        transferLSP7,
+        transferLSP8,
+        getTokenIdsOf,
       }}>
       {children}
     </AssetsContext.Provider>

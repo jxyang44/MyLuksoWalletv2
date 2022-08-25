@@ -17,6 +17,7 @@ module.exports = {
           'spin-CCW-5': "spinCCW 5s linear infinite",
           'spin-CCW-10': 'spinCCW 10s linear infinite',
           'spin-CCW-20': 'spinCCW 20s linear infinite',
+          'closeVault': 'spinCCW 3s ease-out forwards',
           'fadeInLeft': 'fadeInLeft 1s forwards',
           'coin-spin-appear': 'coinSpinAppear 0.6s forwards ease-in',
           'coin-spin-disappear': 'coinSpinDisappear 1.0s forwards ease-out',

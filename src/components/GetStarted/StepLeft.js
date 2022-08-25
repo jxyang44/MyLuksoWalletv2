@@ -1,63 +1,43 @@
-import React, {useState, useRef } from "react";
-import { ButtonShadow, StepDot } from "../";
+import React, { useState, useRef } from "react";
+import { ButtonClean, StepDot } from "../";
 
-const StepLeft = ({
-  title,
-  subtitle,
-  text,
-  buttonText,
-  buttonFunc,
-  buttonColor,
-  buttonTextColor,
-  button2Text,
-  button2Func,
-  button2Color,
-  button2TextColor,
-}) => {
+const StepLeft = ({ title, subtitle, text, buttonText, buttonFunc, button2Text, button2Func, customStyle1 }) => {
   const [isTextActive, setIsTextActive] = useState(false);
   const dotRef = useRef();
   return (
-    <div ref={dotRef} className="flex flex-row justify-end items-center">
-      <div className="flex flex-row w-5/6 justify-start">
-        <div
-          className={`flex justify-between items-center flex-row h-64 px-4 my-5 w-5/6 border-4 rounded-xl border-teal-200`}>
-          <div className="flex flex-col gap-4 mr-16 ml-8">
-            <ButtonShadow
-              buttonText={buttonText}
-              buttonFunc={buttonFunc}
-              buttonColor={buttonColor}
-              buttonTextColor={buttonTextColor}
-            />
-            {button2Text && (
-              <ButtonShadow
-                buttonText={button2Text}
-                buttonFunc={button2Func}
-                buttonColor={button2Color}
-                buttonTextColor={button2TextColor}
-              />
-            )}
-          </div>
+    <div ref={dotRef} className="flex flex-row w-full justify-start items-center lg:gap-24 md:gap-8">
+      <div
+        className={`flex justify-left items-center flex-row pr-6 py-12 w-5/6 border-2 rounded-xl border-white bg-gradient-to-br from-slate-900 to-slate-800`}>
+        <div className={`flex flex-col gap-4 items-left ml-6 + w-[20%]`}>
+          <ButtonClean buttonText={buttonText} buttonFunc={buttonFunc} customStyle={"px-2 py-3 lg:w-[10vmax] w-[12max]"} />
+          {button2Text && (
+            <ButtonClean buttonText={button2Text} buttonFunc={button2Func} customStyle={"px-2 py-2 lg:w-[10vmax] w-[12max] font-normal text-base contrast-50"} />
+          )}
+        </div>
 
-          <div className="flex flex-col text-white items-start text-left">
-            <h3 className="w-fit text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-pink-50 via-pink-100 to-pink-200">
-              {title}
-            </h3>
-            <p className="w-fit text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-l from-teal-100 to-teal-300">
-              {subtitle}
-            </p>
-            {isTextActive ? <ul className="text-md mt-2 list-disc list-inside">
+        <div className={`flex flex-col text-white items-start text-left mr-6 w-[80%]  ${isTextActive ? "ml-4" : customStyle1}`}>
+          <h3 className="text-3xl font-bold text-sky-500 mb-2">{title}</h3>
+          <p className="lg:text-xl text-lg font-semibold mb-4">{subtitle}</p>
+          {isTextActive ? (
+            <ul className="mt-2">
               {text.map((item, index) => {
                 return (
-                  <li className="leading-tight" key={index}>
+                  <li className="mb-2" key={index}>
                     {item}
                   </li>
                 );
               })}
-            </ul> : <button className="text-blue-500 hover:text-blue-300" onClick={()=>setIsTextActive(true)}>Learn More</button>}
-          </div>
+            </ul>
+          ) : (
+            <button
+              className="mt-2 bg-slate-800 rounded-lg p-2 border-2 bg-opacity-90 border-slate-300 text-sky-500 font-semibold hover:text-slate-700 hover:bg-slate-300 "
+              onClick={() => setIsTextActive(true)}>
+              📘 Learn More
+            </button>
+          )}
         </div>
       </div>
-      <StepDot dotRef={dotRef} />
+      {!isTextActive && <StepDot dotRef={dotRef} />}
     </div>
   );
 };

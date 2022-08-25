@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  web3Provider,
   LSP3Schema,
   createLSPFactoryWindowInstance,
   createErc725Instance,
@@ -82,11 +81,11 @@ const UpdateProfile = () => {
   const editProfile = async () => {
     try {
       console.log("------------------ STARTING PROFILE UPDATE PROCESS ------------------");
-      const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
+      const web3 = web3Window; 
       const jsonFile = { LSP3Profile: pendingProfileJSONMetadata }; //pendingProfileJSONMetadata is updated in UserProfile.js
       console.log("------------------ client-side data ------------------\n", jsonFile);
 
-      swal("Uploading profile metadata...", { button: false, closeOnClickOutside: false });
+      swal("Please wait. Saving profile metadata on IPFS...", "You may click outside this window.", { button: false});
       const lspFactory = createLSPFactoryWindowInstance();
       const uploadResult = await lspFactory.UniversalProfile.uploadProfileData(jsonFile.LSP3Profile); //no gas needed
       console.log("------------------ uploaded IPFS data ------------------\n", uploadResult, uploadResult.url, uploadResult.json);
@@ -108,11 +107,11 @@ const UpdateProfile = () => {
         //use key manager
         return executeViaKeyManager(
           universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).encodeABI,
-          "Setting Universal Profile data..."
+          "Setting Universal Profile data via Key Manager..."
         );
       } else {
         //pay from account balance
-        swal("Setting Universal Profile data...", { button: false, closeOnClickOutside: false });
+        swal("Please confirm update of Universal Profile data to the blockchain...", { button: false});
         return await universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).send({
           from: currentAccount,
           gasLimit: 300_000,
@@ -124,7 +123,9 @@ const UpdateProfile = () => {
     }
   };
 
-  return <ButtonShadow buttonText={"Upload Edits"} buttonFunc={handleUploadEdits} buttonColor={"bg-green-500"} buttonTextColor={"text-green-800"} />;
+  return (
+  <ButtonShadow buttonText={"Upload Edits"} buttonFunc={handleUploadEdits} buttonColor={"bg-green-500"} buttonTextColor={"text-green-800"} />
+  );
 };
 
 export default UpdateProfile;

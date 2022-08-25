@@ -16,7 +16,7 @@ const VaultTransfer = () => {
 
 
   const myEOA = web3Provider.eth.accounts.wallet.add(MM_PrivateKey);
-  const web3 = useRelay ? web3Provider : web3Window; //determines web3 provider based on relay status (web3Provider is RPC; web3 is window.ethereum)
+  const web3 = useRelay ? web3Provider : web3Window; 
   const addressUsed = useRelay ? myEOA.address : currentAccount; //determines account to use to pay for gas
   
 
