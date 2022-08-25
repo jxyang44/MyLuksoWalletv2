@@ -4,7 +4,7 @@ Submission for LUKSO Build UP! #1
 
 
 
-<!-- PROJECT LOGO -->
+![MLWlogocolor500](https://user-images.githubusercontent.com/58372066/186786266-d6c1365e-66ff-46fe-aae2-6ac92156f462.png)
 <br />
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
