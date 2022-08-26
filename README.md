@@ -12,9 +12,10 @@
     <br />
     Submission for LUKSO Build UP! #1
     <br />
-    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission</strong></a>
+    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission (8/31/22)</strong></a>
     <br />
     
+    .
     <a href="https://www.myluksowallet.com">Current Version</a>
     .
     <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Report Bug</a>
@@ -56,6 +57,9 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+
+http://localhost:3000/home/#assetcards
 
 There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
