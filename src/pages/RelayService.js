@@ -1,11 +1,20 @@
+//page to enable relay service - page currently disabled
+//currently allows the user to 1. add permissions to the MLW dev account 2. create a test account with MLW
+//TO-DO implement relay service
+
 import React, { useState, useEffect } from "react";
-import { Banner, ButtonClean, GrantPermissions } from "../components";
-import { web3Provider, MM_PublicKey, createLSPFactoryPrivateKeyInstance } from "../utils/ERC725Config.js";
+import { Banner, ButtonClean, GrantPermissions,Footer } from "../components";
+import { web3Provider, MM_PublicKey, createLSPFactoryPrivateKeyInstance } from "../utils/luksoConfigs.js";
 import swal from "sweetalert";
 import { AiOutlineCopy } from "react-icons/ai";
 
-//add feature for user to create from own EOA
-const CreateProfile = () => {
+
+const RelayService = () => {
+  return(<div className="text-white text-center p-12">This page is under construction. Please check back soon.👷</div>)
+}
+
+/*
+const RelayService = () => {
   const [MLWbalance, setMLWbalance] = useState(0);
   const [expandKMText, setExpandKMText] = useState(false);
   const web3 = web3Provider;
@@ -90,15 +99,19 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="text-white">
+    <>
+    <div className="text-white min-h-screen">
       <Banner
         colorFrom={"from-sky-500"}
-        title={"Relay Service (RELAY DISABLED - Work in Progress 👷)"}
-        subtitle={`Grant permissions works - use at your own risk. BALANCE: ${Math.round(MLWbalance * 100) / 100} LYX`}
+        title={"Relay Service (Work in Progress 👷)"}
+        subtitle={`BALANCE: ${Math.round(MLWbalance * 100) / 100} LYX`}
         buttonText={""}
       />
-      <div className="flex flex-row mx-20 gap-20">
-        <div className="flex flex-col w-1/2 gap-2">
+      <div className="flex flex-col lg:mx-32 mx-8 gap-20">
+        <div className="flex flex-col border-2 gap-2 rounded-lg p-8">
+          <div className="lg:text-2xl text-xl underline">Grant Permissions - This feature is under construction 👷</div>
+          <GrantPermissions />
+          By adding MyLuksoWallet as a permissioned account, we will be able to transact on your behalf. ONLY USE FOR DISPOSABLE ACCOUNTS.
           <p className="italic text-slate-300">
             For the duration of the Hackathon, MyLuksoWallet will fund all gas fees for your Universal Profile if you create a <b>Free Account</b>{" "}
             with us. This feature is only possible through Lukso's relay transaction service.{" "}
@@ -106,9 +119,6 @@ const CreateProfile = () => {
           <button className="text-blue-500 hover:text-blue-300 font-semibold text-left" onClick={() => setExpandKMText(curr => !curr)}>
               CLICK HERE to learn more about Key Managers and relay transactions.
             </button>
-          <div className="lg:text-2xl text-xl underline">Enable Relay Service</div>
-          <GrantPermissions />
-          By adding MyLuksoWallet as a permissioned account, we will be able to transact on your behalf. ONLY USE FOR DISPOSABLE ACCOUNTS.
         
           {expandKMText && (
             <>
@@ -142,12 +152,12 @@ const CreateProfile = () => {
                   Key Managers and relay transactions.
                 </a>
                 &nbsp;A Key Manager enables permissioned accounts (controllers) to execute transactions on the Universal Profile's behalf. Gas for the
-                transaction is then paid for by a designated controller account.
+                transaction is then paid for by a designated controller account. This feature is currently pending implementation 👷.
               </p>
             </>
           )}
         </div>
-        <div className="flex flex-col w-1/2 gap-1">
+        <div className="flex flex-col border-2 gap-2 rounded-lg p-8">
         <div className="lg:text-2xl text-xl underline">Create Account with MyLuksoWallet</div>
           <div className="text-red-500">
             (WARNING: Use only if you do not intend to use your Universal Profile outside of MyLuksoWallet. This feature does not import your profile
@@ -185,7 +195,9 @@ const CreateProfile = () => {
         </div>
       </div>
     </div>
+      <Footer/>
+      </>
   );
 };
-
-export default CreateProfile;
+*/
+export default RelayService;

@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
-import defaultImage from "../../assets/lukso_main.png";
+//component to upload banner image
+//TO-DO allow for url as well as drive
+
+import React, { useState } from "react";
+import defaultImage from "../../assets/Logos/MLWlogocolor500.png";
 import { useProfileContext } from "../../contexts/ProfileContext";
 
 const UploadBannerImage = ({ id, currentImage }) => {

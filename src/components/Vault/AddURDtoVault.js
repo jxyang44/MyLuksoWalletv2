@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from "react";
+//adds universal receiver to vault
+//TO-DO currently asks the user to input their private key; future implementation will use the extension
+
+import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
-import { VaultStep} from ".";
-import {
-  web3Provider,
-  LSP6Contract,
-  LSP9Contract,
-  LSP10Schema,
-  LSP1VaultContract,
-  UniversalProfileContract,
-  MM_PrivateKey,
-  constants,
-  createErc725Instance,
-} from "../../utils/ERC725Config";
+import { VaultStep } from ".";
+import { LSP6Contract, LSP9Contract, UniversalProfileContract, constants } from "../../utils/luksoConfigs";
 import swal from "sweetalert";
 
-const DeployVault = ({ recentVaultAddress, setRecentVaultAddress }) => {
+const DeployVault = ({ recentVaultAddress, recentVaultURDAddress }) => {
   const { web3Window, currentAccount, useRelay, executeViaKeyManager } = useProfileContext();
 
   //deploys vault and URD
@@ -22,37 +15,28 @@ const DeployVault = ({ recentVaultAddress, setRecentVaultAddress }) => {
   //https://docs.lukso.tech/guides/vault/edit-vault-data
   const addURDToVault = () => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
-    const deployVault = async () => {
+    const deployVault = async privateKey => {
       try {
-        const web3 = web3Window; 
-        const myEOA = web3Provider.eth.accounts.wallet.add(MM_PrivateKey); // TO-DO note this needs to be private key of eoa controlling UP
-        
-        
-        swal("Please confirm transaction to add URD to vault.", { button: false });
+        const myEOA = web3Window.eth.accounts.wallet.add(privateKey);
+        swal("Please wait... adding URD to vault.", { button: false });
         const URD_DATA_KEY = constants.ERC725YKeys.LSP0.LSP1UniversalReceiverDelegate;
         const myVaultAddress = localStorage.getItem("recentLSP9Address");
-        const myURDAddress =  localStorage.getItem("recentLSP9URDAddress");
+        const myURDAddress = localStorage.getItem("recentLSP9URDAddress");
 
-        const myVault = new web3.eth.Contract(LSP9Contract.abi, myVaultAddress);
-        const myUP = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
+        const myVault = new web3Window.eth.Contract(LSP9Contract.abi, myVaultAddress);
+        const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
         const setDataPayload = await myVault.methods["setData(bytes32,bytes)"](URD_DATA_KEY, myURDAddress).encodeABI();
-        
-        const executePayload = await myUP.methods.execute(
-          0, 
-          myVaultAddress,
-          0, 
-          setDataPayload
-          )
-          .encodeABI();
+
+        const executePayload = await myUP.methods.execute(0, myVaultAddress, 0, setDataPayload).encodeABI();
 
         const keyManagerAddress = await myUP.methods.owner().call();
-      const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
+        const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
 
         if (useRelay) {
-          return executeViaKeyManager(myUP.methods.execute(0, myVaultAddress, 0, setDataPayload), "Transferring funds via Key Manager...");
+          return executeViaKeyManager(myUP.methods.execute(0, myVaultAddress, 0, setDataPayload), "Adding URD to Vault via Key Manager...");
         } else {
           return await keyManagerContract.methods.execute(executePayload).send({
-            from: currentAccount,
+            from: myEOA.address,
             gasLimit: 600_000,
           });
         }
@@ -62,24 +46,42 @@ const DeployVault = ({ recentVaultAddress, setRecentVaultAddress }) => {
       }
     };
 
-    deployVault().then(res => {
-      const address = localStorage.getItem("recentLSP9Address");
-      if (res) swal(`Congratulations! Your vault at address ${localStorage.getItem("recentLSP9Address")} now has ${localStorage.getItem("recentLSP9URDAddress")} assigned as the URD!`, "", "success");
-    });
+    swal(
+      `Hackathon Note: This step is optional. Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
+      `Please enter the browser extension private key associated with the vault owner address from Step 1:`,
+      {
+        content: "input",
+        button: true,
+      }
+    )
+      .then(value => {
+        if (value) {
+          deployVault(value).then(res => {
+            if (res)
+              swal(
+                `Congratulations! Your vault at address ${recentVaultAddress} now has ${recentVaultURDAddress} assigned as the URD!`,
+                "",
+                "success"
+              );
+          });
+        } else {
+          swal("No input detected.");
+        }
+      })
+      .catch(() => {
+        swal("Something went wrong.", "Please try again later.", "warning");
+      });
   };
-
 
   return (
     <VaultStep
-        buttonText="3. Add URD to Vault"
-        buttonFunc={addURDToVault}
-        inputLabel1="Target Vault"
-        inputValue1={localStorage.getItem("recentLSP9Address")}
-        inputLabel2={"URD to Add"}
-        inputValue2={localStorage.getItem("recentLSP9URDAddress")}
-      />
-      
-      
+      buttonText="3. Add URD to Vault (Optional) 👷"
+      buttonFunc={addURDToVault}
+      inputLabel1="Target Vault"
+      inputValue1={recentVaultAddress}
+      inputLabel2={"URD to Add"}
+      inputValue2={recentVaultURDAddress}
+    />
   );
 };
 

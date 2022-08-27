@@ -1,6 +1,6 @@
-//shows if user is not connected to a universal profile
+//shows when user is not connected to a universal profile
 //provides options to connect, go to instructions, or proceed with sample account
-//TO-DO add example account
+
 import React from "react";
 import { RiUserSearchLine } from "react-icons/ri";
 import { ButtonShadow } from "..";

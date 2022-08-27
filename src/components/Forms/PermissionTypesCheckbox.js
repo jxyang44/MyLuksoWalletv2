@@ -1,4 +1,3 @@
-import { CustomError } from "hardhat/internal/hardhat-network/stack-traces/model";
 import React, { useState, useEffect } from "react";
 import { Address, Loading } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";

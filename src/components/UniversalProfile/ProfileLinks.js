@@ -1,8 +1,11 @@
+//component to manage user website/links
+
 import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { EditText } from "react-edit-text";
 import { RiDeleteBackLine, RiAddLine } from "react-icons/ri";
 
+//@param editMode toggles between edit and view mode
 const ProfileLinks = ({ editMode }) => {
   const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
   return (
@@ -13,9 +16,9 @@ const ProfileLinks = ({ editMode }) => {
       {pendingProfileJSONMetadata.links.length > 0 && (
         <div className="flex flex-col italic text-normal text-white w-[350px]">
           {pendingProfileJSONMetadata.links.map((link, index) => {
-            return editMode ? (
+            return editMode ? ( //edit mode is enabled
               <div className="flex flex-row items-center gap-1" key={link + index}>
-                <EditText
+                <EditText //enable edit box for link title
                   defaultValue={link.title}
                   inputClassName="bg-success"
                   placeholder="link title"
@@ -38,7 +41,7 @@ const ProfileLinks = ({ editMode }) => {
                     overflow: "hidden",
                   }}
                 />
-                <EditText
+                <EditText //enable edit box for link url
                   defaultValue={link.url}
                   inputClassName="bg-success"
                   placeholder="link url"
@@ -60,7 +63,7 @@ const ProfileLinks = ({ editMode }) => {
                     overflow: "hidden",
                   }}
                 />
-                <button
+                <button //button to remove the link
                   className="bg-[#9ca3af] p-1.5 rounded-r-full hover:text-red-600"
                   onClick={() => {
                     const tempLinks = [...pendingProfileJSONMetadata.links];
@@ -71,21 +74,29 @@ const ProfileLinks = ({ editMode }) => {
                 </button>
               </div>
             ) : (
-              <a href={pendingProfileJSONMetadata.links[index].url} className="text-lg not-italic z-50 text-left text-blue-500 hover:text-blue-300" rel="noreferrer" target="_blank">{pendingProfileJSONMetadata.links[index].title}</a>
+              <a //edit mode is disabled - just show title and href to url
+                key={link + index}
+                href={pendingProfileJSONMetadata.links[index].url}
+                className="text-lg not-italic z-50 text-left text-blue-500 hover:text-blue-300"
+                rel="noreferrer"
+                target="_blank">
+                {pendingProfileJSONMetadata.links[index].title}
+              </a>
             );
           })}
         </div>
       )}
 
-      {(pendingProfileJSONMetadata.links.length < 5 && editMode) && (
-        <button
-          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
-          onClick={() =>
-            setPendingProfileJSONMetadata(current => ({ ...current, links: [...current.links, { title: "new title", url: "new url" }] }))
-          }>
-          <RiAddLine />
-        </button>
-      )}
+      {pendingProfileJSONMetadata.links.length < 5 &&
+        editMode && ( //add new link; cap at 5
+          <button
+            className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
+            onClick={() =>
+              setPendingProfileJSONMetadata(current => ({ ...current, links: [...current.links, { title: "new title", url: "new url" }] }))
+            }>
+            <RiAddLine />
+          </button>
+        )}
     </div>
   );
 };

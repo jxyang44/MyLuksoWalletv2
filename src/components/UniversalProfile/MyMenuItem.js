@@ -1,3 +1,5 @@
+//component for links at bottom of profile page
+
 import React from 'react';
 import {Link} from 'react-router-dom';
 
@@ -11,8 +13,6 @@ const MyMenuItem = ({ icon, iconColor, linkTo, header }) => {
       </div>   
         <p className="font-semibold text-md w-28">{header}</p>
     </div>
-   
-
   );
 };
 

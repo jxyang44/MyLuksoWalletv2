@@ -1,3 +1,5 @@
+//sidebar
+
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineCancel } from "react-icons/md";
@@ -6,9 +8,11 @@ import { useStateContext } from "../contexts/StateContext";
 import { Logo, Socials } from "./";
 import { AiOutlineTwitter, AiOutlineYoutube, AiOutlineGithub } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
+
 const Sidebar = () => {
   const { activeMenu, setActiveMenu, screenSize, theme, THEMES } = useStateContext();
 
+  //THEMES... is based on theme selection in the "Universal Profile"
   const [sidebarHoverLink, setSidebarHoverLink] = useState(THEMES.hoverLink[theme]);
   const [sidebarActiveLink, setSidebarActiveLink] = useState(THEMES.activeLink[theme]);
   const [background, setBackground] = useState(THEMES.background[theme]);

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Address, ButtonShadow, Input, Alert, MintForm } from "..";
+//component for mint/transfer/permissions panel
+
+import React from "react";
 
 const OptionsPanel = ({ defaultPanel, isPanelActive, setIsPanelActive }) => {
   return (

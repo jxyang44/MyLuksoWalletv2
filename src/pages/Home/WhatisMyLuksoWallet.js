@@ -9,11 +9,11 @@ const WhatisMyLuksoWallet = () => {
   const [persAnimation, setPersAnimation] = useState(false);
   const [learnMore, setLearnMore] = useState(false);
   useEffect(() => {
-    animateOnEntry(imgRef, setPersAnimation);
+    animateOnEntry(imgRef, setPersAnimation, 0.5);
   }, [scrollHeight]);
 
   return (
-    <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full relative lg:px-32 px-8 metal-bg">
+    <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full relative lg:px-32 px-8 metal-bg" id="whatismyluksowallet">
       <div className="absolute inset-0 bg-gradient-to-bl from-black via-sky-500 to-black rounded-lg blur-xl opacity-25 -z-10"></div>
       <div ref={imgRef} className={`flex justify-center items-center w-5/12 perspective-r ${persAnimation && "perspective-r-animation"}`}>
         <img src={keyhole} alt="Keyhole" />

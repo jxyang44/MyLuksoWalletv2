@@ -1,3 +1,5 @@
+//basic banner for page headers
+
 import React from "react";
 import { ButtonShadow } from "..";
 import { ReactComponent as LuksoLogoInner } from "../../assets/Logos/Lukso_Modified/lukso_logo_inner.svg";

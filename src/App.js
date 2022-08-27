@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useStateContext } from "./contexts/StateContext";
-import { Navbar, Footer, Sidebar } from "./components";
+import { Navbar, Sidebar } from "./components";
 import {
   Home,
   MyLuksoWallet,
@@ -11,11 +11,11 @@ import {
   MyAssets,
   RelayService,
   CreateToken,
-  CreateNFT,
   CreateVault,
   ProfileSearch,
-  MyVaults
+  MyVaults,
 } from "./pages";
+
 
 const App = () => {
   const { theme, activeMenu, THEMES } = useStateContext();
@@ -54,13 +54,12 @@ const App = () => {
                 <Route path="/myassets" element={<MyAssets />} />
                 <Route path="/myvaults" element={<MyVaults />} />
                 <Route path="/relayservice" element={<RelayService />} />
-                <Route path="/createtoken" element={<CreateToken LSP="LSP7"/>} />
+                <Route path="/createtoken" element={<CreateToken LSP="LSP7" />} />
                 <Route path="/createnft" element={<CreateToken LSP="LSP8" />} />
                 <Route path="/createvault" element={<CreateVault />} />
                 <Route path="/profilesearch" element={<ProfileSearch />} />
               </Routes>
             </div>
-            {/* <Footer /> */}
           </div>
         </div>
       </BrowserRouter>

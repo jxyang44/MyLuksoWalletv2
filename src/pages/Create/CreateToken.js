@@ -1,3 +1,5 @@
+//create token page
+
 import React, { useState, useEffect } from "react";
 import { FormTabs, Address, LSP7TokenCoin, LSP8NFTCard, CreateLSPForm, MintLSPForm, FullScreenButton } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";

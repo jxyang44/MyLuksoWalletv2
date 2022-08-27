@@ -1,35 +1,24 @@
-//manage permissions to a connected Universal Profile or vault
-//requires user to input private key TO-DO what?
-//TO-DO redo this without manual input from user (isvalidsignature)
+//updates vault pseudo-metadata (stores on UP)
 
 import React, { useState, useEffect } from "react";
-import { FormContainer,  Loading,UpdateProfile } from "..";
+import { FormContainer, UpdateProfile } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
-import swal from "sweetalert";
 
 const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
 const inputLabel = "block text-white text-sm font-bold";
 
+//settings are visualized in the MyLuksoWallet DApp
 const initialFormState = {
   vaultAddress: "", //the address of your account (vault)
-  vaultName: "",
-  vaultDescription: "",
-  vaultColor: "",
+  vaultName: "", //nickname for vault
+  vaultDescription: "", //description for vault
+  vaultColor: "", //color for vault
 };
 
 const ManagePermissionsForm = () => {
-  const {
-    currentAccount,
-    accountAddresses,
-    fetchAddresses,
-    profileJSONMetadata,
-    setProfileJSONMetadata,
-    pendingProfileJSONMetadata,
-    setPendingProfileJSONMetadata,
-  } = useProfileContext();
-  const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
+  const { currentAccount, accountAddresses, profileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
+  const [formValues, setFormValues] = useState(initialFormState); //initial form input values
 
-  const [loaded, setLoaded] = useState(false); //true if a valid addressFrom is selected
 
   const set = name => {
     return ({ target }) => {
@@ -37,30 +26,21 @@ const ManagePermissionsForm = () => {
     };
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
-
   useEffect(() => {
     const vaultMetadata = { [`MLW_Vault_${formValues.vaultAddress}`]: { ...formValues } };
     formValues.vaultAddress && setPendingProfileJSONMetadata(curr => ({ ...curr, ...vaultMetadata }));
   }, [formValues]);
 
+  //updates form values with UP metadata
   useEffect(() => {
-    setLoaded(false);
     if (formValues.vaultAddress === "") return;
-    //fetch profile metadata
-     const vaultKey = `MLW_Vault_${formValues.vaultAddress}`
-     
-        setFormValues(curr=>({...curr,
-          vaultName: profileJSONMetadata[vaultKey]?.vaultName ?? "",
-          vaultDescription: profileJSONMetadata[vaultKey]?.vaultDescription ?? "",
-          vaultColor: profileJSONMetadata[vaultKey]?.vaultColor ?? ""
-        })
-  )
-        setLoaded(true);
-      
-    
+    const vaultKey = `MLW_Vault_${formValues.vaultAddress}`;
+    setFormValues(curr => ({
+      ...curr,
+      vaultName: profileJSONMetadata[vaultKey]?.vaultName ?? "",
+      vaultDescription: profileJSONMetadata[vaultKey]?.vaultDescription ?? "",
+      vaultColor: profileJSONMetadata[vaultKey]?.vaultColor ?? "",
+    }));
   }, [formValues.vaultAddress]);
 
   return (
@@ -122,12 +102,8 @@ const ManagePermissionsForm = () => {
                 onClick={() => setFormValues(initialFormState)}>
                 Reset
               </button>
-              <button
-                className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={handleSubmit}>
-                Submit Changes
-              </button>
-              <UpdateProfile/>
+
+              <UpdateProfile />
             </div>
           </>
         )}

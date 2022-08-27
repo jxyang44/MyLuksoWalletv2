@@ -1,6 +1,5 @@
 //manage permissions to a connected Universal Profile or vault
-//requires user to input private key TO-DO what?
-//TO-DO redo this without manual input from user (isvalidsignature)
+//TO-DO vaults does not work
 
 import React, { useState, useEffect } from "react";
 import { FormContainer, PermissionTypesCheckbox, Loading } from "..";
@@ -17,7 +16,7 @@ const initialFormState = {
 };
 
 const ManagePermissionsForm = () => {
-  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission,updateExistingPermission } = useProfileContext();
+  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [newAddressSelection, setNewAddressSelection] = useState(false); //true if "New Address" is selected; false if "Existing Address" is selected
   const [newAddressMessage, setNewAddressMessage] = useState(""); //message to display
@@ -73,19 +72,58 @@ const ManagePermissionsForm = () => {
     if (newAddressSelection && !formValues.newAddressValid) return swal("Address of new permissioned account is not valid.");
     if (formValues.addressFrom === "" || formValues.addressTo === "") return swal("Required fields must be completed.");
 
-    swal("Are you sure you would like to submit these changes to the blockchain?",`${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`, { buttons: true }).then(value => {
-      if (value) {
-        newAddressSelection
-          ? addNewPermission(formValues.addressFrom, formValues.addressTo, permissions).then(res => { console.log(res)
-              if (res) swal(`Congratulations! Permissions have been added for ${formValues.addressTo}.`, `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`, "success");
-            })
-          : updateExistingPermission(formValues.addressFrom, formValues.addressTo, permissions)
-          .then(res => {
-              if (res)
-                swal(`Congratulations! Permissions have been modified for ${formValues.addressTo}.`, `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`, "success");
-            });
-      }
-    });
+
+    const startPermissions = privateKey => {
+      swal(
+        "Are you sure you would like to submit these changes to the blockchain?",
+        `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+        { buttons: true }
+      ).then(value => {
+        if (value) {
+          newAddressSelection
+            ? addNewPermission(formValues.addressFrom, formValues.addressTo, permissions, privateKey).then(res => {
+                console.log(res);
+                if (res)
+                  swal(
+                    `Congratulations! Permissions have been added for ${formValues.addressTo}.`,
+                    `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                    "success"
+                  );
+              })
+            : updateExistingPermission(formValues.addressFrom, formValues.addressTo, permissions, privateKey).then(res => {
+                if (res)
+                  swal(
+                    `Congratulations! Permissions have been modified for ${formValues.addressTo}.`,
+                    `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                    "success"
+                  );
+              });
+        }
+      });
+    };
+
+    if (currentAccount === formValues.addressFrom) startPermissions("");
+    else{
+      swal("Permission management for vaults has not been implemented yet. 👷");
+    }
+    // else {
+    //   swal(
+    //     `Hackathon Note: Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
+    //     `To update account permissions, you must be the owner of an account that already has permissions to the vault. If you wish to proceed, enter the private key associated with a permissioned account (this is most likely the browser extension private key from the profile that deployed the vault):`,
+    //     {
+    //       content: "input",
+    //       button: true,
+    //     }
+    //   ).then(value => {
+    //     if (value) {
+    //       startPermissions(value);
+    //     } else {
+    //       swal("No input detected.");
+    //     }
+    //   });
+    // }
+
+    
   };
 
   return (
@@ -116,7 +154,7 @@ const ManagePermissionsForm = () => {
                   return (
                     <option key={vault} value={vault}>
                       Vault - {vault}
-                    </option> //TO-DO use vault name later
+                    </option> //TO-DO add vault name to selection for clarity
                   );
                 })}
               </select>
@@ -137,8 +175,10 @@ const ManagePermissionsForm = () => {
                   New Address
                 </button>
               </div>
+
               {newAddressSelection ? (
                 <>
+                  {/* show new address panel if selected  */}
                   {newAddressMessage !== "" && (
                     <div className={`${inputLabel} ${formValues.newAddressValid ? "text-green-500" : "text-red-500"}`}>{newAddressMessage}</div>
                   )}
@@ -154,6 +194,7 @@ const ManagePermissionsForm = () => {
                   />
                 </>
               ) : (
+                // fetch existing addresses
                 formValues.addressFrom !== "" &&
                 (loaded ? (
                   <>
@@ -164,11 +205,11 @@ const ManagePermissionsForm = () => {
                       </option>
                       <option value={owner}>Owner - {owner}</option>
                       {permissionedAddress &&
-                        permissionedAddress.map((address,i) => {
+                        permissionedAddress.map((address, i) => {
                           return (
-                            <option key={address+i} value={address}>
+                            <option key={address + i} value={address}>
                               {address}
-                            </option> //TO-DO use vault name later
+                            </option> //TO-DO add vault name to selection for clarity
                           );
                         })}
                     </select>
@@ -196,6 +237,8 @@ const ManagePermissionsForm = () => {
           </>
         )}
       </FormContainer>
+
+      {/* show permissions check box */}
       {((!newAddressSelection && formValues.addressTo !== "") || (newAddressSelection && formValues.newAddressValid)) && (
         <div>
           <PermissionTypesCheckbox

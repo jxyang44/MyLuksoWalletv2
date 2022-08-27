@@ -17,7 +17,7 @@ import {
   LSP1Schema,
   LSP10Schema,
   createErc725Instance,
-} from "../utils/ERC725Config";
+} from "../utils/luksoConfigs";
 import { useStateContext } from "./StateContext";
 import swal from "sweetalert";
 
@@ -66,7 +66,6 @@ export const ProfileProvider = ({ children }) => {
 
       web3Window = new Web3(window.ethereum);
       const accounts = await web3Window.eth.requestAccounts();
-      console.log(accounts);
       setCurrentAccount(accounts[0]); //TO-DO use-reducer for these three
       fetchProfileMetadata(accounts[0]);
       setAccountAddressesFunction(accounts[0]);
@@ -172,9 +171,11 @@ export const ProfileProvider = ({ children }) => {
   }
 
   //add a new permissions
-  async function addNewPermission(addressFrom, addressTo, permissions) {
+  //privateKey is optional
+  async function addNewPermission(addressFrom, addressTo, permissions, privateKey) {
     if (!currentAccount) return swal("You are not connected to an account.");
     if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.");
+    if (addressFrom !== currentAccount && !privateKey) return swal("You must provide a private key to add permissions to a vault. 👷");
     try {
       swal(`Adding new permissions for ${addressTo} to ${addressFrom}...`, { button: false });
 
@@ -201,37 +202,40 @@ export const ProfileProvider = ({ children }) => {
         value: beneficiaryPermissions,
       });
 
-      //Universal Profile
-      if(currentAccount === addressFrom){ 
       const myUniversalProfile = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
-      swal("Updating permissions.Please confirm...", { button: false });
-      return await myUniversalProfile.methods["setData(bytes32[],bytes[])"](
-        [
-          addressLengthKey, // length of AddressPermissions[]
-          beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
-          data.keys[0], // permissions of the beneficiary
-        ],
-        [newPermissionsCount, beneficiaryAddress, data.values[0]]
-      ).send({ from: currentAccount, gasLimit: 300_000 });
-    } else{ //Vault
 
-    }
-
-      // const payload = myUniversalProfile.methods["setData(bytes32[],bytes[])"](
-      //   [
-      //     addressLengthKey, // length of AddressPermissions[]
-      //     beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
-      //     data.keys[0], // permissions of the beneficiary
-      //   ],
-      //   [newPermissionsCount, beneficiaryAddress, data.values[0]]
-      // ).encodeABI();
-
-      // swal("Fetching key manager address...", { button: false});
-      // const keyManagerAddress = await myUniversalProfile.methods.owner().call();
-      // const myKeyManager = new web3Provider.eth.Contract(LSP6Contract.abi, keyManagerAddress);
-
-      // swal("Setting permissions...", { button: false});
-      // await myKeyManager.methods.execute(payload).send({ from: myEOA.address, gasLimit: 300_000 }); //how to do this without prompting for private key?
+      //Universal Profile
+      if (currentAccount === addressFrom) {
+        swal("Updating permissions.Please confirm...", { button: false });
+        return await myUniversalProfile.methods["setData(bytes32[],bytes[])"](
+          [
+            addressLengthKey, // length of AddressPermissions[]
+            beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
+            data.keys[0], // permissions of the beneficiary
+          ],
+          [newPermissionsCount, beneficiaryAddress, data.values[0]]
+        ).send({ from: currentAccount, gasLimit: 300_000 });
+      } else {
+        //Vault
+        const myEOA = web3Window.eth.accounts.wallet.add(privateKey);
+        
+        const payload = myUniversalProfile.methods["setData(bytes32[],bytes[])"](
+          [
+            addressLengthKey, // length of AddressPermissions[]
+            beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
+            data.keys[0], // permissions of the beneficiary
+          ],
+          [newPermissionsCount, beneficiaryAddress, data.values[0]]
+        );
+        swal("Fetching key manager address...", { button: false });
+        const keyManagerAddress = await myUniversalProfile.methods.owner().call();
+        const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
+        swal("Setting permissions...", { button: false });
+        return await keyManagerContract.methods.execute(payload.encodeABI()).send({
+          from: myEOA.address,
+          gasLimit: 600_000,
+        });
+      }
     } catch (error) {
       console.log(error);
       swal("Something went wrong.", JSON.stringify(error), "warning");
@@ -249,13 +253,12 @@ export const ProfileProvider = ({ children }) => {
 
       const erc725 = createErc725Instance(LSP6Schema, addressFrom);
 
-     
       swal("Encoding permissions...", { button: false });
       const beneficiaryAddress = addressTo;
-      console.log(permissions)
+      console.log(permissions);
       const beneficiaryPermissions = erc725.encodePermissions(permissions);
-      console.log(beneficiaryPermissions)
-      
+      console.log(beneficiaryPermissions);
+
       const data = erc725.encodeData({
         keyName: "AddressPermissions:Permissions:<address>",
         dynamicKeyParts: beneficiaryAddress,
@@ -264,8 +267,11 @@ export const ProfileProvider = ({ children }) => {
 
       const myUniversalProfile = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
       swal("Updating permissions...", { button: false });
-      
-      return await myUniversalProfile.methods["setData(bytes32,bytes)"](data.keys[0],data.values[0]).send({ from: currentAccount, gasLimit: 300_000 });
+
+      return await myUniversalProfile.methods["setData(bytes32,bytes)"](data.keys[0], data.values[0]).send({
+        from: currentAccount,
+        gasLimit: 300_000,
+      });
     } catch (error) {
       console.log(error);
       swal("Something went wrong.", JSON.stringify(error), "warning");
@@ -317,7 +323,7 @@ export const ProfileProvider = ({ children }) => {
       setUPColor(profileData.value.LSP3Profile.MLWUPColor); //MLW UP background color
       setUPTextColor(profileData.value.LSP3Profile.MLWUPTextColor); //MLW UP text color
       setIsProfileLoaded(true);
-      swal("Your account is now connected to MyLuksoWallet.", `Welcome, ${profileData.value.LSP3Profile.name}!`, "success");
+      swal("Your account is now connected to MyLuksoWallet.", `Welcome ${profileData.value.LSP3Profile.name}!`, "success");
     } else {
       // const contractInstance = new web3Provider.eth.Contract(LSP9Contract.abi, address);
       // const isVault = await contractInstance.methods.supportsInterface(INTERFACE_IDS[interfaceType]).call();
@@ -338,7 +344,8 @@ export const ProfileProvider = ({ children }) => {
     setThemeDefaults();
   };
 
-  //TO-DO - this isn't actually acting as a relay service
+  //TO-DO - supposed to implement relay service, but doesn't work
+  //this function is currently not used
   const executeViaKeyManager = async (functionABI, swalMessage) => {
     try {
       if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
@@ -429,7 +436,7 @@ export const ProfileProvider = ({ children }) => {
         fetchAddresses,
         getAccountType,
         addNewPermission,
-        updateExistingPermission
+        updateExistingPermission,
       }}>
       {children}
     </ProfileContext.Provider>

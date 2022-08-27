@@ -1,3 +1,5 @@
+//social media button component
+
 import React from "react";
 
 const Socials = ({ icon, text, link }) => {

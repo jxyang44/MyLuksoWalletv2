@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+//add vault to the universal profile address of the connected user
+//prompts user input for vault address, which can be easily copy/pasted from the "Create Vault"
+
+import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { VaultStep } from ".";
-import {
- 
-  LSP10Schema,
-  
-  UniversalProfileContract,
- 
-  createErc725Instance,
-} from "../../utils/ERC725Config";
+import { LSP10Schema, UniversalProfileContract, createErc725Instance } from "../../utils/luksoConfigs";
 import swal from "sweetalert";
 
-const AddVaultToUP = () => {
-  const { web3Window, currentAccount, useRelay, executeViaKeyManager } = useProfileContext();
- 
+const AddVaultToUP = ({ recentVaultAddress }) => {
+  const { web3Window, currentAccount, useRelay, executeViaKeyManager, fetchAddresses } = useProfileContext();
+
   const handleAddVault = () => {
     if (!currentAccount) return swal("You are not connected to an account.");
 
-    swal(`Please enter the address of the vault you would like to add to your profile:`, {
-      content: "input",
-      button: true,
-    })
+    swal(
+      `Please enter the address of the vault to add to your profile.`,
+      `Paste this address into the box below if you are unsure: \n${localStorage.getItem("recentLSP9Address")}`,
+      {
+        content: "input",
+        button: true,
+      }
+    )
       .then(value => {
         if (value) {
           addVault(value).then(res => {
             console.log(res);
-            if (res) swal("Congratulations!", `Your vault at address ${value} has been added to your account!`, "success");
+            if (res) {
+              swal(
+                `Congratulations! Your vault at address ${value} has been added to your account!`,
+                "Please wait a few seconds and refresh the page if the vault does not show up in your account.",
+                "success"
+              );
+              setTimeout(() => {
+                fetchAddresses(currentAccount); //adds vault to state
+              }, 5000);
+            }
           });
         } else {
           swal("No input detected.");
@@ -40,7 +49,7 @@ const AddVaultToUP = () => {
     try {
       swal("Adding vault to Universal Profile...", `Vault address: ${vaultAddress}`, { button: false, closeOnClickOutside: true });
 
-      const web3 = web3Window; 
+      const web3 = web3Window;
 
       const erc725 = createErc725Instance(LSP10Schema, currentAccount); //LSP10Vaults[],LSP10VaultsMap:<address>
 
@@ -80,7 +89,16 @@ const AddVaultToUP = () => {
     }
   }
 
-  return ( <VaultStep buttonText="4. Add Vault to Universal Profile" buttonFunc={handleAddVault} />);
+  return (
+    <VaultStep
+      buttonText="4. Add Vault to Universal Profile"
+      buttonFunc={handleAddVault}
+      inputLabel1="Most Recently Deployed Vault from this Browser"
+      inputValue1={recentVaultAddress}
+      inputLabel2="Universal Profile"
+      inputValue2={currentAccount}
+    />
+  );
 };
 
 export default AddVaultToUP;

@@ -18,16 +18,15 @@ import {
   LYXBalanceFuncs,
 } from ".";
 import { useProfileContext } from "../contexts/ProfileContext";
-import { useAssetsContext } from "../contexts/AssetsContext";
 import { useStateContext } from "../contexts/StateContext";
 import { EditText, EditTextarea } from "react-edit-text";
-import { IPFS_GATEWAY } from "../utils/ERC725Config";
+import { IPFS_GATEWAY } from "../utils/luksoConfigs";
 import UniversalCloudLogo from "../assets/Logos/Lukso_Original/Lukso_Signet_white-GradientBG.png";
 import "react-edit-text/dist/index.css";
 import swal from "sweetalert";
 
 const UniversalProfile = () => {
-  const [editMode, setEditMode] = useState(true); //allows profile to be edited
+  const [editMode, setEditMode] = useState(false); //allows profile to be edited
   const { UPColor, UPTextColor } = useStateContext();
   const {
     defaultMetadata,
@@ -74,11 +73,10 @@ const UniversalProfile = () => {
   return (
     <div
       className="transition absolute right-1 top-12 p-8 rounded-md w-2/6 origin-top-right scale-[.85] bg-opacity-30 bg-white text-black"
-      style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000"}}>
-      <div className={`absolute h-full w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
-      {!editMode && (
-        <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>
-      )}
+      style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000" }}>
+      <div
+        className={`absolute h-full w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
+      {!editMode && <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>}
       <button
         className={`absolute z-50 top-1 right-1 border rounded-xl px-2 text-white ${
           editMode ? "bg-green-500" : "bg-black"
@@ -145,10 +143,10 @@ const UniversalProfile = () => {
                 inputClassName="bg-success"
                 value={pendingProfileJSONMetadata.name}
                 onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
-                style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "1.75rem", fontWeight: "600", color: UPTextColor }}
+                style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "2.25rem", fontWeight: "600", color: UPTextColor }}
               />
               <EditTextarea
-                rows={4}
+                rows={5}
                 defaultValue={profileJSONMetadata.description}
                 inputClassName="bg-success"
                 value={pendingProfileJSONMetadata.description}
@@ -169,7 +167,7 @@ const UniversalProfile = () => {
             <MyMenuItem icon={<GiTwoCoins />} iconColor="bg-green-700" linkTo="myassets" header="My Assets" />
           </div>
 
-          {editMode && (
+          {editMode ? (
             <div className="flex flex-row self-end w-full gap-3">
               <UpdateProfile />
               <ButtonShadow
@@ -178,6 +176,10 @@ const UniversalProfile = () => {
                 buttonColor={"bg-red-500"}
                 buttonTextColor={"text-red-800"}
               />
+              <DisconnectProfile />
+            </div>
+          ) : (
+            <div className="flex flex-row justify-end self-end w-full gap-3 z-50">
               <DisconnectProfile />
             </div>
           )}

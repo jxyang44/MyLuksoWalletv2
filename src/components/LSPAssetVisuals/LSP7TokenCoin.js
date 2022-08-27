@@ -1,24 +1,25 @@
-//for visualizing LSP7 token coin
+//main component for visualizing LSP7 token coin
 
 import React, { useEffect, useState } from "react";
 
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract } from "../../utils/ERC725Config";
+import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract } from "../../utils/luksoConfigs";
 import { useSwipeable } from "react-swipeable";
-import { Address, MintForm, TransferForm, OptionsPanel } from "..";
-import { Name, Background } from "./LSP7Components";
+import { Address,  OptionsPanel } from "..";
+import { Name, Background ,MintLSP7Form, TransferLSP7Form} from "./LSP7Components";
 
 const subFontStyle = ` font-bold font-['']`;
 const defaultPanel = {
+  //controls the mint/transfer/permissions panel
   mint: false,
   transfer: false,
-  permissions: false,
+  permissions: false, //TO-DO not implemented yet -for managing permissions on the token
 };
 
 const TokenCoin = ({ assetAddress, createToken }) => {
   const { currentAccount } = useProfileContext();
-  const { getAssetMetadata, getAssetByKey, getTotalSupply, getBalanceOf, getDecimals } = useAssetsContext();
+  const { getAssetMetadata, getAssetByKey, getTotalSupply, getBalanceOf } = useAssetsContext();
   const [assetName, setAssetName] = useState("");
   const [assetSymbol, setAssetSymbol] = useState("");
   const [assetIcon, setAssetIcon] = useState("");
@@ -28,23 +29,23 @@ const TokenCoin = ({ assetAddress, createToken }) => {
   const [balanceOf, setBalanceOf] = useState("");
   const [creators, setCreators] = useState("");
   const [totalSupply, setTotalSupply] = useState("");
-  const [isPanelActive, setIsPanelActive] = useState(defaultPanel);
+  const [isPanelActive, setIsPanelActive] = useState(defaultPanel); //for managing the active state of the mint/transfer/permissions panel
   const [flipAppear, setFlipAppear] = useState(false); //for flipping the coin
   const [flipDisappear, setFlipDisappear] = useState(false); //for flipping the coin
-  const [front, setFront] = useState(true);
+  const [front, setFront] = useState(true); //for flipping the coin
 
   //retrieve asset metadata from blockchain
+  //TO-DO add logic to retrieve metadata through other means (nft address, etc.)
   useEffect(() => {
     if (!createToken && assetAddress) {
-      getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value));
-      getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value));
+      getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value)); //name
+      getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value)); //symbol
       //getDecimals(assetAddress).then(res => console.log(res.value));
       getAssetMetadata(assetAddress).then(res => {
+        //all other metadata
         setAssetMetadata(cur => ({ ...cur, ...res }));
         console.log("metadata results:", res, assetMetadata);
-        res.icon && res.icon.length > 0 && 
-          setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
-        
+        res.icon && res.icon.length > 0 && setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY)); 
         if (res.images && res.images[0] !== null && res.images.length > 0) {
           setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
           if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
@@ -56,7 +57,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
     }
   }, []);
 
-  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet
+  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet; user can visualize changes as they happen
   useEffect(() => {
     if (!createToken) return;
     setAssetName(createToken.tokenName);
@@ -69,9 +70,10 @@ const TokenCoin = ({ assetAddress, createToken }) => {
       description: createToken.tokenDescription,
       backgroundColor: createToken.backgroundColor,
       textColor: createToken.textColor,
+      //TO-DO add other fields later
     });
     setBalanceOf(createToken.mintAmount);
-    setTotalSupply(createToken.mintAmount); //TO-DO change if using capped
+    setTotalSupply(createToken.mintAmount); //TO-DO change if using capped contract
   }, [createToken]);
 
   //flip animation
@@ -139,8 +141,8 @@ const TokenCoin = ({ assetAddress, createToken }) => {
 
           <div>
             {isPanelActive.permissions && <div className="animate-fadeInLeft">Permissions(TO-DO)</div>}
-            {isPanelActive.mint && <MintForm assetAddress={assetAddress} contract={LSP7MintableContract} />}
-            {isPanelActive.transfer && <TransferForm assetAddress={assetAddress} contract={LSP7MintableContract} balanceOf={balanceOf} />}
+            {isPanelActive.mint && <MintLSP7Form assetAddress={assetAddress} contract={LSP7MintableContract} />}
+            {isPanelActive.transfer && <TransferLSP7Form assetAddress={assetAddress} contract={LSP7MintableContract} balanceOf={balanceOf} />}
           </div>
           <OptionsPanel defaultPanel={defaultPanel} isPanelActive={isPanelActive} setIsPanelActive={setIsPanelActive} />
 
@@ -181,7 +183,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
 
 export default TokenCoin;
 
-// for 3d coin if time allows
+// TO-DO for 3d coin
 
 //  const middle = Array.from({ length: 9 }, (v, k) => k + 1);
 

@@ -1,3 +1,5 @@
+//navbar, includes activation sidebar icon, logo, connect profile button, and universal profile window toggle
+
 import React, { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiUserSearchLine } from "react-icons/ri";
@@ -6,47 +8,39 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useStateContext } from "../contexts/StateContext";
 import { useProfileContext } from "../contexts/ProfileContext";
 import { UniversalProfile, Button, Logo } from "./";
-import { IPFS_GATEWAY } from "../utils/ERC725Config";
+import { IPFS_GATEWAY } from "../utils/luksoConfigs";
 import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
 
 const Navbar = () => {
-  const { setActiveMenu, activeProfile, setActiveProfile, setScreenSize, screenSize, scrollHeight, setScrollHeight, UPColor } = useStateContext();
+  const { setActiveMenu, activeProfile, setActiveProfile, scrollHeight, setScrollHeight, UPColor } = useStateContext();
   const {
     isProfileLoaded,
-    activateAccountChangedListener,
     connectProfile,
     profileJSONMetadata,
-    pendingProfileJSONMetadata,
     loginWithKey,
     useRelay,
-    setUseRelay,
   } = useProfileContext();
 
-
+  //scroll height used for home page animations
+ //TO-DO re-implement re-size handler for mobile
   useEffect(() => {
-    const handleResize = () => setScreenSize(window.innerWidth);
+    //const handleResize = () => setScreenSize(window.innerWidth);
     const handleScroll = () => setScrollHeight(window.scrollY);
-    window.addEventListener("resize", handleResize);
+    //window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
-    handleResize();
-    activateAccountChangedListener();
+    //handleResize();
     return () => {
-      window.removeEventListener("resize", handleResize);
+      //window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  useEffect(() => {
-    if (screenSize <= 900) {
-      setActiveMenu(false);
-    } else {
-      setActiveMenu(true);
-    }
-  }, [screenSize]);
 
   const handleProfileClick = () => {
     setActiveProfile(current => !current);
+
+    // displays a warning if the user has pending changes and closes their profile window - commented out due to overactive message
     // if (activeProfile && JSON.stringify(pendingProfileJSONMetadata) !== JSON.stringify(profileJSONMetadata)) {
     //   swal({
     //     title: "You have edits that have not been uploaded to the Lukso network. Are you sure you want to continue?",
@@ -60,19 +54,7 @@ const Navbar = () => {
     // }
   };
 
-  const handleMenuClick = () => {
-    // if (pathname.toLowerCase() === "/myluksowallet" && !activeMenu) {
-    //   swal({
-    //     text: "Exit the MyLuksoWallet DApp?",
-    //     buttons: [true, "Yes"],
-    //   }).then(value => {
-    //     if (value) setActiveMenu(curr => !curr);
-    //   });
-    // } else {
-      setActiveMenu(curr => !curr);
-    //}
-  };
-
+  //TO-DO Relay service disabled for the hackathon - implementation will be enabled in the future
   const handleRelay = () => {
     // useRelay
     //   ? swal("Relay Service Disabled", "Gas fees will be paid from your Universal Profile balance. Please make sure your account is funded!", "")
@@ -83,7 +65,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center h-14 mb-4 relative">
-      <div onClick={handleMenuClick} className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44">
+      <div onClick={()=>setActiveMenu(curr => !curr)} className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44">
         <AiOutlineMenu />
       </div>
       {scrollHeight === 0 && (
@@ -123,11 +105,10 @@ const Navbar = () => {
           <div className="flex flex-col gap-1 items-end">
             <Button buttonText="Connect Profile" buttonFunc={() => connectProfile()} />
             <div className="text-white text-sm font-semibold flex flex-col gap-1 w-fit">
-             
-              <button
+              <button //manual log-in with public key
                 className="border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"
                 onClick={() => loginWithKey("UP Address")}>
-                <MdOutlineLogin /> &nbsp; UP Address Login
+                <MdOutlineLogin /> &nbsp; UP Address Login 
               </button>
             </div>
           </div>

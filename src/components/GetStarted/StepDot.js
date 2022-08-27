@@ -1,3 +1,4 @@
+//react logo animation for get started page
 import React from "react";
 import { ReactComponent as LuksoLogoFill } from "../../assets/Logos/Lukso_Modified/lukso_logo_fill.svg";
 

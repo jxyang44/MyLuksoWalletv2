@@ -1,4 +1,6 @@
-//rounded text around LSP7 coin
+//component for rounded text around LSP7 coin
+//TO-DO consider switching to svg for curved text or making the spacing work better
+
 import React from 'react'
 
 const Name = ({assetName, rotationOffset}) => {

@@ -16,7 +16,7 @@ import {
   UniversalProfileContract,
   IPFS_GATEWAY,
   createErc725Instance,
-} from "../utils/ERC725Config";
+} from "../utils/luksoConfigs";
 import { useProfileContext } from "./ProfileContext";
 import swal from "sweetalert";
 require("isomorphic-fetch");
@@ -159,8 +159,8 @@ export const AssetsProvider = ({ children }) => {
   const getBalanceOf = async (assetAddress, profileAddress) => {
     try {
       const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
-      const balanceOf = web3.utils.fromWei(await assetContract.methods.balanceOf(profileAddress).call());
-      return balanceOf > 0.5 ? balanceOf : Number.parseFloat(balanceOf).toExponential(2);
+      return web3.utils.fromWei(await assetContract.methods.balanceOf(profileAddress).call());
+      // return balanceOf > 0.5 ? balanceOf : Number.parseFloat(balanceOf).toExponential(2);
     } catch (error) {
       return console.log("Balance of an asset could not be fetched");
     }
@@ -211,8 +211,7 @@ export const AssetsProvider = ({ children }) => {
   //@param secondParam mintAmount for LSP7 and tokenID for LSP8
   const mintFunction = async (assetAddress, secondParam, mintToAddress, contract, LSP) => {
     try {
-      const web3 = useRelay ? web3Provider : web3Window;
-      const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
+      const assetContract = new web3Window.eth.Contract(contract.abi, assetAddress);
 
       const assetFunction = assetContract.methods.mint(mintToAddress, secondParam, false, "0x");
       // address to, uint256 amount, bool force, bytes memory data
@@ -248,7 +247,7 @@ export const AssetsProvider = ({ children }) => {
     );
   };
 
-  const transferLSP8 = (assetAddress, tokenID, transferToAddress, contract, transferFromAddress, fromVault) => {
+  const transferLSP8 = (assetAddress, tokenID, transferToAddress, contract, transferFromAddress, balanceOf, fromVault) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!transferToAddress) transferToAddress = currentAccount;
     if (!transferFromAddress) transferFromAddress = currentAccount;
@@ -268,15 +267,15 @@ export const AssetsProvider = ({ children }) => {
     ).then(curr => {
       if (curr) {
         swal("Congratulations!", `TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+        console.log(`Congratulations! TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
       }
-      console.log(`Congratulations! TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
     });
   };
 
   //transfer
   const transferFunction = async (assetAddress, secondParam, transferToAddress, contract, transferFromAddress, fromVault, LSP) => {
     try {
-      const web3 = useRelay ? web3Provider : web3Window;
+      const web3 = web3Window;
       const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
 
       if (fromVault) {
@@ -297,7 +296,7 @@ export const AssetsProvider = ({ children }) => {
         if (useRelay) {
           return await executeViaKeyManager(assetFunction.encodeABI, "Please wait. Transferring your asset via a key manager..."); // not working
         } else {
-          swal(`Please confirm. Transferring your ${LSP} transfer...`, { button: false });
+          swal(`Please confirm. Transferring your ${LSP} asset...`, { button: false });
           return await assetFunction.send({ from: currentAccount, gasLimit: 300_000 });
         }
       }

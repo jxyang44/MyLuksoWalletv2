@@ -1,20 +1,27 @@
-//form to create a LSP7 token
+//form to deploy either a LSP7 contract or a LSP8 contract
 //TO-DO allow user to select from pre-determined list of images
 
 import React, { useEffect } from "react";
 import { FormContainer } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { createLSPFactoryPrivateKeyInstance, createLSPFactoryWindowInstance, LSP7MintableContract,LSP8MintableContract,chainId } from "../../utils/ERC725Config.js";
+import {
+  createLSPFactoryPrivateKeyInstance,
+  createLSPFactoryWindowInstance,
+  LSP7MintableContract,
+  LSP8MintableContract,
+} from "../../utils/luksoConfigs.js";
 import swal from "sweetalert";
-
 
 const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline";
 const inputLabel = "block text-white text-sm font-bold";
 const imageLabel = " text-xs text-center cursor-pointer font-semibold text-white";
 
+//@param [formValues, setFormValues] JSON of input values to the form (e.g. formValues.tokenName)
+//@initialDeployState JSON of initial state to set formValues to
+//@LSP either "LSP7", "LSP8"
 const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) => {
-  const { currentAccount, useRelay } = useProfileContext();
+  const { currentAccount } = useProfileContext();
   const { mintLSP7, mintLSP8 } = useAssetsContext();
 
   // const reqSvgs = require.context("../../assets/MyLuksoWalletVisual/Coin/", true, /\.svg$/);
@@ -26,34 +33,34 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
   //   console.log(svgs);
   // }, []);
 
+  //resets form parameters when LSP is changed
   useEffect(() => {
     setFormValues(initialDeployState);
   }, [LSP]);
 
+  //deploy LSP7 contract AND mint tokens
   const handleCreateLSP7Contract = () => {
     const createTokenContract = async () => {
       try {
         console.log("------------ deploying new LSP7 token contract ------------");
-        swal("Deploying your LSP7Mintable token contract...","You may click outside this window.", { button: false });
+        swal("Deploying your LSP7Mintable token contract...", "You may click outside this window.", { button: false });
 
         //  const lspFactory = useRelay ? createLSPFactoryPrivateKeyInstance() : createLSPFactoryWindowInstance(); // TO-DO window instance isnt working
 
-
-      
-        const lspFactory= createLSPFactoryPrivateKeyInstance();
+        const lspFactory = createLSPFactoryPrivateKeyInstance();
         return await lspFactory.LSP7DigitalAsset.deploy(
           {
             name: formValues.tokenName,
             symbol: formValues.tokenSymbol,
             controllerAddress: currentAccount,
             creators: [formValues && currentAccount],
-            isNFT: formValues.isNotDivisible,
+            isNFT: formValues.isNotDivisible, //currently not used
             digitalAssetMetadata: {
               description: formValues.description,
               icon: formValues.tokenIcon,
               images: [formValues.imageFront, formValues.imageBack],
-              backgroundColor: formValues.backgroundColor,
-              textColor: formValues.textColor,
+              backgroundColor: formValues.backgroundColor, //background color of token coin
+              textColor: formValues.textColor, //text color of token coin
             },
           },
           {
@@ -83,14 +90,14 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
                     \n LSP7 Digital Asset: ${newAddress}
                     `
                 );
-                localStorage.setItem(`recentLSP7Address`, newAddress);
+                localStorage.setItem(`recentLSP7Address`, newAddress); //save most recent address to local storage
                 console.log("Deployment Complete");
                 console.log(contracts);
               },
             },
           }
         );
-        //TO-DO logic for LSP12 - issued assets
+        //TO-DO add logic flow for LSP12 - issued assets
       } catch (err) {
         console.warn(err.message);
         return;
@@ -99,21 +106,23 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
 
     currentAccount
       ? createTokenContract().then(res => {
-          console.log(res, res.LSP7DigitalAsset.address);
+          // mint immediately after deployment so user is not confused where their tokens are
+          //console.log(res, res.LSP7DigitalAsset.address);
           formValues.mintAmount > 0 && mintLSP7(res.LSP7DigitalAsset.address, formValues.mintAmount, currentAccount, LSP7MintableContract);
         })
       : swal("A profile must be connected before deploying a contract.");
   };
 
+  //deploy LSP8 contract AND mint a token
   const handleCreateLSP8Contract = () => {
     const createTokenContract = async () => {
       try {
         console.log("------------ deploying new LSP8 token contract ------------");
-        swal("Deploying your LSP8Mintable token contract","You may click outside this window.", { button: false });
+        swal("Deploying your LSP8Mintable token contract", "You may click outside this window.", { button: false });
 
         // const lspFactory = useRelay ? createLSPFactoryPrivateKeyInstance() : createLSPFactoryWindowInstance(); // TO-DO window instance isnt working
 
-        const lspFactory= createLSPFactoryPrivateKeyInstance();
+        const lspFactory = createLSPFactoryPrivateKeyInstance();
         return await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
           {
             name: formValues.tokenName,
@@ -155,7 +164,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
                     \n LSP8 Digital Asset: ${newAddress}
                     `
                 );
-                localStorage.setItem(`recentLSP8Address`, newAddress);
+                localStorage.setItem(`recentLSP8Address`, newAddress); //save most recent address to local storage
                 console.log("Deployment Complete");
                 console.log(contracts);
               },
@@ -170,18 +179,21 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
 
     currentAccount
       ? createTokenContract().then(res => {
-          console.log(res, res.LSP8IdentifiableDigitalAsset.address);
+          // mint immediately after deployment so user is not confused where their tokens are
+          //console.log(res, res.LSP8IdentifiableDigitalAsset.address);
           mintLSP8(res.LSP8IdentifiableDigitalAsset.address, formValues.tokenID, currentAccount, LSP8MintableContract);
         })
       : swal("A profile must be connected before deploying a contract.");
   };
 
+  //helper for setting formValues state
   const set = name => {
     return ({ target }) => {
       setFormValues(current => ({ ...current, [name]: target.value }));
     };
   };
 
+  //helper for setting formValues state for images
   const handleUpdateFile = name => {
     return ({ target }) => {
       target.files.length &&
@@ -189,11 +201,12 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
     };
   };
 
+  //helper for setting formValues state for images
   const handleSubmit = e => {
     e.preventDefault();
     if (formValues.tokenName && formValues.tokenSymbol) {
-      LSP === "LSP7" && handleCreateLSP7Contract();
-      LSP === "LSP8" && handleCreateLSP8Contract();
+      LSP === "LSP7" && formValues.mintAmount > 0 && handleCreateLSP7Contract();
+      LSP === "LSP8" && formValues.tokenID && handleCreateLSP8Contract();
     } else swal("Please fill out all required fields.");
   };
 
@@ -225,7 +238,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
       </div>
       {LSP === "LSP7" && (
         <div className="mb-4">
-          <div className={inputLabel}>Initial Mint Amount</div>
+          <div className={inputLabel}>Initial Mint Amount (required)</div>
           <input
             className={inputStyle}
             type="number"
@@ -239,7 +252,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
       )}
       {LSP === "LSP8" && (
         <div className="mb-4">
-          <div className={inputLabel}>Initial Token ID</div>
+          <div className={inputLabel}>Initial Token ID (required)</div>
           <input className={inputStyle} type="text" value={formValues.tokenID} placeholder={1} onChange={set("tokenID")} />
         </div>
       )}
@@ -289,7 +302,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
             checked={formValues.isNotDivisible}
             onChange={e => setFormValues(current => ({ ...current, isNotDivisible: e.target.checked }))}
           />
-          <div className={inputLabel + " ml-1"}>Integer Token Supply (not used ATM)</div>
+          <div className={inputLabel + " ml-1"}>Integer Token Supply (not used ATM)</div> {/* isNotDivisible */}
         </div>
       )}
       {/* <div className="mb-4 opacity-70">

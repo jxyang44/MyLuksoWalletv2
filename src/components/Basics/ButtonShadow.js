@@ -1,3 +1,5 @@
+//button with gradient and shadow
+
 import React, { useEffect, useState } from "react";
 
 const ButtonShadow = ({ buttonText, buttonFunc, buttonColor, buttonTextColor }) => {

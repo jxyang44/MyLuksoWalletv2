@@ -1,8 +1,10 @@
+//basic loading component with spinner
+
 import React from "react";
 
-const Loading = ({horizontal,size,textOff}) => {
+const Loading = ({ horizontal, size, textOff }) => {
   return (
-    <div className={`${horizontal ? "flex flex-row items-start justify-start":"flex flex-col items-center"}`}>
+    <div className={`${horizontal ? "flex flex-row items-start justify-start" : "flex flex-col items-center"}`}>
       <svg
         aria-hidden="true"
         className={`flex-auto text-gray-200 animate-spin dark:text-gray-600 fill-sky-600 ${size ?? "w-16 h-16"}`}
@@ -18,7 +20,7 @@ const Loading = ({horizontal,size,textOff}) => {
           fill="currentFill"
         />
       </svg>
-      {!textOff&&<span className="text-white">Loading...</span>}
+      {!textOff && <span className="text-white">Loading...</span>}
     </div>
   );
 };

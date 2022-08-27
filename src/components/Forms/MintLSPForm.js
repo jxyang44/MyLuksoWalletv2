@@ -1,10 +1,10 @@
 //form to mint a LSP7 or LSP8 token based on user inputs
-//TO-DO CHECK WHO OWNS CONTRACT AND MINT PERMISSIONS
+//TO-DO add guardrail for check contract owner and mint permissions before allowing submission
 import React, { useState, useEffect } from "react";
 import { FormContainer } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { LSP7MintableContract, LSP8MintableContract, LSPMapping, web3Provider } from "../../utils/ERC725Config.js";
+import { LSP7MintableContract, LSP8MintableContract, LSPMapping } from "../../utils/luksoConfigs.js";
 
 import swal from "sweetalert";
 
@@ -21,7 +21,7 @@ const MintLSPForm = ({ formValues, setFormValues, initialMintState, LSP }) => {
   const [supportsInterfaceState, setSupportsInterfaceState] = useState(false);
   const [mintToMessage, setMintToMessage] = useState("");
   useEffect(() => {
-    //double-check whether address supports the interface - should return true if "LSP" prop matches address interface
+    //double-checks whether address supports the interface - should return true if "LSP" prop matches address interface
     supportsInterface(formValues.tokenAddress, LSPMapping[LSP].contract).then(result => {
       if (result) setSupportsInterfaceState(true);
       else {
@@ -57,7 +57,7 @@ const MintLSPForm = ({ formValues, setFormValues, initialMintState, LSP }) => {
     getAccountType(formValues.mintToAddress).then(res => {
       if (res === "Invalid") setMintToMessage("This Address is Not Valid");
       else if (res === "EOA") setMintToMessage("This Address is an EOA Account (minting to an EOA is not recommended or supported at this time)");
-      //TO-DO set force to true in the future
+      //TO-DO handle set force to true in the future
       else {
         setMintToMessage(`This Address is a Valid ERC725 Account`);
       }

@@ -1,3 +1,5 @@
+//input form for mint/transfer/permissions
+
 import React from "react";
 
 const Input = ({ fields, customFunc, buttonDescription, themeColor, themeText }) => {

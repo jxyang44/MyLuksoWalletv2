@@ -1,8 +1,11 @@
+//component to manage tags
+
 import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { EditText } from "react-edit-text";
 import { RiDeleteBackLine, RiAddLine } from "react-icons/ri";
 
+//@param editMode toggles between edit and view mode
 const ProfileTags = ({ editMode }) => {
   const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
   return (
@@ -13,14 +16,14 @@ const ProfileTags = ({ editMode }) => {
       {pendingProfileJSONMetadata.tags.length > 0 && (
         <div className="flex flex-row flex-wrap justify-start gap-2 italic text-normal text-white w-[350px]">
           {pendingProfileJSONMetadata.tags.map((tag, index) => {
-            return editMode ? (
+            return editMode ? ( //edit mode is enabled
               <div className="flex flex-row items-center gap-1" key={tag + index}>
-                <EditText //TO-DO why is this only allowing 1 letter a time...
+                <EditText //enable edit box for tags
                   defaultValue={tag}
                   inputClassName="bg-success"
                   placeholder="#tag"
                   onSave={e => {
-                    console.log(e)
+                    console.log(e);
                     const tempTags = [...pendingProfileJSONMetadata.tags];
                     tempTags[index] = e.value;
                     setPendingProfileJSONMetadata(current => ({ ...current, tags: tempTags }));
@@ -36,7 +39,7 @@ const ProfileTags = ({ editMode }) => {
                     padding: "0.375rem",
                   }}
                 />
-                <button
+                <button //button to remove the tag
                   className="bg-[#9ca3af] p-1.5 rounded-r-full hover:text-red-600"
                   onClick={() => {
                     const tempTags = [...pendingProfileJSONMetadata.tags];
@@ -47,19 +50,23 @@ const ProfileTags = ({ editMode }) => {
                 </button>
               </div>
             ) : (
-              <div className="text-lg text-left z-50">#{pendingProfileJSONMetadata.tags[index]}</div>
+              //edit mode is disabled - just show the tags
+              <div key={tag + index} className="text-lg text-left z-50">
+                #{pendingProfileJSONMetadata.tags[index]}
+              </div>
             );
           })}
         </div>
       )}
 
-      {(pendingProfileJSONMetadata.tags.length < 12 && editMode) && (
-        <button
-          className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
-          onClick={() => setPendingProfileJSONMetadata(current => ({ ...current, tags: [...current.tags, "new tag"] }))}>
-          <RiAddLine />
-        </button>
-      )}
+      {pendingProfileJSONMetadata.tags.length < 12 &&
+        editMode && ( //add new tag; cap at 12
+          <button
+            className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
+            onClick={() => setPendingProfileJSONMetadata(current => ({ ...current, tags: [...current.tags, "new tag"] }))}>
+            <RiAddLine />
+          </button>
+        )}
     </div>
   );
 };

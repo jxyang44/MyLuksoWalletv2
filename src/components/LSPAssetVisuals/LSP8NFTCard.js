@@ -1,12 +1,13 @@
-//component for visualizing LSP8s
+//component for visualizing LSP8 cards
 //TO-DO the design is a proto-type and the code is not finished. The idea is very similar to LSP7TokenCoin.js
 
 import React, { useEffect, useState } from "react";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { IPFS_GATEWAY, LSP4Schema } from "../../utils/ERC725Config";
-import { Address, MintForm, OptionsPanel } from "..";
+import { IPFS_GATEWAY, LSP4Schema, LSP8MintableContract, web3Provider } from "../../utils/luksoConfigs";
+import { Address, OptionsPanel } from "..";
+import { MintLSP8Form, TransferLSP8Form } from "./LSP8Components";
 
 const borderSpin = ` before:content-'' before:block before:absolute before:top-0 before:right-0 before:bottom-0 before:left-0 
   before:rounded-full`;
@@ -25,7 +26,7 @@ const defaultPanel = {
 };
 
 const NFTCardFull = ({ assetAddress, createToken }) => {
-  const { currentAccount } = useProfileContext();
+  const { currentAccount, web3Window } = useProfileContext();
   const { getAssetMetadata, getAssetByKey, getTotalSupply, getBalanceOf, getTokenIdsOf } = useAssetsContext();
   const [assetName, setAssetName] = useState("");
   const [assetSymbol, setAssetSymbol] = useState("");
@@ -37,36 +38,41 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
   const [tokenIDs, setTokenIDs] = useState("");
   const [totalSupply, setTotalSupply] = useState("");
   const [creators, setCreators] = useState("");
-  const [isPanelActive, setIsPanelActive] = useState(defaultPanel);
+  const [isPanelActive, setIsPanelActive] = useState(defaultPanel); //for managing the active state of the mint/transfer/permissions panel
   const [background, setBackGround] = useState("token-topography");
-  const [isExtraInfoActive, setIsExtraInfoActive] = useState(true);
+  const [isExtraInfoActive, setIsExtraInfoActive] = useState(true); //for managing the active state of additional metadata panel
   // const [background, setBackGround] = useState(randomBackgrounds[Math.floor(Math.random() * randomBackgrounds.length)]);
 
   useEffect(() => {
     if (!createToken && assetAddress) {
       getAssetByKey(assetAddress, LSP4Schema[1].key).then(res => setAssetName(res.value));
       getAssetByKey(assetAddress, LSP4Schema[2].key).then(res => setAssetSymbol(res.value));
-      getTokenIdsOf(assetAddress, currentAccount).then(res => setTokenIDs(res));
+      getTokenIdsOf(assetAddress, currentAccount).then(res => {
+        const formattedList = res
+          .map(id => {
+            return web3Provider.utils.toUtf8(id);
+          })
+          .join(", ");
+        setTokenIDs(formattedList);
+      });
       getAssetMetadata(assetAddress).then(res => {
         setAssetMetadata(cur => ({ ...cur, ...res }));
-        console.log("metadata results:", res, res.backgroundColor, assetMetadata);
+        //console.log("metadata results:", res, res.backgroundColor, assetMetadata);
         if (res.icon && res.icon.length > 0) {
           setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY));
         }
         if (res.images && res.images[0] !== null && res.images.length > 0) {
-          setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-          if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
+          setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY));
+          if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY));
         }
         //TO-DO something with assets key if it exists
-        //place icon/picture/asset somewhere
-        console.log(res); //do something with assetmetadata if there are more fields (check array first, check typeof)
       });
-      getTotalSupply(assetAddress).then(res => setTotalSupply(res));
-      currentAccount && getBalanceOf(assetAddress, currentAccount).then(res => setBalanceOf(res));
+      getTotalSupply(assetAddress).then(res => setTotalSupply(web3Provider.utils.toWei(res.toString())));
+      currentAccount && getBalanceOf(assetAddress, currentAccount).then(res => setBalanceOf(web3Provider.utils.toWei(res.toString())));
     }
   }, []);
 
-  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet
+  //handles when user is using the CREATE token panel since there is no assetAddress to retrieve yet; user can visualize changes as they happen
   useEffect(() => {
     if (!createToken) return;
     setAssetName(createToken.tokenName);
@@ -85,8 +91,6 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
     setTotalSupply(createToken.mintAmount); //TO-DO change if using capped
   }, [createToken]);
 
-  //bg idea: https://dribbble.com/shots/5784934-Gradients-and-textures-for-cryptocurrency-project/attachments/1247671?mode=media
-  //add features for color mask: currently black-purple-pink
   return (
     <div className="flex flex-col items-center justify-start w-full">
       <div
@@ -110,7 +114,7 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
                   <Address address={assetAddress} />
                 </div>
 
-                <div className="mt-2 w-16 h-16">
+                <div className="mt-2 lg:w-24 lg:h-24 w-16 h-16">
                   <img src={assetIcon}></img>
                 </div>
               </div>
@@ -124,26 +128,24 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
                 className={`w-full relative p-4 aspect-square rounded-full flex justify-center items-center ${borderSpin} ${borderSpinInner} ${
                   assetImageFront && animateInner
                 }`}>
-                {assetImageFront && 
+                {assetImageFront && (
                   <div className="relative before:content-'' before:absolute before:backdrop-opacity-0">
                     <img src={assetImageFront}></img>
-                  </div>}
-              
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
           <div>
             {isPanelActive.permissions && <div className="animate-fadeInLeft">permissions</div>}
-            {isPanelActive.mint && <MintForm assetAddress={assetAddress} />}
-            {isPanelActive.transfer && <div className="animate-fadeInLeft">transfer</div>}
+            {isPanelActive.mint && <MintLSP8Form assetAddress={assetAddress} contract={LSP8MintableContract} />}
+            {isPanelActive.transfer && <TransferLSP8Form assetAddress={assetAddress} contract={LSP8MintableContract} balanceOf={balanceOf} />}
           </div>
 
           <div className="flex justify-between items-end">
             {isExtraInfoActive ? (
-              <div
-                className="relative rounded-lg p-1 w-3/6 lg:h-32 h-24 overflow-y-auto text-white lg:text-sm text-xs bg-slate-800">
-              
+              <div className="relative rounded-lg p-1 w-3/6 lg:h-32 h-24 overflow-y-auto text-white lg:text-sm text-xs bg-slate-800">
                 <div>
                   <span className={subFontStyle}>Description:</span> {assetMetadata.description}
                 </div>
@@ -159,12 +161,16 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
                 <div>
                   <span className={subFontStyle}>Creators:</span> {creators}
                 </div>
-                <button className="text-white absolute top-0 right-0 text-xl" onClick={()=>setIsExtraInfoActive(false)}>
+                <button className="text-white absolute top-0 right-0 text-xl" onClick={() => setIsExtraInfoActive(false)}>
                   <MdKeyboardArrowDown />
                 </button>
               </div>
             ) : (
-              <button className="lg:text-base text-sm bg-black bg-opacity-80 rounded-lg py-1 px-2 text-white" onClick={()=>setIsExtraInfoActive(true)}>Show more</button>
+              <button
+                className="lg:text-base text-sm bg-black bg-opacity-80 rounded-lg py-1 px-2 text-white"
+                onClick={() => setIsExtraInfoActive(true)}>
+                Show more
+              </button>
             )}
 
             <OptionsPanel defaultPanel={defaultPanel} isPanelActive={isPanelActive} setIsPanelActive={setIsPanelActive} />

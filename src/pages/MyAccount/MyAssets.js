@@ -1,9 +1,19 @@
+//page to show detailed assets - allows for mint / transfer functions
+//this page is still a work in progress
+//to-dos: 
+//fix the multiple loading issue
+//get icons to line up with asset image
+//add issued assets logic
+//handle duplicates when an asset is owned and issued
+//edit asset data
+//view token in specific vault
+
 import React, { useState, useEffect } from "react";
 import { useAssetsContext } from "../../contexts/AssetsContext";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
 import { ButtonShadow, FormTabs, LSP8NFTCard, LSP7TokenCoin, Loading, Banner, LoginGraphic, FullScreenButton } from "../../components";
-import { LSPMapping } from "../../utils/ERC725Config";
+import { LSPMapping } from "../../utils/luksoConfigs";
 import { GiTwoCoins } from "react-icons/gi";
 import { AiFillCreditCard } from "react-icons/ai";
 import Slider from "react-slick";
@@ -25,8 +35,7 @@ const SelectedAssetToggle = ({ assetText, selectedAsset, setSelectedAsset, other
 const forms = [
   { name: "Edit", border: "border-sky-400 shadow-sky-400" },
   { name: "Change Vault", border: "border-green-500 shadow-green-500" },
-]
-
+];
 
 const MyAssets = () => {
   const { activeMenu, setActiveMenu } = useStateContext();
@@ -48,11 +57,8 @@ const MyAssets = () => {
   }, []);
 
   useEffect(() => {
-  
     handleLoadAssets();
-    console.log(assets.length, assets);
-  }, [currentAccount, showReceivedAssets, showIssuedAssets, showLSP7Assets, showLSP8Assets]);
-
+  }, [currentAccount]);
 
   const sliderSettings = {
     customPaging: i => {
@@ -78,15 +84,12 @@ const MyAssets = () => {
     vertical: true,
   };
 
-  //test UP address: 0xa907c1904c22DFd37FF56c1f3c3d795682539196
   const handleLoadAssets = () => {
     setAssets([]);
     setAssetsLoaded(false);
     if (showReceivedAssets) assetLoad(receivedAssets, "LSP5");
     if (showIssuedAssets) assetLoad(issuedAssets, "LSP12");
-    
-
-    console.log(assets);
+    //console.log(assets);
   };
 
   const assetLoad = (assetType, LSP) => {
@@ -95,12 +98,12 @@ const MyAssets = () => {
         assetType.map(asset => {
           supportsInterface(asset, LSPMapping.LSP7.contract).then(res => {
             const newAsset = { address: asset, LSP_7_8: "LSP7", [LSP]: true };
-            if (res === true && showLSP7Assets && !assets.some(e => e.address === asset)) setAssets(curr => [...curr, newAsset]); 
+            if (res === true && showLSP7Assets ) setAssets(curr => [...curr, newAsset]);
             //fix the LSP loaded (currently show redundancies issued/owned)
           });
           supportsInterface(asset, LSPMapping.LSP8.contract).then(res => {
             const newAsset = { address: asset, LSP_7_8: "LSP8", [LSP]: true };
-            if (res === true && showLSP8Assets && !assets.some(e => e.address === asset)) setAssets(curr => [...curr, newAsset]);
+            if (res === true && showLSP8Assets ) setAssets(curr => [...curr, newAsset]);
           });
         });
       setAssetsLoaded(true);
@@ -118,43 +121,54 @@ const MyAssets = () => {
           ) : (
             <div className="flex flex-row lg:mx-16 ">
               <div className="flex flex-col justify-start gap-2  w-5/12 lg:mr-24 mr-8 text-white">
+              <div className=" lg:text-3xl text-xl mt-10 text-green-500">This page is currently under construction 👷</div>
+                <div> You may need to reload a few times for the asset icons to load and to line up with the corresponding image correctly. We apologize for the inconvenience.</div>
                 <div className="text-sky-500 font-semibold text-3xl">Powered by Lukso Standard Proposals</div>
                 <div className="text-5xl">My Assets</div>
                 <div className="text-2xl mt-2 mb-6">Manage LSP7 & LSP8 Assets With MyLuksoWallet</div>
-                
+
                 <div className="flex flex-col">
-                  
-                <div className="flex flex-row gap-6 h-12">
-                  <SelectedAssetToggle assetText="LSP7 Tokens" selectedAsset={showLSP7Assets} setSelectedAsset={setShowLSP7Assets} otherAsset={showLSP8Assets} />
-                  <SelectedAssetToggle assetText="LSP8 NFTs" selectedAsset={showLSP8Assets} setSelectedAsset={setShowLSP8Assets} otherAsset={showLSP7Assets} />
-                </div>
+                  <div className="flex flex-row gap-6 h-12">
+                    <SelectedAssetToggle
+                      assetText="LSP7 Tokens"
+                      selectedAsset={showLSP7Assets}
+                      setSelectedAsset={setShowLSP7Assets}
+                      otherAsset={showLSP8Assets}
+                    />
+                    <SelectedAssetToggle
+                      assetText="LSP8 NFTs"
+                      selectedAsset={showLSP8Assets}
+                      setSelectedAsset={setShowLSP8Assets}
+                      otherAsset={showLSP7Assets}
+                    />
+                  </div>
 
-                <div className="flex flex-row gap-6 h-12">
-                  <SelectedAssetToggle assetText="Owned Assets" selectedAsset={showReceivedAssets} setSelectedAsset={setShowReceivedAssets} otherAsset={showIssuedAssets} />
-                  <SelectedAssetToggle assetText="Issued Assets" selectedAsset={showIssuedAssets} setSelectedAsset={setShowIssuedAssets}  otherAsset = {showReceivedAssets}/>
-                 
-                </div>
-                <div>
-
-                <ButtonShadow
-                    buttonText={"Reload Assets"}
-                    buttonFunc={handleLoadAssets}
-                    buttonColor={"bg-blue-500"}
-                    buttonTextColor={"text-black"}
-                  />
+                  <div className="flex flex-row gap-6 h-12">
+                    <SelectedAssetToggle
+                      assetText="Owned Assets"
+                      selectedAsset={showReceivedAssets}
+                      setSelectedAsset={setShowReceivedAssets}
+                      otherAsset={showIssuedAssets}
+                    />
+                    <SelectedAssetToggle
+                      assetText="Issued Assets"
+                      selectedAsset={showIssuedAssets}
+                      setSelectedAsset={setShowIssuedAssets}
+                      otherAsset={showReceivedAssets}
+                    />
+                  </div>
+                  <div>
+                    <ButtonShadow
+                      buttonText={"Reload Assets"}
+                      buttonFunc={handleLoadAssets}
+                      buttonColor={"bg-blue-500"}
+                      buttonTextColor={"text-black"}
+                    />
                   </div>
                 </div>
                 <FormTabs forms={forms} showForm={showForm} setShowForm={setShowForm} />
 
-              <div className="text-white lg:text-3xl text-xl mt-10">
-                Page under construction 👷
-              </div>
-              <div>
-                To-dos: fix reload assets, align preview asset with display, clean up UX
-              </div>
-
-
-
+               
               </div>
               {assetsLoaded ? (
                 <div className="flex flex-row justify-center w-6/12">

@@ -1,7 +1,7 @@
 //shows profile account balance and modal to transfer LYX to another valid account
 
 import React, { useEffect } from "react";
-import { web3Provider, UniversalProfileContract } from "../../utils/ERC725Config";
+import { web3Provider, UniversalProfileContract } from "../../utils/luksoConfigs";
 import { BiTransfer } from "react-icons/bi";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";

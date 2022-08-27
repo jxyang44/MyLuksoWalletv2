@@ -2,7 +2,8 @@ import { AiFillHome, AiFillPlayCircle, AiTwotoneStar } from "react-icons/ai";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { GiCube, GiTwoCoins, GiAirplaneDeparture } from "react-icons/gi";
 import { BsSafeFill } from "react-icons/bs";
-import {MdPersonSearch} from "react-icons/md";
+import { MdPersonSearch } from "react-icons/md";
+
 export const links = [
   {
     title: "About",
@@ -29,7 +30,7 @@ export const links = [
       },
     ],
   },
-  
+
   {
     title: "My Account",
     links: [

@@ -1,3 +1,5 @@
+//step section component for get started page
+
 import React, { useState, useRef } from "react";
 import { ButtonClean, StepDot } from "../";
 

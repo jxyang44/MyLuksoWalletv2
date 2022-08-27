@@ -1,5 +1,7 @@
+//background for LSP7 coin
+
 import React from "react";
-import coinSilver from "../../../assets/MyLuksoWalletVisual/Coin/coinSilver.svg";
+import coinSilver from "../../../assets/MyLuksoWalletVisual/coinSilver.svg";
 
 const Background = ({assetImage}) => {
   return (

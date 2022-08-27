@@ -5,14 +5,16 @@
 import React, { createContext, useContext, useState } from "react";
 const StateContext = createContext();
 
+//saved to UP metadata
 const themeDefaults = {
   theme: "slate",
   UPColor: "#FFFFFF",
   UPTextColor: "#000000",
 };
+
 export const StateProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
-  const [activeMenu, setActiveMenu] = useState(true);
+  const [activeMenu, setActiveMenu] = useState(false);
   const [activeProfile, setActiveProfile] = useState(false);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [theme, setTheme] = useState(themeDefaults.theme);
@@ -26,6 +28,7 @@ export const StateProvider = ({ children }) => {
     setUPTextColor(themeDefaults.UPTextColor);
   }
 
+  //need to define text explicitly for tailwind
   const THEMES = {
     background: {
       slate: `from-slate-900 via-slate-800 to-slate-800`,
@@ -95,7 +98,7 @@ export const StateProvider = ({ children }) => {
     },
   };
 
-
+  //this doesn't work because of how tailwind checks for styles on start-up
   // const THEMES = {
   //   background: `from-${theme}-900 via-${theme}-800 to-${theme}-800`,
   //   hoverLink: `hover:bg-${theme}-900`,

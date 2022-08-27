@@ -1,39 +1,45 @@
-import React, { useState, useEffect, useRef } from "react";
-import lukso from "../../assets/Logos/Lukso_Original/LUKSO_2022_WORDMARK-01.png";
-import { useStateContext } from "../../contexts/StateContext";
-import { animateOnEntry } from "../../utils/animations";
-const Introduction = () => {
-  const { scrollHeight } = useStateContext();
-  const imgRef = useRef(null);
-  const [persAnimation, setPersAnimation] = useState(false);
+import React from "react";
 
-  useEffect(() => {
-    animateOnEntry(imgRef, setPersAnimation);
-  }, [scrollHeight]);
-
+import { AiOutlineTwitter, AiFillHome, AiFillQuestionCircle } from "react-icons/ai";
+import { FaDiscord } from "react-icons/fa";
+import { IoDocumentSharp } from "react-icons/io5";
+import { BsFillFileCodeFill } from "react-icons/bs";
+const Link = ({ href, title, icon }) => {
   return (
-    <div className="flex flex-row justify-between h-[calc(100vmin-100px)] w-full gap-10 relative lg:px-32 px-8">
-      <div className="flex flex-col justify-center gap-1 w-1/2 lg:px-4">
-        <div className="text-sky-300 lg:text-4xl text-2xl font-semibold italic">What is LUKSO?</div>
+    <a
+      className="px-4 py-3 border border-gray-100 flex flex-row justify-between gap-4 items-center shadow-sm rounded-xl focus:outline-none focus:ring hover:border-gray-200 hover:ring-1 hover:ring-gray-200"
+      href={href}
+      rel="noreferrer"
+      target="_blank">
+      <div className="inline-block p-2 rounded-lg bg-sky-600 border border-white">{icon}</div>
 
-        <div className="lg:text-base text-sm mt-4 tracking-wide text-white">
-          <p className="bg-black rounded p-4 bg-opacity-50">
-            "LUKSO is a next generation EVM blockchain based on Casper PoS that will revolutionize the way brands, creators and users interact in Web3
-            and with blockchain technology in the New Creative Economy. LUKSO was founded by Fabian Vogelsteller and Marjorie Hernandez. Fabian is a
-            former Lead DApp Developer at Ethereum and author of ERC20 and web3.js - both of which are the foundation for today’s DeFi and NFT
-            protocols. Marjorie Hernandez is an innovation and product expert who previously created and managed EY's Digital Innovation Lab in
-            Berlin."
-          </p>
-          <p className="text-right">
-            <a className="font-semibold text-blue-400 hover:text-blue-300" href="https://lukso.network/faq" rel="noreferrer" target="_blank">
-              📘 https://lukso.network/faq
-            </a>
-          </p>
+      <h6 className="mt-2 font-bold text-right">{title}</h6>
+    </a>
+  );
+};
+
+const Introduction = () => {
+  return (
+    <div className="max-w-screen-2xl px-20 py-8 border-4 rounded-xl border-sky-500 shadow-md shadow-sky-500 lg:mt-16 mt-24">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 lg:gap-x-16 lg:items-center">
+        <div className="max-w-lg mx-auto text-center lg:text-left lg:mx-0">
+          <h2 className="text-3xl font-bold text-white sm:text-4xl">Lukso Resources</h2>
+
+          <p className="mt-4 text-xl">Feel free to check out these links to learn more about Lukso.</p>
         </div>
-      </div>
 
-      <div ref={imgRef} className={`flex justify-center items-center w-1/2 perspective-l ${persAnimation && "perspective-l-animation"}`}>
-        <img className="py-10 px-2 bg-gradient-to-br from-sky-400 via-sky-200 rounded-lg bg-opacity-40" src={lukso} alt="Lukso Logo" />
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <Link href={"https://lukso.network/"} title={"Homepage"} icon={<AiFillHome />} />
+          <Link href={"https://twitter.com/lukso_io"} title={"Twitter"} icon={<AiOutlineTwitter />} />
+          <Link href={"https://discord.gg/MADeUN5Q"} title={"Discord"} icon={<FaDiscord />} />
+          <Link href={"https://lukso.network/faq"} title={"Lukso FAQs"} icon={<AiFillQuestionCircle />} />
+          <Link
+            href={"https://uploads-ssl.webflow.com/629f44560745074760731ba4/62b200bfe0af12186845519a_LUKSO_Whitepaper_V1-1.pdf"}
+            title={"Whitepaper"}
+            icon={<IoDocumentSharp />}
+          />
+          <Link href={"https://docs.lukso.tech/faq/lukso/"} title={"Tech FAQs"} icon={<BsFillFileCodeFill />} />
+        </div>
       </div>
     </div>
   );

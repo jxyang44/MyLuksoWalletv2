@@ -1,3 +1,5 @@
+//MyLuksoWallet logo
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as LogoSVG } from "../../assets/Logos/MLW_logo_color.svg";

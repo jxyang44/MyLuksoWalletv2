@@ -1,5 +1,6 @@
 //formatting for contract address
 //adds copy address function, link to block explorer, and shortening address text
+//TO-DO fix hover animation so that it doesn't cover too much of the text
 
 import React from "react";
 import { AiOutlineFileSearch, AiOutlineCopy } from "react-icons/ai";

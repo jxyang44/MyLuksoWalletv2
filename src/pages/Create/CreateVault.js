@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Address, Banner } from "../../components/";
-import { DeployVault, DeployURD, AddURDtoVault, AddVaultToUP, AddPermissions, AddMetadata } from "../../components/Vault";
+import { Banner } from "../../components/";
+import { DeployVault, DeployURD, AddURDtoVault, AddVaultToUP, EditVault } from "../../components/Vault";
 
 const CreateVault = () => {
-  const [recentVaultAddress, setRecentVaultAddress] = useState(); //stores the most recent address of the deployed vault (will override with each deployment)
+  const [recentVaultAddress, setRecentVaultAddress] = useState(localStorage.getItem("recentLSP9Address")); //stores the most recent address of the deployed vault (will override with each deployment)
+  const [recentVaultURDAddress, setRecentVaultURDAddress] = useState(localStorage.getItem("recentLSP9URDAddress")); //stores the most recent address of the deployed vault (will override with each deployment)
 
-  //   <div className="my-2 flex flex-row gap-1 text-white">
-  //   Most recently deployed LSP7 token contract from your browser:
-  //   <span className="font-bold"><Address address={recentVaultAddress ?? localStorage.getItem("recentLSP9Address") ?? "N/A"} /></span>
-  // </div>
-  // <DeployVault recentVaultAddress={recentVaultAddress} setRecentVaultAddress = {setRecentVaultAddress}/>
-  // <VaultPermissions/>
+  useEffect(() => {
+    window.addEventListener("storage", () => {
+      setRecentVaultAddress(JSON.parse(localStorage.getItem("recentLSP9Address")) || []);
+      setRecentVaultURDAddress(JSON.parse(localStorage.getItem("recentLSP9URDAddress")) || []);
+    });
+  }, []);
 
   return (
     <>
@@ -30,12 +31,11 @@ const CreateVault = () => {
           separated into steps so that you won't have to start over in case anything goes wrong along the way.
         </p>
         <div className="mt-4 mb-16 w-full bg-slate-500 h-[1px]"></div>
-        <DeployVault />
-        <DeployURD />
-        <AddURDtoVault />
-        <AddVaultToUP />
-        <AddPermissions />
-        <AddMetadata />
+        <DeployVault recentVaultAddress={recentVaultAddress} setRecentVaultAddress={setRecentVaultAddress} />
+        <DeployURD recentVaultURDAddress={recentVaultURDAddress} setRecentVaultURDAddress={setRecentVaultURDAddress} />
+        <AddURDtoVault recentVaultAddress={recentVaultAddress} recentVaultURDAddress={recentVaultURDAddress} />
+        <AddVaultToUP recentVaultAddress={recentVaultAddress} />
+        <EditVault />
       </div>
     </>
   );

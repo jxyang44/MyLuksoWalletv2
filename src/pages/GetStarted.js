@@ -11,7 +11,7 @@ const GetStarted = () => {
   };
   return (
     <div>
-      <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet"} subtitle={""} buttonText={""} />
+      <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet (Work in Progress 👷) "} subtitle={""} buttonText={""} />
 
       <div className="flex flex-col lg:mx-32 mx-8 gap-14">
         <StepLeft

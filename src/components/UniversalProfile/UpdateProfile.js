@@ -1,13 +1,14 @@
+//button to handle upload profile metadata
+//checks if pendingProfileJSONMetadata = profileJSONMetadata
+
 import React, { useState, useEffect } from "react";
 import {
   LSP3Schema,
   createLSPFactoryWindowInstance,
   createErc725Instance,
   IPFS_GATEWAY,
-  LSP6Contract,
   UniversalProfileContract,
-  MM_PrivateKey,
-} from "../../utils/ERC725Config";
+} from "../../utils/luksoConfigs";
 import { ButtonShadow } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
@@ -33,7 +34,7 @@ const UpdateProfile = () => {
     JSON.stringify(pendingProfileJSONMetadata) === JSON.stringify(profileJSONMetadata) ? setIsEdited(false) : setIsEdited(true);
   }, [pendingProfileJSONMetadata]);
 
-  //TO-DO add limits to name, description character lengths?
+  //TO-DO add length limits to name and description characters?
   const handleUploadEdits = () => {
     if (isProfileLoaded === false) {
       swal("You are not connected to an account.");
@@ -44,20 +45,20 @@ const UpdateProfile = () => {
       return;
     }
 
-    const edits = []; //used to display the metadata fields that were changed to the user
+    const edits = []; //used to display the metadata fields that were changed; displayed in a modal to the user
     for (const [key, newValue] of Object.entries(pendingProfileJSONMetadata)) {
-      if (newValue instanceof File) {
+      if (newValue instanceof File) { //images are saved to pendingProfileJSONMetadata as Files - manually parse into string to display to user
         edits.push({
           key,
           newValue: newValue.name,
-          oldValue: profileJSONMetadata[key][0]?.url?.replace("ipfs://", IPFS_GATEWAY) || profileJSONMetadata[key][0]?.name || "old picture",
+          oldValue: profileJSONMetadata[key][0]?.url?.replace("ipfs://", IPFS_GATEWAY) || profileJSONMetadata[key][0]?.name || "old picture", //TO-DO need more cases based on how url is stored
         });
-      } else if (newValue && newValue !== profileJSONMetadata[key]) {
+      } else if (newValue && newValue !== profileJSONMetadata[key]) { //otherwise JSON.stringify
         edits.push({ key, newValue: JSON.stringify(newValue), oldValue: JSON.stringify(profileJSONMetadata[key]) });
       }
     }
 
-    swal({
+    swal({ //user must confirm changes before proceeding
       title: "Please confirm upload of these changes to the Lukso network. Once confirmed, your edits cannot be reverted.",
       text: `${edits.map(edit => `\nUPDATE: "${edit.key}" \nFROM: "${edit.oldValue}" \nTO: "${edit.newValue}"\n`)}`,
       buttons: {
@@ -67,9 +68,8 @@ const UpdateProfile = () => {
     }).then(value => {
       if (value) {
         editProfile().then(res => {
-          console.log(res);
           if (res !== undefined && res) {
-            setProfileJSONMetadata(pendingProfileJSONMetadata);
+            setProfileJSONMetadata(pendingProfileJSONMetadata); //if successful upload, then setProfileJSONMetadata to pendingProfileJSONMetadata
             swal("Congratulations!", "Your Universal Profile has been updated on the Lukso blockchain!", "success");
           }
         });

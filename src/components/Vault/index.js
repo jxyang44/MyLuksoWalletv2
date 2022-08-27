@@ -1,9 +1,9 @@
-export { default as DeployVault } from "./DeployVault";
-export { default as DeployURD } from "./DeployURD";
-export { default as AddURDtoVault } from "./AddURDtoVault";
-export { default as VaultPermissions } from "./VaultPermissions";
-export { default as VaultTransfer } from "./VaultTransfer";
-export { default as AddVaultToUP } from "./AddVaultToUP";
-export {default as VaultStep} from "./VaultStep";
-export {default as AddPermissions} from "./AddPermissions";
-export {default as AddMetadata} from "./AddMetadata";
+
+export { default as DeployVault } from "./DeployVault"; //deploys a vault
+export { default as DeployURD } from "./DeployURD"; //deploys a vault universal receiver delegate
+export { default as AddURDtoVault } from "./AddURDtoVault"; //adds URD to vault
+export { default as AddVaultToUP } from "./AddVaultToUP"; //adds vault to UP
+export { default as EditVault } from "./EditVault"; //redirects user to vault settings page, since vault is now part of profile
+export { default as VaultStep } from "./VaultStep"; //vault step component
+
+export { default as VaultPermissions } from "./VaultPermissions"; //TO-DO sets vault permissions
