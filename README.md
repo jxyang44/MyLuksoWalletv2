@@ -14,9 +14,13 @@
     <br />
     <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission (8/31/22)</strong></a>
     <br />
+    .
     <a href="https://www.myluksowallet.com">Current Version</a>
+    .
     <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Report Bug</a>
+    .
     <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Request Feature</a>
+    .
   </p>
 </div>
 
