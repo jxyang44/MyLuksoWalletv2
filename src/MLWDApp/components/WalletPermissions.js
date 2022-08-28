@@ -37,21 +37,21 @@ const WalletPermissions = ({ walletAddress, walletMetadata }) => {
 
   return (
     <div className="flex flex-row m-2 justify-center gap-2 w-full h-1/2">
-      <div className="w-1/2 font-bold text-black lg:text-lg text-sm relative">
+      <div className="w-1/2 font-bold text-black xl:text-lg text-sm relative">
         Universal Profile
         <div className={tokenPurse} style={{ backgroundImage: `url(${walletTexture})` }}>
           <p className="underline ">Vaults</p>
-          {accountAddresses.vaults.map(vault => {
+          {accountAddresses.vaults.map((vault, index) => {
             return (
-              <div className="ml-2 flex flex-row gap-2" key={vault}>
+              <div className="ml-2 flex flex-row gap-2" key={index}>
                 <Address key={vault} address={vault} left={8} right={4} />
               </div>
             );
           })}
           <p className="underline mt-1">Permissioned Addresses</p>
-          {accountAddresses.permissions.map(permission => {
+          {accountAddresses.permissions.map((permission,index) => {
             return (
-              <div className="ml-2 flex flex-row gap-2" key={permission}>
+              <div className="ml-2 flex flex-row gap-2" key={index}>
                 <Address key={permission} address={permission} left={8} right={4} /> <GetPermissions address={permission} />
                 {permission === accountAddresses.URD && " (URD)"}
               </div>
@@ -68,7 +68,7 @@ const WalletPermissions = ({ walletAddress, walletMetadata }) => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 font-bold text-black lg:text-lg text-sm relative">
+      <div className="w-1/2 font-bold text-black xl:text-lg text-sm relative">
       {walletMetadata?.vaultName ? walletMetadata?.vaultName : "Unnamed Vault"} - {walletAddress.substring(0,2)}...{walletAddress.substring(38)}
         <div className={tokenPurse} style={{ backgroundImage: `url(${walletTexture})` }}>
           <div className="flex flex-row gap-1">

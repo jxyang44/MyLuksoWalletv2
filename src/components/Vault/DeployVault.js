@@ -68,10 +68,8 @@ const DeployVault = ({ recentVaultAddress, setRecentVaultAddress }) => {
       buttonFunc={handleDeployVault}
       inputLabel1="Most Recently Deployed Vault from this Browser"
       inputValue1={recentVaultAddress}
-      enabled1={true}
       inputLabel2={`Vault Owner ${ownerIsYou ? "(Your UP is the Owner)" : ""}`}
       inputValue2={recentVaultOwner}
-      enabled2={true}
     />
   );
 };

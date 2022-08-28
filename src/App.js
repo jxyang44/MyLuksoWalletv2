@@ -14,6 +14,7 @@ import {
   CreateVault,
   ProfileSearch,
   MyVaults,
+  UnderConstruction,
 } from "./pages";
 
 
@@ -58,6 +59,9 @@ const App = () => {
                 <Route path="/createnft" element={<CreateToken LSP="LSP8" />} />
                 <Route path="/createvault" element={<CreateVault />} />
                 <Route path="/profilesearch" element={<ProfileSearch />} />
+                <Route path="/tokensearch" element={<UnderConstruction />} />
+                <Route path="/nftsearch" element={<UnderConstruction />} />
+                <Route path="/vaultsearch" element={<UnderConstruction />} />
               </Routes>
             </div>
           </div>

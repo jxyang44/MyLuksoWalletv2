@@ -20,7 +20,7 @@ const WalletProfileCard = () => {
                 }>
                 {pendingProfileJSONMetadata.name}
               </p>
-              <div className="lg:text-sm text-xs overflow-auto max-h-24 lg:max-h-56">
+              <div className="xl:text-sm text-xs overflow-auto max-h-24 xl:max-h-56">
                 <div className="flex flex-col lg:gap-4 gap-1">
                   <LYXBalanceFuncs />
                   <span className="flex gap-1">

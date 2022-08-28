@@ -20,6 +20,7 @@ const MintLSPForm = ({ formValues, setFormValues, initialMintState, LSP }) => {
   const { mintLSP7, mintLSP8, supportsInterface } = useAssetsContext();
   const [supportsInterfaceState, setSupportsInterfaceState] = useState(false);
   const [mintToMessage, setMintToMessage] = useState("");
+  
   useEffect(() => {
     //double-checks whether address supports the interface - should return true if "LSP" prop matches address interface
     supportsInterface(formValues.tokenAddress, LSPMapping[LSP].contract).then(result => {

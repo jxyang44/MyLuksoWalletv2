@@ -2,10 +2,9 @@
 
 import React from "react";
 
-const inputStyle =
-  "shadow appearance-none border rounded w-full text-md py-1 px-2 m text-black leading-tight bg-black text-white";
+const inputStyle = "shadow appearance-none border rounded w-full text-md py-1 px-2 m text-black leading-tight bg-black text-white";
 
-const VaultStep = ({ buttonText, buttonFunc, inputLabel1, inputValue1, enabled1, inputLabel2, inputValue2, enabled2 }) => {
+const VaultStep = ({ buttonText, buttonFunc, inputLabel1, inputValue1, inputLabel2, inputValue2 }) => {
   return (
     <div className="flex flex-col items-center mb-10">
       <div className="flex flex-row items-center gap-2 w-11/12">
@@ -25,13 +24,13 @@ const VaultStep = ({ buttonText, buttonFunc, inputLabel1, inputValue1, enabled1,
           {inputLabel1 && (
             <>
               <div className="block text-slate-300 text-sm font-bold text-left">{inputLabel1}</div>
-              <input className={inputStyle} type="text" value={inputValue1} placeholder={"N/A"} readOnly={!enabled1} onChange={()=>{}} />
+              <input className={inputStyle} type="text" value={inputValue1} placeholder={"N/A"} readOnly={true} onChange={() => {}} />
             </>
           )}
           {inputLabel2 && (
             <>
               <div className="mt-1 block text-slate-300 text-sm font-bold text-left">{inputLabel2}</div>
-              <input className={inputStyle} type="text" value={inputValue2} placeholder={"N/A"} readOnly={!enabled2} onChange={()=>{}} />
+              <input className={inputStyle} type="text" value={inputValue2} placeholder={"N/A"} readOnly={true} onChange={() => {}} />
             </>
           )}
         </div>

@@ -19,8 +19,8 @@ export const web3Provider = new Web3(RPC_ENDPOINT);
 export const web3Window = new Web3(window.ethereum);
 
 //----- keys -----
-export const MM_PublicKey = process.env.REACT_APP_METAMASK_MY_DEV_ACCOUNT; //jxyang metamask public address - dev account
-export const MM_PrivateKey = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; //jxyang metamask private key - dev account
+export const MM_PublicKey = process.env.REACT_APP_METAMASK_MY_DEV_ACCOUNT; //metamask public address - dev account
+export const MM_PrivateKey = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; //metamask private key - dev account - used for lspfactory private deployment (LSP7 and LSP8 contract deployment only)
 
 export const createLSPFactoryWindowInstance = () => new LSPFactory(window.ethereum, { chainId: chainId });
 
@@ -85,22 +85,22 @@ export const LSPMapping = {
   LSP7: {
     shortName: "Tokens",
     contract: "LSP7DigitalAsset",
-    bannerColor: "from-green-700",
-    buttonColor: "bg-green-600",
+    // bannerColor: "from-green-700",
+    // buttonColor: "bg-green-600",
   },
 
   LSP8: {
     shortName: "NFTs",
     contract: "LSP8IdentifiableDigitalAsset",
-    bannerColor: "from-blue-700",
-    buttonColor: "bg-blue-600",
+    // bannerColor: "from-blue-700",
+    // buttonColor: "bg-blue-600",
   },
 
   LSP9: {
     shortName: "Vaults",
     contract: "LSP9Vault",
-    bannerColor: "from-slate-700",
-    buttonColor: "bg-slate-600",
+    // bannerColor: "from-slate-700",
+    // buttonColor: "bg-slate-600",
   },
 
   LSP5: {

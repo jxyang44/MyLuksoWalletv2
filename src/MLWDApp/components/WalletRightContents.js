@@ -133,14 +133,14 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
       <div
         className="flex flex-col items-center h-1/3 bg-slate-500 py-1 px-3 border border-black rounded-t-3xl custom-shadow "
         style={{ backgroundImage: `url(${topPocketTexture})` }}>
-        <div className="flex flex-row gap-1 font-semibold lg:text-xl text-xs">
+        <div className="flex flex-row gap-1 font-semibold xl:text-xl lg:text-lg text-xs">
           {LSP} Assets for {walletMetadata?.vaultName} <Address address={walletAddress} left={6} right={6} />
         </div>
         <div className="h-0.5 w-full rounded-lg bg-gradient-to-r from-black via-white to-black"></div>
-        <div className="flex flex-row lg:max-h-56 max-h-24 my-1 gap-2">
+        <div className="flex flex-row xl:max-h-56 lg:max-h-20 max-h-12 my-1 gap-2">
           <div className="flex flex-col w-1/2 text-sm border-2 border-slate-200 rounded-lg p-1 bg-slate-700">
-            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 lg:text-base text-xs"> {LSP} Asset Addresses</div>
-            <div className="ml-2 lg:text-sm text-xs overflow-y-auto">
+            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 xl:text-base text-xs"> {LSP} Asset Addresses</div>
+            <div className="ml-2 xl:text-sm text-xs overflow-y-auto">
               {assets.map((asset, index) => {
                 return (
                   <div key={asset + index} className="text-blue-500 hover:text-blue-300" onClick={() => handleSelected(asset, index)}>
@@ -154,11 +154,11 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
             </div>
           </div>
           <div className="flex flex-col w-1/2 text-sm border-2 border-slate-200 rounded-lg p-1 bg-slate-700">
-            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 lg:text-base text-xs">Interaction</div>
-            <div className="ml-2 lg:text-sm text-xs overflow-y-auto">
-              Click on asset to enlarge it.
+            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 xl:text-base text-xs">Interaction</div>
+            <div className="ml-2 xl:text-sm text-xs overflow-y-auto">
+              Click on an asset to enlarge it.
               <br></br>
-              Click again to position it in front.
+              Click on it again to minimize and position in front.
               <br></br> Drag an asset into the slider at the bottom of the screen to transfer it to another vault or UP.
             </div>
           </div>

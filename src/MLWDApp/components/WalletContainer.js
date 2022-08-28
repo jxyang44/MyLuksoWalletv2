@@ -57,8 +57,10 @@ const WalletContainer = ({walletAddress, walletMetadata}) => {
                 className={buckle + leftBuckle + ` hover:translate-x-1 transition duration-700`}
                 onClick={handleLeftBuckle}
                 style={{ backgroundImage: `url(${buckleTexture})` }}>
+
+                  
                 <img src={buttonFront} className="w-6" />
-                <div className="opacity-0 hover:opacity-100 transition duration-700 w-fit absolute lg:text-base text-xs translate-x-2 hover:translate-x-5 text-white z-10 ">
+                <div className="opacity-50 hover:opacity-100 transition duration-700 w-fit absolute lg:text-base text-xs translate-x-2 hover:translate-x-5 text-white z-10 ">
                   Close Wallet
                 </div>
               </div>
@@ -81,7 +83,10 @@ const WalletContainer = ({walletAddress, walletMetadata}) => {
               <div //right buckle
                 className={buckle + rightBuckle + ` hover:-translate-x-1 transition duration-700`}
                 style={{backgroundImage: `url(${buckleTexture})` }}>
-                <img src={buttonBack} className="w-6" />
+                <div className="flex flex-row items-center relative">
+                  <img src={buttonBack} className="w-6" />
+                  <div className="absolute text-white text-right opacity-50 lg:text-base text-xs">Toggle LSPs</div>
+                </div>
                 <div className="flex flex-col justify-center border-2 p-2 shadow-black shadow-lg border-slate-800 lg:w-[200%] w-[400%] rounded-l-xl h-full opacity-0 hover:opacity-100 
                 transition duration-700 lg:text-base text-xs absolute translate-x-2 hover:-translate-x-14 hover:h-[110%] text-white z-10 "
                 style={{ backgroundImage: `url(${buckleTexture})` }}>

@@ -43,23 +43,25 @@ const ProfileSearch = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="mb-3 xl:w-96">
-        <div className="input-group relative flex flex-wrap items-stretch w-full mb-4">
-          <input
-            type="search"
-            className="relative flex-auto min-w-0 w-full px-3 py-1.5 text-gray-700 bg-white bg-clip-padding  border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            placeholder="Search"
-          />
-          <button
-            className="btn px-6 py-2.5 bg-blue-600 text-white text-lg  rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition ease-in-out flex items-center"
-            type="button"
-            onClick={getRecentBlocks}>
-            <AiOutlineSearch />
-          </button>
-        </div>
-      </div>
-    </div>
+    <div className="text-white text-center p-12">This page is under construction. Please check back soon.👷</div>
+    
+    // <div className="flex justify-center">
+    //   <div className="mb-3 xl:w-96">
+    //     <div className="input-group relative flex flex-wrap items-stretch w-full mb-4">
+    //       <input
+    //         type="search"
+    //         className="relative flex-auto min-w-0 w-full px-3 py-1.5 text-gray-700 bg-white bg-clip-padding  border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+    //         placeholder="Search"
+    //       />
+    //       <button
+    //         className="btn px-6 py-2.5 bg-blue-600 text-white text-lg  rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition ease-in-out flex items-center"
+    //         type="button"
+    //         onClick={getRecentBlocks}>
+    //         <AiOutlineSearch />
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 };
 

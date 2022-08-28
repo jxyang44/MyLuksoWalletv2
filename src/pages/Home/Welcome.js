@@ -3,9 +3,18 @@ import { useNavigate } from "react-router-dom";
 import {ButtonClean} from "../../components"
 import {petOwner} from "../../utils/sampleAccounts";
 import { useProfileContext } from "../../contexts/ProfileContext";
+import swal from "sweetalert";
+
 const Welcome = () => {
   const navigate = useNavigate();
   const { connectProfileUsingUPAddress } = useProfileContext();
+
+  const handleSampleAccount = () => {
+    swal("Viewing sample account...", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. To create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
+      if (res) connectProfileUsingUPAddress(petOwner);
+    });
+  };
+
   return (
     <div className="w-3/4 flex flex-col justify-center items-center gap-4 text-center my-32" id="welcome" >
       <div className="text-sky-500 font-semibold lg:text-3xl text-2xl">
@@ -22,7 +31,7 @@ const Welcome = () => {
       </button>
       <div className="flex flex-row w-2/3 gap-6 mt-2 justify-center">
      
-       <ButtonClean buttonText={"Connect Pet Owner (Example Profile)"} buttonFunc={() => connectProfileUsingUPAddress(petOwner)} customStyle={"w-1/3 p-4 text-center"}/>
+       <ButtonClean buttonText={"View Example Account (Pet Owner)"} buttonFunc={handleSampleAccount} customStyle={"w-1/3 p-4 text-center"}/>
        <ButtonClean buttonText={"Instructions"} buttonFunc={() => navigate("/getstarted")} customStyle={"w-1/3 p-4 text-center"}/>
        <ButtonClean buttonText={"About Lukso"} buttonFunc={() => navigate("/aboutlukso")} customStyle={"w-1/3 p-4 text-center"}/>
       </div>

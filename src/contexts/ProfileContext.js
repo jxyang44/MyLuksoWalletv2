@@ -4,19 +4,15 @@ import React, { useState, createContext, useContext } from "react";
 import Web3 from "web3";
 import {
   LSP3Schema,
-  provider,
-  config,
   UniversalProfileContract,
   LSP6Contract,
-  LSP4Contract,
-  MM_PrivateKey,
+  LSP9Contract,
   web3Provider,
-  chainId,
-  MM_PublicKey,
   LSP6Schema,
   LSP1Schema,
   LSP10Schema,
   createErc725Instance,
+  INTERFACE_IDS
 } from "../utils/luksoConfigs";
 import { useStateContext } from "./StateContext";
 import swal from "sweetalert";
@@ -27,7 +23,8 @@ const { ethereum } = window;
 export let web3Window;
 
 export const ProfileProvider = ({ children }) => {
-  //following format guidelines per https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3profile
+
+  //https://github.com/lukso-network/LIPs/blob/main/LSPs/LSP-3-UniversalProfile-Metadata.md#lsp3profile
   const defaultMetadata = {
     name: "My username",
     description: "My description",
@@ -206,7 +203,7 @@ export const ProfileProvider = ({ children }) => {
 
       //Universal Profile
       if (currentAccount === addressFrom) {
-        swal("Updating permissions.Please confirm...", { button: false });
+        swal("Updating permissions. Please confirm...", { button: false });
         return await myUniversalProfile.methods["setData(bytes32[],bytes[])"](
           [
             addressLengthKey, // length of AddressPermissions[]
@@ -241,6 +238,18 @@ export const ProfileProvider = ({ children }) => {
       swal("Something went wrong.", JSON.stringify(error), "warning");
     }
   }
+
+
+  const isVault = async walletAddress => {
+    try {
+      const contractInstance = new web3Provider.eth.Contract(LSP9Contract.abi, walletAddress);
+      return await contractInstance.methods.supportsInterface(INTERFACE_IDS["LSP9Vault"]).call();
+    } catch (err) {
+      console.log(err);
+      swal("Warning! Could not determine if this address supports the LSP9Vault interface.", "Proceed with caution.", "warning");
+    }
+  };
+
 
   //update permissions for existing account
   async function updateExistingPermission(addressFrom, addressTo, permissions) {
@@ -344,44 +353,45 @@ export const ProfileProvider = ({ children }) => {
     setThemeDefaults();
   };
 
-  //TO-DO - supposed to implement relay service, but doesn't work
-  //this function is currently not used
+  
+  //TO-DOthis function is currently not used
   const executeViaKeyManager = async (functionABI, swalMessage) => {
-    try {
-      if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
-      console.log("initiating key manager");
+    return;
+    // try {
+    //   if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    //   console.log("initiating key manager");
 
-      const universalProfileContract = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
+    //   const universalProfileContract = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
 
-      swal("Using relay service...", "Fetching key manager address...", { button: false });
-      const keyManagerAddress = await universalProfileContract.methods.owner().call();
-      const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
+    //   swal("Using relay service...", "Fetching key manager address...", { button: false });
+    //   const keyManagerAddress = await universalProfileContract.methods.owner().call();
+    //   const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
 
-      const myEOA = web3Window.eth.accounts.wallet.add(MM_PrivateKey);
+    //   const myEOA = web3Window.eth.accounts.wallet.add(MM_PrivateKey);
 
-      const abiPayload = functionABI();
-      swal(swalMessage, { button: false });
+    //   const abiPayload = functionABI();
+    //   swal(swalMessage, { button: false });
 
-      const channelId = 0;
-      swal("Using relay service...", "Establishing key manager nonce...", { button: false });
-      const nonce = await keyManagerContract.methods.getNonce(myEOA.address, channelId).call();
+    //   const channelId = 0;
+    //   swal("Using relay service...", "Establishing key manager nonce...", { button: false });
+    //   const nonce = await keyManagerContract.methods.getNonce(myEOA.address, channelId).call();
 
-      const message = web3Window.utils.soliditySha3(chainId, keyManagerAddress, nonce, {
-        t: "bytes",
-        v: abiPayload,
-      });
+    //   const message = web3Window.utils.soliditySha3(chainId, keyManagerAddress, nonce, {
+    //     t: "bytes",
+    //     v: abiPayload,
+    //   });
 
-      swal("Using relay service...", "Signing the transaction...", { button: false });
-      const signatureObject = myEOA.sign(message);
-      const signature = signatureObject.signature;
-      //const signatureObject2 = web3Window.eth.sign(message, keyManagerAddress);
+    //   swal("Using relay service...", "Signing the transaction...", { button: false });
+    //   const signatureObject = myEOA.sign(message);
+    //   const signature = signatureObject.signature;
+    //   //const signatureObject2 = web3Window.eth.sign(message, keyManagerAddress);
 
-      swal("Using relay service...", "Executing the transaction...", { button: false });
-      return await keyManagerContract.methods.executeRelayCall(signature, nonce, abiPayload).send({ from: myEOA.address, gasLimit: 300_000 });
-    } catch (error) {
-      swal("Something went wrong.", JSON.stringify(error), "warning");
-      console.log(error);
-    }
+    //   swal("Using relay service...", "Executing the transaction...", { button: false });
+    //   return await keyManagerContract.methods.executeRelayCall(signature, nonce, abiPayload).send({ from: myEOA.address, gasLimit: 300_000 });
+    // } catch (error) {
+    //   swal("Something went wrong.", JSON.stringify(error), "warning");
+    //   console.log(error);
+    // }
   };
 
   //function for if MLW is granted permission to account
@@ -437,6 +447,7 @@ export const ProfileProvider = ({ children }) => {
         getAccountType,
         addNewPermission,
         updateExistingPermission,
+        isVault
       }}>
       {children}
     </ProfileContext.Provider>

@@ -1,4 +1,5 @@
-//sidebar
+//standard sidebar with social media links
+//data stored in ..utils/links.js
 
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";

@@ -4,23 +4,26 @@ import { useProfileContext } from "../contexts/ProfileContext";
 import { useNavigate } from "react-router-dom";
 const GetStarted = () => {
   const navigate = useNavigate();
-  const { currentAccount, connectProfile, loginWithKey, setUseRelay } = useProfileContext();
+  const { connectProfile } = useProfileContext();
 
-  const handleStep4 = () => {
-    console.log("step 4");
-  };
   return (
     <div>
-      <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet (Work in Progress 👷) "} subtitle={""} buttonText={""} />
+      <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet"} subtitle={"Currently Customized for the Hackathon Submission"} buttonText={""} />
 
       <div className="flex flex-col lg:mx-32 mx-8 gap-14">
+        <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
+          <p className="font-bold"> *** Hackathon  - Developer Note *** </p>
+          <p>
+            - We apologize in advance for any crude or low quality videos. These instructions are a work in progress and will be improved over time. -
+          </p>
+        </div>
         <StepLeft
           title={"Step 1"}
           subtitle={"Download and install the UP Browser Extension"}
           text={[
             "The Universal Profile (UP) Browser Extension is an internet browser (e.g. Chrome) add-on that stays with you across different websites and DApps.",
             "The extension allows you to access your profile and to interact with any Lukso DApp.",
-            "**IMPORTANT** Your Universal Profile settings are tied to a smart contract on the blockchain, not to the browser extension itself. As long as you retain your private key, you will have access to your smart contract account. Lukso utilizes blockchain technology to ensure that your information is truly your own.",
+            "**IMPORTANT** Your Universal Profile settings are tied to a smart contract on the blockchain, not to the browser extension itself. As long as you retain your private key, you will have access to your smart contract account. Lukso utilizes blockchain technology to ensure that your information is not governed by a centralized entity.",
           ]}
           buttonText={"Instructions"}
           buttonFunc={() => window.open("https://docs.lukso.tech/guides/browser-extension/install-browser-extension")}
@@ -32,13 +35,11 @@ const GetStarted = () => {
           subtitle={"Create a Universal Profile"}
           text={[
             "For L16 testnet (and the hackathon), we recommend you create a Universal Profile using the extension.",
-            "You can also create a profile with MyLuksoWallet (MLW). However, if you decide to create a profile with MLW, you will not be able to connect the created profile directly to the extension yet.",
+            "TEMPORARILY DISABLED - You can also create a profile with MyLuksoWallet (MLW). However, if you decide to create a profile with MLW, you will not be able to connect the created profile directly to the extension yet.",
             "Remember, regardless of where you create your account, your Universal Profile stays with you across all DApps as long as you have your private key!",
           ]}
-          buttonText={"Instructions"}
-          buttonFunc={() => window.open("https://docs.lukso.tech/guides/browser-extension/create-a-universal-profile")}
-          button2Text={"Create with MLW"}
-          button2Func={() => window.open("/relayservice")}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/Fcii2svh6KY")}
           customStyle1={"ml-5"}
         />
 
@@ -46,28 +47,27 @@ const GetStarted = () => {
           title={"Step 3"}
           subtitle={"Connect your Universal Profile to MyLuksoWallet"}
           text={[
-            "Press 'Connect Profile' to begin using MyLuksoWallet with the UP Browser Extension. Once connected, you will have access to all our features, including the MLW Dapp, asset management tools, and more!",
-            "Alternatively, 'Connect with UP Address' will allow you to log-in manually with a public key. This can be used if your UP address is not in the extension. Unless you have given MLW permissions to your account, logging in manually will not allow you to write new data to your profile.",
+            "Press 'Connect Profile' to begin using MyLuksoWallet with the UP Browser Extension. Once connected, you will have access to all our features, including the MLW Dapp, asset management tools, and more.",
+            "Alternatively, 'UP Address Login' (the button under 'Connect Profile' in the upper-right part of your screen) will allow you to manually input a UP address. This can be used if your UP address is not in the extension. Logging in manually will not allow you to write new data, since securely uploading new data to the blockchain requires a private key confirmation.",
           ]}
-          buttonText={"Connect Profile"}
-          buttonFunc={() => connectProfile()}
-          button2Text={"Connect with UP Address"}
-          button2Func={() => loginWithKey("UP Address")}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/Fcii2svh6KY?t=32")}
+          button2Text={"Connect Profile"}
+          button2Func={() => connectProfile()}
           customStyle1={"ml-6"}
         />
 
-        {/* TO-DO link to video submission once created*/}
         <StepLeft
           title={"Step 4"}
           subtitle={"Edit Your Profile with MyLuksoWallet"}
           text={[
             "Now let's get starting editing your Universal Profile.",
             "The button at the top-right most corner of this webpage will open your profile. Updating your profile is as simple as clicking and editing the attributes.",
-            "Customize your profile and settings however you like - change your name, description, profile picture, theme settings, anml-4",
+            "Customize your profile and settings however you like - change your name, description, profile picture, theme settings, and more!",
             "Once you're satisfied with your changes, press 'Upload Edits' to commit your changes to the blockchain!",
           ]}
-          buttonText={"Learn More"}
-          buttonFunc={handleStep4}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/Fcii2svh6KY?t=50")}
           customStyle1={"ml-7"}
         />
 
@@ -76,20 +76,23 @@ const GetStarted = () => {
           title={"Step 5"}
           subtitle={"Fund your Account"}
           text={[
-            "The logic to manage your UP, assets, vaults, and other data will primarily be dictated by smart contracts. Any action that mutates the state of your smart contract data incurs a transaction (gas) fee. In order to interact with the blockchain, your account will need to be funded with LYX to pay for transaction fees.",
-            "Lukso introduces the concept of relay services, which circumvents the need to pay gas by delegating payment to an external account. This is further explained in Step 6. MLW is currently working on a relay service before mainnet launch 👷.",
-            "For now let's fund your account with LYX so you have enough to pay for transactions.",
+            "The logic to manage your blockchain interactions will primarily be dictated by smart contracts. Any action that mutates the state of your smart contract data incurs a transaction (gas) fee. In order to interact with the blockchain, your account will need to be funded with LYXt/(e) (i.e. native coins) to pay for transaction fees. On the L16 testnet, Lukso provides your account with some initial funds, but this amount will run out at some point.",
+
+            "For now let's fund your account with native coins so you have enough to pay for transactions. If you don't have any initial funds, you may request some from the faucet. Gas is used from the address found under 'This Browser Extension.' A more detailed explanation is provided in the video tutorial.",
           ]}
-          buttonText={"Enable Relay Service"}
-          buttonFunc={() => setUseRelay(true)}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/22FyeiZps-M?t=155")}
+          button2Text={"Request Funds"}
+          button2Func={() => window.open("https://faucet.l16.lukso.network/")}
           customStyle1={"ml-8"}
         />
 
-        {/* TO-DO need to re-write this */}
-        <StepLeft
+        {/* TO-DO re-write this after relayer implementation */}
+        {/* <StepLeft
           title={"Step 6"}
           subtitle={"Relay Service and Permissions"}
           text={[
+            "Lukso introduces the concept of relay services, which circumvents the need to pay gas by delegating payment to an external account. MLW is currently working on a relay service before mainnet launch 👷.",
             `MyLuksoWallet's relay service utilizes the "faucet model." We will pay for all your transactions as long as the testnet faucet has funds.`,
             "Plese help us replenish the relayer address if it is depleted, so that you may continue to use our services for free.",
             "Unfortunately, this model cannot be used for mainnet, since a mainnet faucet does not exist.",
@@ -97,63 +100,54 @@ const GetStarted = () => {
           buttonText={"Enable Relay Service"}
           buttonFunc={() => setUseRelay(true)}
           customStyle1={"ml-9"}
+        /> */}
+
+        <div className="mt-8 font-semibold italic text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white max-w-5xl">
+          Congratulations, you have just created your very first Universal Profile! Feel free to explore MyLuksoWallet on your own.
+          <br></br>
+          <br></br>
+          You may also follow the additional steps below if you would like to continue with a guided tour.
+        </div>
+
+        <StepLeft
+          title={"Explore the MLW Dapp"}
+          subtitle={""}
+          text={[
+            "Enter the DApp by clicking the 'Wallet DApp' button at the top of the sidebar. The video tutorial provides a sample of some of the features.",
+          ]}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/nronIM7Lgxc?t=53")}
         />
 
-        <div className="mt-10 mb-16 font-semibold italic text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">
-          Congratulations, you have just created your very first Universal Profile!
-          <br></br> Now let's mint some FREE tokens and NFTs!
-        </div>
         <StepLeft
-          title={"Step 7"}
-          subtitle={"Deploy a Smart Contract"}
+          title={"Deploy a Smart Contract and Mint Tokens"}
+          subtitle={""}
           text={[
             "Now let's deploy your very own LSP7 token contract by clicking the link.",
-            "Use the blue 'Create LSP7 Token' form to customize your token settings. Be crml-4",
+            "Use the blue 'Create LSP7 Token' form to customize your token settings.",
             "After you deploy a contract, you will be able to use the green 'Mint LSP7 Token' form to mint tokens from the contract.",
           ]}
           buttonText={"Create Token Contract"}
           buttonFunc={() => navigate("../createtoken")}
-          customStyle1={"ml-10"}
         />
 
         <StepLeft
-          title={"Step 8"}
-          subtitle={"Deploy a Vault"}
-          text={[
-            "Now let's get starting editing your Universal Profile.",
-            "The button at the top-right most corner of this webpage will open your profile. Updating your profile is as simple as clicking and editing the attributes.",
-            "Customize your profile and settings however you like - change your name, description, profile picture, theme settings, anml-4",
-            "Once you're satisfied with your changes, press 'Upload Edits' to commit your changes to the blockchain!",
-          ]}
-          buttonText={"Learn More"}
-          buttonFunc={handleStep4}
-          customStyle1={"ml-11"}
+          title={"Set-up a Vault"}
+          subtitle={""}
+          text={["The video tutorial provides more detailed instruction."]}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/22FyeiZps-M")}
         />
 
         <StepLeft
-          title={"Step 9"}
-          subtitle={"Transfer Asset to Vault"}
-          text={[
-            "Now let's get starting editing your Universal Profile.",
-            "The button at the top-right most corner of this webpage will open your profile. Updating your profile is as simple as clicking and editing the attributes.",
-            "Customize your profile and settings however you like - change your name, description, profile picture, theme settings, anml-4",
-            "Once you're satisfied with your changes, press 'Upload Edits' to commit your changes to the blockchain!",
-          ]}
-          buttonText={"Learn More"}
-          buttonFunc={handleStep4}
-          customStyle1={"ml-12"}
-        />
-
-        <StepLeft
-          title={"Step 10"}
-          subtitle={"Check out the Marketplace"}
-          text={["Coming soon."]}
-          buttonText={"Learn More"}
-          buttonFunc={handleStep4}
-          customStyle1={"ml-14"}
+          title={"Manage Permissions"}
+          subtitle={""}
+          text={["The video tutorial provides more detailed instruction."]}
+          buttonText={"Video Tutorial"}
+          buttonFunc={() => window.open("https://youtu.be/g3nO7Vq6h5E")}
         />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

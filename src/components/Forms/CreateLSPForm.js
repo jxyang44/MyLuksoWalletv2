@@ -5,13 +5,10 @@ import React, { useEffect } from "react";
 import { FormContainer } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import {
-  createLSPFactoryPrivateKeyInstance,
-  createLSPFactoryWindowInstance,
-  LSP7MintableContract,
-  LSP8MintableContract,
-} from "../../utils/luksoConfigs.js";
+import { createLSPFactoryPrivateKeyInstance, createLSPFactoryWindowInstance, LSP7MintableContract, LSP8MintableContract } from "../../utils/luksoConfigs.js";
 import swal from "sweetalert";
+// import Web3 from "web3";
+// const { LSPFactory } = require("@lukso/lsp-factory.js");
 
 const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline";
 const inputLabel = "block text-white text-sm font-bold";
@@ -21,7 +18,7 @@ const imageLabel = " text-xs text-center cursor-pointer font-semibold text-white
 //@initialDeployState JSON of initial state to set formValues to
 //@LSP either "LSP7", "LSP8"
 const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) => {
-  const { currentAccount } = useProfileContext();
+  const { currentAccount, web3Window } = useProfileContext();
   const { mintLSP7, mintLSP8 } = useAssetsContext();
 
   // const reqSvgs = require.context("../../assets/MyLuksoWalletVisual/Coin/", true, /\.svg$/);
@@ -45,9 +42,15 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
         console.log("------------ deploying new LSP7 token contract ------------");
         swal("Deploying your LSP7Mintable token contract...", "You may click outside this window.", { button: false });
 
-        //  const lspFactory = useRelay ? createLSPFactoryPrivateKeyInstance() : createLSPFactoryWindowInstance(); // TO-DO window instance isnt working
-
-        const lspFactory = createLSPFactoryPrivateKeyInstance();
+        // TO-DO can't get window to work
+        // await ethereum.request({ method: 'eth_requestAccounts', params: [] });
+        // const lspFactory = new LSPFactory(ethereum, {
+        //   chainId: 2828,
+        // });
+          
+          const lspFactory = createLSPFactoryPrivateKeyInstance();
+       
+        //const lspFactory = createLSPFactoryWindowInstance();
         return await lspFactory.LSP7DigitalAsset.deploy(
           {
             name: formValues.tokenName,
@@ -108,7 +111,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
       ? createTokenContract().then(res => {
           // mint immediately after deployment so user is not confused where their tokens are
           //console.log(res, res.LSP7DigitalAsset.address);
-          formValues.mintAmount > 0 && mintLSP7(res.LSP7DigitalAsset.address, formValues.mintAmount, currentAccount, LSP7MintableContract);
+          if (res & (formValues.mintAmount > 0)) mintLSP7(res.LSP7DigitalAsset.address, formValues.mintAmount, currentAccount, LSP7MintableContract);
         })
       : swal("A profile must be connected before deploying a contract.");
   };
@@ -120,8 +123,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
         console.log("------------ deploying new LSP8 token contract ------------");
         swal("Deploying your LSP8Mintable token contract", "You may click outside this window.", { button: false });
 
-        // const lspFactory = useRelay ? createLSPFactoryPrivateKeyInstance() : createLSPFactoryWindowInstance(); // TO-DO window instance isnt working
-
+        // const lspFactory = createLSPFactoryWindowInstance();
         const lspFactory = createLSPFactoryPrivateKeyInstance();
         return await lspFactory.LSP8IdentifiableDigitalAsset.deploy(
           {
@@ -181,7 +183,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
       ? createTokenContract().then(res => {
           // mint immediately after deployment so user is not confused where their tokens are
           //console.log(res, res.LSP8IdentifiableDigitalAsset.address);
-          mintLSP8(res.LSP8IdentifiableDigitalAsset.address, formValues.tokenID, currentAccount, LSP8MintableContract);
+          if (res) mintLSP8(res.LSP8IdentifiableDigitalAsset.address, formValues.tokenID, currentAccount, LSP8MintableContract);
         })
       : swal("A profile must be connected before deploying a contract.");
   };

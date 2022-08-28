@@ -1,4 +1,5 @@
-//create token page
+//deploy or mint token contract page
+//used for both LSP7 and LSP8 tokens
 
 import React, { useState, useEffect } from "react";
 import { FormTabs, Address, LSP7TokenCoin, LSP8NFTCard, CreateLSPForm, MintLSPForm, FullScreenButton } from "../../components";
@@ -9,24 +10,24 @@ const LSPValues = {
   LSP7: {
     description: "LSP7 - Digital Asset (Based on ERC20)",
     type: "Token",
-    forms: [
+    forms: [ //header data for form ribbons
       { name: "Deploy / View", border: "border-sky-400 shadow-sky-400" },
       { name: "Mint", border: "border-green-500 shadow-green-500" },
     ],
-    initialDeployState: {
-      tokenName: "",
-      tokenSymbol: "",
-      tokenDescription: "",
-      tokenIcon: "",
-      tokenIconURL: "",
-      imageFront: "",
-      imageFrontURL: "",
-      imageBack: "",
-      imageBackURL: "",
-      mintAmount: 1,
-      backgroundColor: "#000000",
-      textColor: "#FFFFFF",
-      isCreator: true,
+    initialDeployState: { //initial metadata
+      tokenName: "", //token name
+      tokenSymbol: "", //token symbol
+      tokenDescription: "", //token description
+      tokenIcon: "", //token icon
+      tokenIconURL: "", //token icon url for previewing
+      imageFront: "", //token image front of coin
+      imageFrontURL: "", //token image front of coin url for previewing
+      imageBack: "", //token image back of coin
+      imageBackURL: "", //token image back of coin url for previewing
+      mintAmount: 1, //amount to mint
+      backgroundColor: "#000000", //background color of coin
+      textColor: "#FFFFFF", //text color of coin
+      isCreator: true, //is creator of token -- TO-DO currently does not save to blockchain
       isNotDivisible: false,
       tokenSupply: "",
     },

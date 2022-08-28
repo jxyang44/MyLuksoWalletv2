@@ -3,12 +3,11 @@
 import React, { useState } from "react";
 import { Input } from "../../";
 import { useAssetsContext } from "../../../contexts/AssetsContext";
-import { useProfileContext } from "../../../contexts/ProfileContext";
+
 const MintLSP8Form = ({ assetAddress, contract }) => {
   const [tokenID, setTokenID] = useState(0);
   const [mintToAddress, setMintToAddress] = useState("");
   const { mintLSP8 } = useAssetsContext();
-  const {web3Window} = useProfileContext();
 
   const mintInputs = [
     {
@@ -26,8 +25,7 @@ const MintLSP8Form = ({ assetAddress, contract }) => {
       setValue: setMintToAddress,
     },
   ];
-console.log(web3Window.utils.fromAscii(tokenID.toString()))
-console.log(web3Window.utils.toAscii(web3Window.utils.fromAscii(tokenID.toString()).toString()))
+
   return (
     <div className="flex flex-col animate-fadeInLeft">
       <Input

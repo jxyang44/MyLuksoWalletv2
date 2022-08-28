@@ -23,7 +23,7 @@ const Address = ({ address, left, right }) => {
         href={`https://explorer.execution.l16.lukso.network/address/${address}/transactions`}
         target="_blank">
         <AiOutlineFileSearch />
-        {/* <div class="opacity-20 border-2 border-red hover:opacity-100 transition duration-300 w-1 h-1 -translate-x-3 absolute hover:translate-x-2 hover:translate-y-4 text-white z-10 text-xs">Explorer</div> */}
+        {/* <div className="opacity-20 border-2 border-red hover:opacity-100 transition duration-300 w-1 h-1 -translate-x-3 absolute hover:translate-x-2 hover:translate-y-4 text-white z-10 text-xs">Explorer</div> */}
       </a>
     </div>
   );

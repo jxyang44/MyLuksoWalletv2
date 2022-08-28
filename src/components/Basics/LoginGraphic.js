@@ -6,10 +6,19 @@ import { RiUserSearchLine } from "react-icons/ri";
 import { ButtonShadow } from "..";
 import { useNavigate } from "react-router-dom";
 import { useProfileContext } from "../../contexts/ProfileContext";
-import {petOwner} from "../../utils/sampleAccounts";
+import { petOwner } from "../../utils/sampleAccounts";
+import swal from "sweetalert";
+
 const LoginGraphic = () => {
-  const { connectProfile,connectProfileUsingUPAddress } = useProfileContext();
+  const { connectProfile, connectProfileUsingUPAddress } = useProfileContext();
   let navigate = useNavigate();
+
+  const handleSampleAccount = () => {
+    swal("Viewing sample account...", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. To create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
+      if (res) connectProfileUsingUPAddress(petOwner);
+    });
+  };
+
   return (
     <div className="flex flex-col items-center gap-8 m-20">
       <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500 ">
@@ -21,8 +30,8 @@ const LoginGraphic = () => {
       <div className="text-green-500">Please connect a Universal Profile to view your assets.</div>
       <div className="flex flex-row gap-6">
         <ButtonShadow //TO-DO
-          buttonText={"Connect Pet Owner (Example Profile)"}
-          buttonFunc={() => connectProfileUsingUPAddress(petOwner)}
+          buttonText={"View Example Account (Pet Owner)"}
+          buttonFunc={handleSampleAccount}
           buttonColor={"bg-slate-500"}
           buttonTextColor={"text-black"}
         />

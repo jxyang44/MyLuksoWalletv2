@@ -1,6 +1,7 @@
 //main container for universal profile dropdown
+
 import React, { useEffect, useState } from "react";
-import { AiTwotoneStar, AiOutlineWallet } from "react-icons/ai";
+import { AiOutlineWallet } from "react-icons/ai";
 import { GiTwoCoins } from "react-icons/gi";
 import { VscUnlock, VscLock } from "react-icons/vsc";
 import { RiUserSettingsFill } from "react-icons/ri";
@@ -26,7 +27,7 @@ import "react-edit-text/dist/index.css";
 import swal from "sweetalert";
 
 const UniversalProfile = () => {
-  const [editMode, setEditMode] = useState(false); //allows profile to be edited
+  const [editMode, setEditMode] = useState(false); //determines whether profile can be edited; editMode adds
   const { UPColor, UPTextColor } = useStateContext();
   const {
     defaultMetadata,
@@ -65,17 +66,16 @@ const UniversalProfile = () => {
     }).then(value => {
       if (value) {
         setPendingProfileJSONMetadata(profileJSONMetadata); //set pendingProfileJSONMetadata state back to profileJSONMetadata if user wants to discard edits
-        //need to fix this for images
+        //TO-DO need to also do this for images
       }
     });
   };
 
   return (
     <div
-      className="transition absolute right-1 top-12 p-8 rounded-md w-2/6 origin-top-right scale-[.85] bg-opacity-30 bg-white text-black"
+      className="transition absolute right-1 top-12 p-8 rounded-md xl:w-2/6 lg:w-4/6 md:w-4/6 origin-top-right xl:scale-[.85] lg:scale-[.6] md:scale-[0.6] scale-[0.3] bg-opacity-30 bg-white text-black"
       style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000" }}>
-      <div
-        className={`absolute h-full w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
+      <div className={`absolute w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
       {!editMode && <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>}
       <button
         className={`absolute z-50 top-1 right-1 border rounded-xl px-2 text-white ${
@@ -160,7 +160,6 @@ const UniversalProfile = () => {
 
           <ProfileLinks editMode={editMode} />
 
-          {/* <MyMenuItem icon={<AiOutlineLink/>} iconColor="bg-blue-500" linkTo="" header="MyLinks" items={profileJSONMetadata.links.length && pendingProfileJSONMetadata.links} itemType="link"/> */}
           <div className="flex flex-row items-center flex-wrap z-50">
             <MyMenuItem icon={<AiOutlineWallet />} iconColor="bg-slate-800" linkTo="myluksowallet" header="MyLukso-Wallet" />
             <MyMenuItem icon={<RiUserSettingsFill />} iconColor="bg-orange-500" linkTo="myuniversalprofile" header="My Profile Config" />
@@ -168,7 +167,7 @@ const UniversalProfile = () => {
           </div>
 
           {editMode ? (
-            <div className="flex flex-row self-end w-full gap-3">
+            <div className="flex flex-row justify-between self-end w-full gap-3">
               <UpdateProfile />
               <ButtonShadow
                 buttonText={"Discard Edits"}

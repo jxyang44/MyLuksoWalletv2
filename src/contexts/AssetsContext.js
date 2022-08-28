@@ -25,37 +25,32 @@ const AssetsContext = createContext();
 
 export const AssetsProvider = ({ children }) => {
   const { currentAccount, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
-  const [accountBalance, setAccountBalance] = useState(0); // LYX balance
+  const [accountBalance, setAccountBalance] = useState(0); // LYX balance of UP - TO-DO should probably move this to ProfileContext
   const [receivedAssets, setReceivedAssets] = useState(""); // array of all LSP5 Received Assets for the connected Universal Profile
   const [issuedAssets, setIssuedAssets] = useState(""); // array of all LSP12 Issued Assets for the connected Universal Profile
 
-  // used to get token name or symbol
+  // TO-DO move this to ProfileContext
+  // @desc sets accountBalance for universal profile - function should not be called on any address other than the connected UP
+  // @param UPAddress - address of profile
+  // @return sets accountBalance state
+  const updateAccountBalance = async UPAddress => {
+    const balance = web3.utils.fromWei(await web3.eth.getBalance(UPAddress));
+    setAccountBalance(balance);
+    return;
+  };
+  
+  // @desc used to decode token name or symbol
+  // @param assetAddress address of LSP7 or LSP8
+  // @param assetKey (e.g. LSP4Schema[1].key, LSP4Schema[2].key)
+  // @return promise with token name or symbol
   const getAssetByKey = async (assetAddress, assetKey) => {
     const assetData = await getAssetData(assetKey, assetAddress);
     return await decodeAssetData(assetKey, assetData, assetAddress);
   };
 
-  // calls the decimals function from the LSP7 contract
-  // **** currently not used ****
-  const getDecimals = async assetAddress => {
-    try {
-      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
-      return await assetContract.methods.decimals().call();
-    } catch (error) {
-      return console.log("Decimals could not be fetched");
-    }
-  };
-
-  // @desc Sets accountBalance for profile
-  const updateAccountBalance = async address => {
-    const balance = web3.utils.fromWei(await web3.eth.getBalance(address));
-    setAccountBalance(balance);
-    return;
-  };
-
-  // @desc Used to retrieve the assets tied to a specific address and assetType
-  // @param address: Universal Profile address
-  // @param assetType: LSP5ReceivedAssets[], LSP12IssuedAssets[]
+  // @desc used to retrieve the assets tied to a specific address and assetType
+  // @param address Universal Profile address
+  // @param assetType LSP5ReceivedAssets[], LSP12IssuedAssets[]
   // @returns Promise of array of asset addresses
   async function fetchAllAssets(address, assetType) {
     try {
@@ -69,9 +64,9 @@ export const AssetsProvider = ({ children }) => {
     }
   }
 
-  // @desc Checks if a supplied contract supports a particular interface
-  // @param assetAddress: Smart contract address of the asset
-  // @param interfaceType: Contract used for Contract to InterfaceId mapping (current implementation uses LSP7DigitalAsset, LSP8IdentifiableDigitalAsset)
+  // @desc checks if a supplied contract supports a particular interface
+  // @param assetAddress smart contract address of the asset
+  // @param interfaceType contract used for contract to InterfaceId mapping (current implementation uses InterfaceId = LSP7DigitalAsset or InterfaceId = LSP8IdentifiableDigitalAsset)
   // @returns Promise of type boolean; true if assetAddress supports a specific interface, otherwise false
   const supportsInterface = async (assetAddress, interfaceType) => {
     try {
@@ -137,34 +132,13 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
-  // @desc Retrieves the number of existing tokens (totalSupply) for assetAddress
-  // @param assetAddress Smart contract address of the asset
-  // @param assetContract Instance of the asset contract using the LSP7Contract abi (LSP7 and LSP8 both share the totalSupply function)
-  // @returns Promise of totalSupply, expressed in ether value (as opposed to wei value)
-  const getTotalSupply = async assetAddress => {
-    try {
-      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
-      const totalSupply = await assetContract.methods.totalSupply().call();
-      return web3.utils.fromWei(totalSupply);
-    } catch (error) {
-      return console.log("Total supply of an asset could not be fetched");
-    }
-  };
 
-  // @desc Retrieves the number of tokens owned (balanceOf) of profileAddress for assetAddress
-  // @param assetAddress Smart contract address of the asset
-  // @param profileAddress Universal Profile or EOA address to query
-  // @param assetContract Instance of the asset contract using the LSP7Contract abi (LSP7 and LSP8 both share the totalSupply function)
-  // @returns Promise of balanceOf, expressed in ether value (as opposed to wei value)
-  const getBalanceOf = async (assetAddress, profileAddress) => {
-    try {
-      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
-      return web3.utils.fromWei(await assetContract.methods.balanceOf(profileAddress).call());
-      // return balanceOf > 0.5 ? balanceOf : Number.parseFloat(balanceOf).toExponential(2);
-    } catch (error) {
-      return console.log("Balance of an asset could not be fetched");
-    }
-  };
+  //  --------------------------------------------------  //
+  //  ------------------  MINT ASSETS ------------------  //
+  //  --------------------------------------------------  //
+
+
+  
 
   const mintLSP7 = (assetAddress, mintAmount, mintToAddress, contract) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
@@ -178,16 +152,6 @@ export const AssetsProvider = ({ children }) => {
     mintFunction(assetAddress, web3.utils.toWei(mintAmount.toString()), mintToAddress, contract, "LSP7").then(curr => {
       if (curr) swal("Congratulations!", `${mintAmount} tokens were minted to ${mintToAddress}.`, "success");
     });
-  };
-
-  const getTokenOwnerOf = async (assetAddress, tokenID) => {
-    const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
-    return await assetContract.methods.tokenOwnerOf(web3.utils.padRight(web3.utils.stringToHex(tokenID), 64)).call();
-  };
-
-  const getTokenIdsOf = async (assetAddress, tokenOwner) => {
-    const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
-    return await assetContract.methods.tokenIdsOf(tokenOwner).call();
   };
 
   const mintLSP8 = (assetAddress, tokenID, mintToAddress, contract) => {
@@ -228,6 +192,18 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
+  //  ------------------------------------------------------  //
+  //  ------------------  TRANSFER ASSETS ------------------  //
+  //  ------------------------------------------------------  //
+
+  //@desc applies guardrails and notifications before/after calling the transfer function
+  //@param assetAddress address of the asset contract
+  //@param transferAmount amount of tokens to transfer
+  //@param transferToAddress address to transfer the token to
+  //@param contract contract of the asset - should always be LSPMintableContract (for now)
+  //@param transferFromAddress address to transfer the token from
+  //@balanceOf balance of the current account
+  //@param fromVault optional boolean describing whether the address is being transferred from a vault
   const transferLSP7 = (assetAddress, transferAmount, transferToAddress, contract, transferFromAddress, balanceOf, fromVault) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!transferToAddress) transferToAddress = currentAccount;
@@ -237,22 +213,35 @@ export const AssetsProvider = ({ children }) => {
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
     if (contract !== LSP7MintableContract) return swal("This feature currently only supports Lukso's official LSP7Mintable Contract.", "", "warning");
 
-    transferFunction(assetAddress, web3.utils.toWei(transferAmount.toString()), transferToAddress, contract, transferFromAddress, fromVault, "LSP7").then(
-      curr => {
-        if (curr) {
-          swal("Congratulations!", `${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
-          console.log(`Congratulations! ${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
-        }
+    transferFunction(
+      assetAddress,
+      web3.utils.toWei(transferAmount.toString()),
+      transferToAddress,
+      contract,
+      transferFromAddress,
+      fromVault,
+      "LSP7"
+    ).then(curr => {
+      if (curr) {
+        swal("Congratulations!", `${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+        console.log(`Congratulations! ${transferAmount} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
       }
-    );
+    });
   };
 
+  //@desc applies guardrails and notifications before/after calling the transfer function
+  //@param assetAddress address of the asset contract
+  //@param tokenID tokenID of the token to transfer
+  //@param transferToAddress address to transfer the token to
+  //@param contract contract of the asset - should always be LSPMintableContract (for now)
+  //@param transferFromAddress address to transfer the token from
+  //@balanceOf - unused for LSP8
+  //@param fromVault optional boolean describing whether the address is being transferred from a vault
   const transferLSP8 = (assetAddress, tokenID, transferToAddress, contract, transferFromAddress, balanceOf, fromVault) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!transferToAddress) transferToAddress = currentAccount;
     if (!transferFromAddress) transferFromAddress = currentAccount;
-    //    function tokenOwnerOf(bytes32 tokenId) external view returns (address);
-    //check token owner exists
+    // TO-DO check if tokenID exists aready exists - function tokenOwnerOf(bytes32 tokenId) external view returns (address);
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
     if (contract !== LSP8MintableContract) return swal("This feature currently only supports Lukso's official LSP8Mintable Contract.", "", "warning");
 
@@ -303,6 +292,88 @@ export const AssetsProvider = ({ children }) => {
     } catch (err) {
       swal("Something went wrong.", JSON.stringify(err), "error");
       console.log(err);
+    }
+  };
+
+  //  -----------------------------------------------  //
+  //  ------------------ LSP7&LSP8 ------------------  //
+  //  -----------------------------------------------  //
+
+  // @desc Retrieves the number of existing tokens (totalSupply) for assetAddress
+  // @param assetAddress Smart contract address of the asset
+  // @param assetContract Instance of the asset contract using the LSP7Contract abi (LSP7 and LSP8 both share the totalSupply function)
+  // @returns Promise of totalSupply, expressed in ether value (as opposed to wei value)
+  const getTotalSupply = async assetAddress => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
+      const totalSupply = await assetContract.methods.totalSupply().call();
+      return web3.utils.fromWei(totalSupply);
+    } catch (error) {
+      return console.log("Total supply of an asset could not be fetched");
+    }
+  };
+
+  // @desc retrieves the number of tokens owned (balanceOf) of profileAddress for assetAddress
+  // @param assetAddress smart contract address of the asset
+  // @param profileAddress universal Profile or EOA address to query
+  // @param assetContract instance of the asset contract using the LSP7Contract abi (LSP7 and LSP8 both share the totalSupply function)
+  // @returns promise resolving to the balance of the profileAddress for the assetAddress
+  const getBalanceOf = async (assetAddress, profileAddress) => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
+      return web3.utils.fromWei(await assetContract.methods.balanceOf(profileAddress).call());
+      // return balanceOf > 0.5 ? balanceOf : Number.parseFloat(balanceOf).toExponential(2);
+    } catch (error) {
+      return console.log("Balance of an asset could not be fetched");
+    }
+  };
+
+
+  //  -----------------------------------------------  //
+  //  ------------------ LSP7 only ------------------  //
+  //  -----------------------------------------------  //
+
+  // @desc calls the decimals function from the LSP7 contract
+  // @assetAddress address of the asset contract
+  // @return promise that resolves to true or false depending on whether the function is divisible
+  // TO-DO currently unused
+  const getDecimals = async assetAddress => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
+      return await assetContract.methods.decimals().call();
+    } catch (error) {
+      console.log("Decimals could not be fetched");
+    }
+  };
+
+ 
+  //  -----------------------------------------------  //
+  //  ------------------ LSP8 only ------------------  //
+  //  -----------------------------------------------  //
+
+  //@param assetAddress address of the asset contract
+  //@param tokenID tokenID of the token to transfer
+  //@param tokenOwner address of the token owner
+
+  //@desc calls the tokenOwnerOf function from the LSP8 contract
+  //@returns a promise that resolves to the address of the tokenID owner
+  const getTokenOwnerOf = async (assetAddress, tokenID) => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
+      return await assetContract.methods.tokenOwnerOf(web3.utils.padRight(web3.utils.stringToHex(tokenID), 64)).call(); //formatting from example-dapp-lsps
+    } catch (error) {
+      return console.log("Token owner could not be fetched");
+    }
+  };
+
+  //@desc calls the tokenIDsOfOwner function from the LSP8 contract
+  //@returns a promise that resolves to an array of tokenIDs
+  const getTokenIdsOf = async (assetAddress, tokenOwner) => {
+    try {
+      const assetContract = new web3.eth.Contract(LSP8MintableContract.abi, assetAddress);
+      return await assetContract.methods.tokenIdsOf(tokenOwner).call();
+    } catch (error) {
+      return console.log("Token IDs could not be fetched");
     }
   };
 

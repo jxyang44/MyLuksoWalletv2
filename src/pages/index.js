@@ -9,3 +9,4 @@ export { default as MyVaults } from "./MyAccount/MyVaults";
 export { default as MyAssets } from "./MyAccount/MyAssets";
 export { default as Home } from "./Home";
 export { default as ProfileSearch } from "./Search/ProfileSearch";
+export { default as UnderConstruction } from "./UnderConstruction";

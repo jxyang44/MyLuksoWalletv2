@@ -20,7 +20,7 @@ const GetPermissions = ({ address, addressOf, children }) => {
     <button className="text-blue-400 flex flex-row items-center gap-1 hover:text-blue-50" onClick={() => checkPermissions()}>
       {children}
       <FaUserLock />
-      <div class="opacity-0 hover:opacity-100 transition duration-300 w-fit absolute hover:translate-x-3 hover:translate-y-5 text-white z-10 text-xs">
+      <div className="opacity-0 hover:opacity-100 transition duration-300 w-fit absolute hover:translate-x-3 hover:translate-y-5 text-white z-10 text-xs">
         Permissions
       </div>
     </button>

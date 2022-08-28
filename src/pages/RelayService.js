@@ -35,7 +35,7 @@ const RelayService = () => {
 
     async function createUniversalProfile() {
       swal("Creating a new Universal Profile account...");
-      const lspFactory = createLSPFactoryPrivateKeyInstance();
+      const lspFactory = createLSPFactoryPrivateKeyInstance(); // need to update to publickeyinstance
       const deployedContracts = await lspFactory.UniversalProfile.deploy(
         {
           controllerAddresses: [MM_PublicKey, myEOA.address],

@@ -47,7 +47,7 @@ const DeployVault = ({ recentVaultAddress, recentVaultURDAddress }) => {
     };
 
     swal(
-      `Hackathon Note: This step is optional. Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
+      `Hackathon Note: Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
       `Please enter the browser extension private key associated with the vault owner address from Step 1:`,
       {
         content: "input",
@@ -75,7 +75,7 @@ const DeployVault = ({ recentVaultAddress, recentVaultURDAddress }) => {
 
   return (
     <VaultStep
-      buttonText="3. Add URD to Vault (Optional) 👷"
+      buttonText="3. Add URD to Vault 👷"
       buttonFunc={addURDToVault}
       inputLabel1="Target Vault"
       inputValue1={recentVaultAddress}

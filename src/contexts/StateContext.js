@@ -13,7 +13,7 @@ const themeDefaults = {
 };
 
 export const StateProvider = ({ children }) => {
-  const [screenSize, setScreenSize] = useState(undefined);
+  const [screenSize, setScreenSize] = useState();
   const [activeMenu, setActiveMenu] = useState(false);
   const [activeProfile, setActiveProfile] = useState(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -21,12 +21,11 @@ export const StateProvider = ({ children }) => {
   const [UPColor, setUPColor] = useState(themeDefaults.UPColor);
   const [UPTextColor, setUPTextColor] = useState(themeDefaults.UPTextColor);
 
-
   const setThemeDefaults = () => {
     setTheme(themeDefaults.theme);
     setUPColor(themeDefaults.UPColor);
     setUPTextColor(themeDefaults.UPTextColor);
-  }
+  };
 
   //need to define text explicitly for tailwind
   const THEMES = {
@@ -123,7 +122,7 @@ export const StateProvider = ({ children }) => {
         UPTextColor,
         setUPTextColor,
         THEMES,
-        setThemeDefaults
+        setThemeDefaults,
       }}>
       {children}
     </StateContext.Provider>

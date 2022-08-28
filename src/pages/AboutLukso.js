@@ -17,7 +17,7 @@ const information = {
     quote:
       "The initial 12 LUKSO Standards Proposals (LSPs) represent the core building blocks of the LUKSO ecosystem. LSPs aim to increase functionality and user-friendliness within the blockchain ecosystem and to standardize identity, asset representation and smart contract interaction. The core LSPs are extremely extensible, allowing for many new use cases, while simplifying the developer and user experience. These standards are ‘unbiased’ - meaning they are generic enough to enable new use cases that have not yet been conceived.",
     source: "https://lukso.network/faq",
-    image: "https://docs.lukso.tech/assets/images/erc725-owner-e86a9ea416588a766ffea10783680167.jpeg",
+    image: "https://docs.lukso.tech/assets/images/lsp-roadmap-e4e9af566a233b9acb4122136baf073a.jpg",
   },
   aboutUPs: {
     title: "What is a Universal Profile?",

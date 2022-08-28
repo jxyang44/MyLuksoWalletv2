@@ -8,7 +8,7 @@ import { LSP10Schema, UniversalProfileContract, createErc725Instance } from "../
 import swal from "sweetalert";
 
 const AddVaultToUP = ({ recentVaultAddress }) => {
-  const { web3Window, currentAccount, useRelay, executeViaKeyManager, fetchAddresses } = useProfileContext();
+  const { web3Window, currentAccount, useRelay, executeViaKeyManager, fetchAddresses, isVault } = useProfileContext();
 
   const handleAddVault = () => {
     if (!currentAccount) return swal("You are not connected to an account.");
@@ -23,18 +23,20 @@ const AddVaultToUP = ({ recentVaultAddress }) => {
     )
       .then(value => {
         if (value) {
-          addVault(value).then(res => {
-            console.log(res);
-            if (res) {
-              swal(
-                `Congratulations! Your vault at address ${value} has been added to your account!`,
-                "Please wait a few seconds and refresh the page if the vault does not show up in your account.",
-                "success"
-              );
-              setTimeout(() => {
-                fetchAddresses(currentAccount); //adds vault to state
-              }, 5000);
-            }
+          isVault(value).then(res => {
+            if (!res) return swal(`${value} does not support the vault interface.`,"", "warning");
+            addVault(value).then(res => {
+              if (res) {
+                swal(
+                  `Congratulations! Your vault at address ${value} has been added to your account!`,
+                  "Please wait a few seconds and refresh the page if the vault does not show up in your account.",
+                  "success"
+                );
+                setTimeout(() => {
+                  fetchAddresses(currentAccount); //adds vault to state
+                }, 5000);
+              }
+            });
           });
         } else {
           swal("No input detected.");

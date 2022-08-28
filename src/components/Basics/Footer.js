@@ -10,10 +10,21 @@ const Footer = () => (
         <Logo />
       </div>
 
-      <p className="max-w-lg mx-auto mt-6 leading-relaxed text-center text-gray-400">
-        © July - August 2022. All rights reserved by <b>MyLuksoVault</b>.<br></br>
-        <em>LUKSO Build UP! #1 - demonstration purposes only</em>
-      </p>
+      <div className="flex flex-row gap-48 justify-end items-center">
+        <p className="max-w-lg mx-auto mt-6 leading-relaxed text-left text-gray-400">
+          © 2022. All rights reserved by <b>MyLuksoWallet</b><br></br>
+         
+        </p>
+        <p className="max-w-lg mx-auto mt-6 leading-relaxed text-right text-gray-400">
+          E-mail: <a href="mailto:myluksowallet@gmail.com" className="text-blue-500 hover:text-blue-300">
+            MyLuksoWallet@gmail.com
+          </a>
+          <br></br>
+          Website: <a href=" https://www.myluksowallet.com" className="text-blue-500 hover:text-blue-300">
+            https://www.myluksowallet.com
+          </a>
+        </p>
+      </div>
 
       <div className="flex justify-center items-center gap-6 mt-12 max-w-md md:gap-8">
         <Socials icon={<AiOutlineTwitter />} text={"Twitter"} link={"https://twitter.com/myluksowallet"} />

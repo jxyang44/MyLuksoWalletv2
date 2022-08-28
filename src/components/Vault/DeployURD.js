@@ -53,7 +53,7 @@ const DeployURD = ({ recentVaultURDAddress, setRecentVaultURDAddress }) => {
 
   return (
     <VaultStep
-      buttonText="2. Deploy Vault URD (Optional)"
+      buttonText="2. Deploy Vault URD"
       buttonFunc={handleDeployVaultURD}
       inputLabel1="Most Recently Deployed Vault URD from this Browser"
       inputValue1={recentVaultURDAddress}

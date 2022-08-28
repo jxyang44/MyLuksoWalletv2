@@ -57,7 +57,7 @@ const AssetCard = ({ LSP }) => {
           <p className="lg:text-base text-sm text-white">{LSP.p4}</p>
         </div>
       </div>
-      <div className="my-3 lg:text-lg text-base text-white"> {LSP.p5} </div>
+      <div className="my-3 lg:text-lg text-base text-white bg-[#17141d] p-2 rounded-t-sm rounded-b-lg"> {LSP.p5} </div>
     </div>
   );
 };
