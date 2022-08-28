@@ -10,7 +10,7 @@
   <p align="center">
     A front-end management tool for Lukso Standard Proposals.
     <br />
-    Submission for LUKSO Build UP! #1
+    Submission for LUKSO Build UP! #1 - for Judges Only
     <br />
     <br />
     <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission Link (8/31/22)</strong></a>
