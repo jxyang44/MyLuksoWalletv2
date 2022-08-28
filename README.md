@@ -113,7 +113,7 @@ _For examples on usage, please refer to the [Website Tutorials](https://myluksow
 
 <!-- Fundamentals -->
 ## Fundamentals
-Below are the driving forces in designing MyLuksoWallet.
+Below are the driving forces in designing MyLuksoWallet. 
 
 ### Criteria
 <ul>
@@ -147,6 +147,7 @@ Were all suggestions followed?
   <ul><li>[✔️] Yes.</li></ul>
 </ul>
 
+As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions, so this really is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in growing the community.
 
 <p align="right">(<a href="#fundamentals">back to top</a>)</p>
 
