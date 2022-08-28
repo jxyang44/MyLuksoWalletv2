@@ -120,13 +120,13 @@ Judging criteria:
 <ul>
 <li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
   <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
-<li>Originality & Creativity: How novel and innovative is the idea?</li>
+<li><b>Originality & Creativity: How novel and innovative is the idea?</b></li>
   <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. I'm not sure how original or creative that idea is. In terms of innovation, I think the idea of standardizing common web/(phone) settings (e.g. color themes (bg, border, shadow, text), fonts, other stylings) to profile metadata has traction, because these elements can significantly increase the level of personalization and immersion with any DApp. Because it's early in the process, standardizing these could enable developers to integrate these standards into their DApps.  </li></ul>
-<li>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</li>
+<li><b>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</b></li>
   <ul><li>The project is primarily a front-end visual using code from the Lukso tutorial documents. I don't think it is partically technically innovative. And as a new web developer, I imagine the code isn't the most well-written or documented to industry standards. I did try to document as much as I could. At this point, I would prefer to keep the code closed source, but certainly anticipate opening it up at a future point.</li></ul>
-<li>User Experience & Design: Does the design of the project make the user experience easy?</li>
+<li><b>User Experience & Design: Does the design of the project make the user experience easy?</b></li>
   <ul><li>The core application of MyLuksoWallet is to take the technical architecture from the LSPs and create something user friendly and visually pleasing. If this has not been done, then I will need to re-visit the drawing board.</li></ul>
-<li>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</li>
+<li><b>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</b></li>
   <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs 0-12 (except LSP11), lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord around these standards and tools. </li></ul>
 </ul>
 
