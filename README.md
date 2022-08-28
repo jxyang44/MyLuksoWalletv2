@@ -147,7 +147,7 @@ Were all suggestions followed?
   <ul><li>[✔️] Yes.</li></ul>
 </ul>
 
-As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions, so this really is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in growing the community.
+As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions, so this really is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in raising awareness and growing the Lukso community.
 
 <p align="right">(<a href="#fundamentals">back to top</a>)</p>
 
@@ -172,7 +172,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Jeff Yang - Twitter: [@jxyang](https://twitter.com/jxyang) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com
+Jeff Yang(https://www.linkedin.com/in/jeff-yang-fsa-maaa/): Twitter: [@jxyang](https://twitter.com/jxyang) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com
 
 Reward payout address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
 
