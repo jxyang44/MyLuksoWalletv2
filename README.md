@@ -8,7 +8,7 @@
   <h1 align="center">MyLuksoWallet</h1>
 
   <p align="center">
-    A frontend management tool for Lukso Standard Proposals.
+    A front-end management tool for Lukso Standard Proposals.
     <br />
     Submission for LUKSO Build UP! #1
     <br />
