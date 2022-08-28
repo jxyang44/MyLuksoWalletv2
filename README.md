@@ -144,7 +144,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Jeff Yang - Twitter:[@jxyang](https://twitter.com/jxyang) - Discord:jxyang#6165 - E-mail:jxyang@gmail.com
+Jeff Yang - Twitter: [@jxyang](https://twitter.com/jxyang) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com
 
 Reward payout address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
 
