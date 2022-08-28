@@ -56,7 +56,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-MyLuksoWallet is a front-end asset management tool. Our goal is to be one of the main platforms users visit when interacting with core Lukso components, including Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, and other sensible additions.
+MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be one of the main platforms new users visit when interacting with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, and other sensible additions.
 <br/>
 Functionality includes:
 <ul>
@@ -68,7 +68,7 @@ Functionality includes:
 <br/>
 Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
 <br/>
-Additional documentation on MyLuksoWallet can be found at:
+This readme file is intentionally sparse. More detailed documentation on MyLuksoWallet can be found at:
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from Website</a></li>
   <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
@@ -76,15 +76,6 @@ Additional documentation on MyLuksoWallet can be found at:
 </ul>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
-
-* [![React][React.js]][React-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
