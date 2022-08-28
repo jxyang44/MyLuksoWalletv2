@@ -65,10 +65,10 @@ Functionality includes:
   <li>LSP8 NFTs - Deploy a contract, mint, transfer</li>
   <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault</li>
 </ul>
-
-Here is a link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
-
-To learn more about MyLuksoWallet, please visit:
+<br/>
+Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
+<br/>
+Additional documentation on MyLuksoWallet can be found at:
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from Website</a></li>
   <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
@@ -101,20 +101,19 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/your_username_/Project-Name.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+3. Enter your private key in `.env` (The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.)
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   const REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY= 'ENTER YOUR PRIVATE KEY';
+   
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
