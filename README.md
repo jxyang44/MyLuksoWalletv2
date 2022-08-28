@@ -57,15 +57,23 @@
 ## About The Project
 
 MyLuksoWallet is a front-end asset management tool to visualize Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. 
+<br/>
 Functionality includes:
 <ul>
-Universal Profiles - Create a profile, manage standard profile metadata, choose profile themes (stored as metadata), manage permissions, transfer tokens
-<li>LSP7 Tokens - Deploy a contract, mint, transfer</li>
-<li>LSP8 NFTs - Deploy a contract, mint, transfer</li>
-<li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault</li>
+  <li>Universal Profiles - Create a profile, manage standard profile metadata, choose profile themes (stored as metadata), manage permissions, transfer tokens</li>
+  <li>LSP7 Tokens - Deploy a contract, mint, transfer</li>
+  <li>LSP8 NFTs - Deploy a contract, mint, transfer</li>
+  <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault</li>
 </ul>
-Presentation Link: https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing
 
+Here is a link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
+
+To learn more about MyLuksoWallet, please visit:
+<ul>  
+  <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from Website</a></li>
+  <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorials</a></li>
+</ul>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
