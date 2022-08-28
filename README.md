@@ -5,14 +5,16 @@
     <img src="https://user-images.githubusercontent.com/58372066/186786266-d6c1365e-66ff-46fe-aae2-6ac92156f462.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">MyLuksoWallet</h3>
+  <h1 align="center">MyLuksoWallet</h1>
 
   <p align="center">
     A frontend management tool for Lukso Standard Proposals.
     <br />
     Submission for LUKSO Build UP! #1
     <br />
-    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission (8/31/22)</strong></a>
+    <br />
+    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission Link (8/31/22)</strong></a>
+    <br />
     <br />
     ·
     <a href="https://www.myluksowallet.com">Working Public Website</a>
@@ -57,7 +59,7 @@
 ## About The Project
 
 MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be one of the main platforms new users visit when interacting with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, and other sensible additions.
-<br/>
+
 Functionality includes:
 <ul>
   <li>Universal Profiles - Create a profile, manage standard profile metadata, choose profile themes (stored as metadata), manage permissions, transfer tokens</li>
@@ -65,10 +67,10 @@ Functionality includes:
   <li>LSP8 NFTs - Deploy a contract, mint, transfer</li>
   <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault</li>
 </ul>
-<br/>
+
 Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
-<br/>
-This readme file is intentionally sparse. More detailed documentation on MyLuksoWallet can be found at:
+
+This readme file is intentionally sparse. More detailed documentation can be found at:
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from the Website</a></li>
   <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
@@ -81,7 +83,7 @@ This readme file is intentionally sparse. More detailed documentation on MyLukso
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these steps.
 
 ### Prerequisites
 
@@ -92,7 +94,6 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-
 1. Clone the repo
    ```sh
    git clone https://github.com/jxyang44/MyLuksoWallet.git
@@ -101,37 +102,25 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    npm install
    ```
-3. Enter your private key in `.env`
+3. Enter your private key in `.env`. The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. Unfortunately, I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.
    ```js
    const REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY= 'ENTER YOUR PRIVATE KEY';
    ```
-The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. Unfortunately, I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.
-
+   
+### Start
+   
+1. Start (react-app-rewired is used to bypass package dependency errors)
+   ```sh
+   npm run start
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-_For documentation on usage, please refer to the [Documentation](https://myluksowallet-hackathon.netlify.app/getstarted)_
+_For examples on usage, please refer to the [Website Tutorials](https://myluksowallet-hackathon.netlify.app/getstarted)._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTRIBUTING -->
@@ -152,24 +141,16 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Jeff Yang - Twitter:[@jxyang](https://twitter.com/jxyang) - Discord:jxyang#6165 - E-mail:jxyang@gmail.com
+
+Reward payout address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
 
 Project Link (current working version beyond the hackathon): [https://www.myluksowallet.com](https://www.myluksowallet.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 
