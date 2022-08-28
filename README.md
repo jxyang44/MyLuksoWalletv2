@@ -110,11 +110,11 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    npm install
    ```
-3. Enter your private key in `.env` (The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.)
+3. Enter your private key in `.env`
    ```js
    const REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY= 'ENTER YOUR PRIVATE KEY';
-   
    ```
+The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. Unfortunately, I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
