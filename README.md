@@ -34,7 +34,7 @@
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#judging">Judging</a></li>
+    <li><a href="#fundamentals">Judging</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
   
@@ -111,41 +111,45 @@ _For examples on usage, please refer to the [Website Tutorials](https://myluksow
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- JUDGING -->
-## Judging Expectations
+<!-- Fundamentals -->
+## Fundamentals
+Below are the driving forces in designing MyLuksoWallet.
+
+### Criteria
+Judging criteria:
+<ul>
+<li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
+  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
+<li>Originality & Creativity: How novel and innovative is the idea?</li>
+  <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. I'm not sure how original or creative that idea is. In terms of innovation, I think the idea of standardizing common web/(phone) settings (e.g. color themes (bg, border, shadow, text), fonts, other stylings) to profile metadata has traction, because these elements can significantly increase the level of personalization and immersion with any DApp. Because it's early in the process, standardizing these could enable developers to integrate these standards into their DApps.  </li></ul>
+<li>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</li>
+  <ul><li>The project is primarily a front-end visual using code from the Lukso tutorial documents. I don't think it is partically technically innovative. And as a new web developer, I imagine the code isn't the most well-written or documented to industry standards. I did try to document as much as I could. At this point, I would prefer to keep the code closed source, but certainly anticipate opening it up at a future point.</li></ul>
+<li>User Experience & Design: Does the design of the project make the user experience easy?</li>
+  <ul><li>The core application of MyLuksoWallet is to take the technical architecture from the LSPs and create something user friendly and visually pleasing. If this has not been done, then I will need to re-visit the drawing board.</li></ul>
+<li>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</li>
+  <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs 0-12 (except LSP11), lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord around these standards and tools. </li></ul>
+</ul>
 
 ### Suggestions
 
 Were all suggestions followed?
 <ul>
-<li>[✔️] Start building the next generation of dApps on Universal Profiles and have fun!</li>
-  <ul><li>This was a great experience in learning about the innovative tools from the Lukso team!</li></ul>
-<li>[✔️] Build on the LUKSO L16 Public Testnet</li>
-  <ul><li>Yes.</li></ul>
-<li>[✔️–] Use the Universal Profile browser extension as the user interface</li>
-  <ul><li>I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</li></ul>
-<li>[✔️] Experiment and build with LUKSO’s Universal Profiles, new smart contract standards and tools</li>
-  <ul><li>Yes.</li></ul>
-<li>[✔️–] You are encouraged to use the following libraries: lsp-factory.js, erc725.js and the relayer API </li>
-  <ul><li>I used lsp-factory.js and erc725.js, and contributed actively on Discord on discussion surrounding these libraries. I have not used the relayer API yet. </li></ul>
-<li>[✔️] Submit your project via Gitcoin by August 31st, 5pm CEST</li>
-  <ul><li>Yes.</li></ul>
-</ul>
-
-### Criteria
-Were all judging criteria met?
-<ul>
-<li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
-  <ul><li>This criteria is the core drive behind MyLuksoWallet. After exploring the website, we hope that </li></ul>
-<li>Originality & Creativity: How novel and innovative is the idea?</li>
-<li>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</li>
-<li>User Experience & Design: Does the design of the project make the user experience easy?</li>
-<li>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</li>
+<li>Start building the next generation of dApps on Universal Profiles and have fun!</li>
+  <ul><li>[✔️] This was a great experience in learning about the innovative tools from the Lukso team!</li></ul>
+<li>Build on the LUKSO L16 Public Testnet</li>
+  <ul><li>[✔️] Yes.</li></ul>
+<li>Use the Universal Profile browser extension as the user interface</li>
+  <ul><li>[✔️–] I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</li></ul>
+<li>Experiment and build with LUKSO’s Universal Profiles, new smart contract standards and tools</li>
+  <ul><li>[✔️] Yes.</li></ul>
+<li>You are encouraged to use the following libraries: lsp-factory.js, erc725.js and the relayer API </li>
+  <ul><li>[✔️–] I used lsp-factory.js and erc725.js, and contributed actively on Discord on discussion surrounding these libraries. I have not used the relayer API yet. </li></ul>
+<li>Submit your project via Gitcoin by August 31st, 5pm CEST</li>
+  <ul><li>[✔️] Yes.</li></ul>
 </ul>
 
 
-
-<p align="right">(<a href="#judging">back to top</a>)</p>
+<p align="right">(<a href="#fundamentals">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
