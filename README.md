@@ -63,9 +63,9 @@ MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be o
 Functionality includes:
 <ul>
   <li>Universal Profiles - Create a profile, manage standard profile metadata, choose profile themes (stored as metadata), manage permissions, transfer tokens</li>
-  <li>LSP7 Tokens - Deploy a contract, mint, transfer</li>
-  <li>LSP8 NFTs - Deploy a contract, mint, transfer</li>
-  <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault</li>
+  <li>LSP7 Tokens - Deploy a contract, mint, or transfer to UP or vault</li>
+  <li>LSP8 NFTs - Deploy a contract, mint, or transfer to UP or vault</li>
+  <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault, apply metadata settings to vault </li>
 </ul>
 
 Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
