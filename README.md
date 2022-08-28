@@ -119,24 +119,24 @@ _For examples on usage, please refer to the [Website Tutorials](https://myluksow
 Were all suggestions followed?
 <ul>
 <li>[✔️] Start building the next generation of dApps on Universal Profiles and have fun!</li>
-  <ul>This was a great experience in learning about the innovative tools from the Lukso team!</ul>
+  <ul><li>This was a great experience in learning about the innovative tools from the Lukso team!</li></ul>
 <li>[✔️] Build on the LUKSO L16 Public Testnet</li>
-  <ul>Yes.</ul>
+  <ul><li>Yes.</li></ul>
 <li>[✔️–] Use the Universal Profile browser extension as the user interface</li>
-  <ul>I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</ul>
+  <ul><li>I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</li></ul>
 <li>[✔️] Experiment and build with LUKSO’s Universal Profiles, new smart contract standards and tools</li>
-  <ul>Yes.</ul>
+  <ul><li>Yes.</li></ul>
 <li>[✔️–] You are encouraged to use the following libraries: lsp-factory.js, erc725.js and the relayer API </li>
-  <ul>I used lsp-factory.js and erc725.js, and contributed actively on Discord on discussion surrounding these libraries. I have not used the relayer API yet. </ul>
+  <ul><li>I used lsp-factory.js and erc725.js, and contributed actively on Discord on discussion surrounding these libraries. I have not used the relayer API yet. </li></ul>
 <li>[✔️] Submit your project via Gitcoin by August 31st, 5pm CEST</li>
-  <ul>Yes.</ul>
+  <ul><li>Yes.</li></ul>
 </ul>
 
 ### Criteria
 Were all judging criteria met?
 <ul>
 <li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
-  <ul>This criteria is the core drive behind MyLuksoWallet. After exploring the website, we hope that </ul>
+  <ul><li>This criteria is the core drive behind MyLuksoWallet. After exploring the website, we hope that </li></ul>
 <li>Originality & Creativity: How novel and innovative is the idea?</li>
 <li>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</li>
 <li>User Experience & Design: Does the design of the project make the user experience easy?</li>
