@@ -5,22 +5,24 @@
     <img src="https://user-images.githubusercontent.com/58372066/186786266-d6c1365e-66ff-46fe-aae2-6ac92156f462.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">MyLuksoWallet</h3>
+  <h1 align="center">MyLuksoWallet</h1>
 
   <p align="center">
-    A frontend management tool for Lukso Standard Proposals.
+    A front-end management tool for Lukso Standard Proposals.
     <br />
-    Submission for LUKSO Build UP! #1
+    Submission For the LUKSO Build UP! #1 - For Judges Only
     <br />
-    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Submission (8/31/22)</strong></a>
     <br />
-    
-    .
-    <a href="https://www.myluksowallet.com">Current Version</a>
-    .
-    <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Report Bug</a>
+    Version for the Hackathon: <a href="https://myluksowallet-hackathon.netlify.app"><strong>DApp/Website Link (8/31/22)</strong></a>
+    <br />
+    <br />
     ·
-    <a href="https://github.com/jxyang44/MyLuksoWallet/issues">Request Feature</a>
+    <a href="https://www.myluksowallet.com">Working Public Website</a>
+    ·
+    <a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation</a>
+    ·
+    <a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from Website</a>
+    ·
   </p>
 </div>
 
@@ -29,25 +31,13 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#judging">Judging</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  
   </ol>
 </details>
 
@@ -56,52 +46,35 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be one of the main platforms new users visit when interacting with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, and other sensible additions.
 
+Functionality includes:
+<ul>
+  <li>Universal Profiles - Create a profile, manage standard profile metadata, choose profile themes (stored as metadata), manage permissions, transfer tokens</li>
+  <li>LSP7 Tokens - Deploy a contract, mint, or transfer to UP or vault</li>
+  <li>LSP8 NFTs - Deploy a contract, mint, or transfer to UP or vault</li>
+  <li>LSP9 Vaults - Deploy a vault (w/ universal receiver delegate), add vault to UP, manage vault permissions, transfer assets to vault, apply metadata settings to vault </li>
+</ul>
 
-http://localhost:3000/home/#assetcards
+Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+This readme file is intentionally sparse. More detailed documentation can be found at:
+<ul>  
+  <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from the Website</a></li>
+  <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorial Playlist</a></li>
+</ul>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
@@ -109,53 +82,77 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/jxyang44/MyLuksoWallet.git
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
+3. Enter your private key in `.env`. The private key is only used to deploy LSP7/LSP8 contracts using LSPFactory in `CreateLSPForm.js`. Unfortunately, I was not able to get LSPFactory to work using the window in time, but this should be a quick change in the future. The private key is not used for anything else.
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   const REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY= 'ENTER YOUR PRIVATE KEY';
    ```
-
+   
+### Start
+   
+1. Start (react-app-rewired is used to bypass package dependency errors)
+   ```sh
+   npm run start
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For examples on usage, please refer to the [Website Tutorials](https://myluksowallet-hackathon.netlify.app/getstarted)._
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<!-- Judging -->
+## Judging
+Below are the driving forces in designing MyLuksoWallet. 
 
-<!-- ROADMAP -->
-## Roadmap
+### Criteria
+<ul>
+<li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
+  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
+<li><b>Originality & Creativity: How novel and innovative is the idea?</b></li>
+  <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. I'm not sure how original or creative that idea is, as opposed to just early mover advantage. In terms of innovation, there are perhaps two pieces that set MyLuksoWallet apart: 
+    <ol>
+      <li>Visually representing the interaction between UPs and LSPs as a wallet could make it easier for newcomers to understand how the pieces work together. If users take to this idea, different aesthetic models could be implemented in the future depending on the users' preferences. </li>
+    <li>I think the idea of standardizing common browser settings (e.g. color themes - [bg, border, shadow, text], fonts, other stylings) to profile/vault metadata has traction, because these elements can significantly increase the level of personalization and immersion with any DApp. This also further bolsters the concept of decentralization, since it dilutes some of the branding decisions from the DApp developer. Because it's early in the process, standardizing these could enable developers to integrate these settings into their DApps. This could be done as part of LSP3, or perhaps a new standard. </li></ol></li></ul>
+<li><b>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</b></li>
+  <ul><li>The project is primarily a front-end visual using examples from the Lukso tutorial documents. I don't think it is partically technically innovative at this point. And as a new web developer, I imagine the code isn't the most well-written or documented to industry standards, but that should improve over time. I did try to document as much as I could. At this point, I would prefer to keep the code closed source, but certainly anticipate opening it up at a future point for improvement.</li></ul>
+<li><b>User Experience & Design: Does the design of the project make the user experience easy?</b></li>
+  <ul><li>The core application of MyLuksoWallet is to take the technical architecture from the LSPs and create something user friendly and visually pleasing. If this has not been done, then I will need to go back to the drawing board. Creative feedback and collaboration with the community would be immensely helpful here.</li></ul>
+<li><b>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</b></li>
+  <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs 0-12 (except LSP11) to varying degrees, lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord around these standards and tools. </li></ul>
+</ul>
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+### Suggestions
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+Were all suggestions followed?
+<ul>
+<li>Start building the next generation of dApps on Universal Profiles and have fun!</li>
+  <ul><li>[✔️] This was a great experience in learning about the innovative tools from the Lukso team!</li></ul>
+<li>Build on the LUKSO L16 Public Testnet</li>
+  <ul><li>[✔️] Yes.</li></ul>
+<li>Use the Universal Profile browser extension as the user interface</li>
+  <ul><li>[✔️–] I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</li></ul>
+<li>Experiment and build with LUKSO’s Universal Profiles, new smart contract standards and tools</li>
+  <ul><li>[✔️] Yes.</li></ul>
+<li>You are encouraged to use the following libraries: lsp-factory.js, erc725.js and the relayer API </li>
+  <ul><li>[✔️–] I used lsp-factory.js and erc725.js, and contributed actively on Discord on discussion surrounding these libraries. I have not used the relayer API yet. </li></ul>
+<li>Submit your project via Gitcoin by August 31st, 5pm CEST</li>
+  <ul><li>[✔️] Yes.</li></ul>
+</ul>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions and more importantly the time, so this really is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in the foreseeable future!
 
-
+<p align="right">(<a href="#judging">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -175,39 +172,14 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Jeff Yang - LinkedIn: [Jeff Yang, FSA, MAAA](https://www.linkedin.com/in/jeff-yang-fsa-maaa/) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com - Twitter: [@jxyang](https://twitter.com/jxyang)
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Payout Address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+Project Link (current working version beyond the hackathon): [https://www.myluksowallet.com](https://www.myluksowallet.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
