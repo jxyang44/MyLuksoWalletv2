@@ -211,7 +211,7 @@ Were all suggestions followed?
 <li>Build on the LUKSO L16 Public Testnet</li>
   <ul><li>[✔️] Yes.</li></ul>
 <li>Use the Universal Profile browser extension as the user interface</li>
-  <ul><li>[✔️–] I was not able to use the extension to get LSPFactory working to deploy LSP7 and LSP8 contracts, but used the extension for everything else.</li></ul>
+  <ul><li>[✔️–] MLW was designed to be compatible with the extension. Aside from the items mentioned above (which will be extension-compatible in the future), all other features use the extension.</li></ul>
 <li>Experiment and build with LUKSO’s Universal Profiles, new smart contract standards and tools</li>
   <ul><li>[✔️] Yes.</li></ul>
 <li>You are encouraged to use the following libraries: lsp-factory.js, erc725.js and the relayer API </li>
