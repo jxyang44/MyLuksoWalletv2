@@ -70,6 +70,7 @@ Below are a list of major known issues that are being worked on:
   <li>Get vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). The current version is prompting the user to paste their private key in. The code is implemented in the "executeViaKeyManager" function in "ProfileContext.js".</li>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
   <li>Deploying an asset currently uses a private key instance of LSPFactory. Unfortunately, I was not able to get LSPFactory to work with the window. </li>
+  <li>Add logic to add deployed asset to LSP12 - Issued Assets. </li>
   </ul>
 
 
@@ -139,7 +140,6 @@ A comprehensive list of currently implemented features is listed below:
       <li>Toggle Between Received and Issued Assets in the MLW DApp</li>
       <li>Checkbox to Deploy a Contract as a Creator</li>
     </ul>
-  </ul>
 
   <li><b>LSP0, LSP1, LSP2, LSP3 - Universal Profile Standards</b></li>
     <ul>
