@@ -116,6 +116,32 @@ To get a local copy up and running follow these steps.
 A comprehensive list of currently implemented features is listed below:
 <ul>
   
+
+<li><b>LSP9, LSP10 - Vaults</b></li>
+  <ul>
+    <li>Aesthetic Visualization of Vaults in the MyLuksoWallet DApp</li>
+    <li>Deploy a Vault with a Universal Receiver Delegate</li>
+    <li>Add the Vault to a Universal Profile (LSP10)</li>
+    <li>Remove a Vault from a Universal Profile (LSP10) (TO-DO)</li>
+  </ul>
+ 
+<li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
+  <ul>
+    <li>Front-End to Visualize and Design Tokens and NFTs</li>
+    <li>Deploy a LSP7 or LSP8 Token</li>
+    <li>Mint a  LSP7 or LSP8 Token to a Universal Profile</li>
+    <li>Mint a  LSP7 or LSP8 Token to a Vault</li>
+    <li>Transfer a LSP7 or LSP8 Token In and Out of a Universal Profile</li>
+    <li>Transfer a LSP7 or LSP8 Token In and Out of a Permissioned Vault</li>
+  </ul>
+  
+<li><b>LSP5/LSP12 - Received/Issued Assets</b></li>
+  <ul>
+    <li>Toggle Between Received and Issued Assets in the MLW DApp</li>
+    <li>Checkbox to Deploy a Contract as a Creator</li>
+  </ul>
+</ul>
+
 <li><b>LSP0, LSP1, LSP2, LSP3 - Universal Profile Standards</b></li>
   <ul>
     <li>Front-End to Visualize and Design Universal Profiles</li>
@@ -124,20 +150,7 @@ A comprehensive list of currently implemented features is listed below:
     <li>Add/Edit Vault Metadata (stored with the profile)</li>
     <li>Create a Universal Profile via LSPFactory (the code is in RelayService.js, but the feature is currently disabled)</li>
   </ul>
-<li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
-  <ul>
-    <li>Front-End to Visualize and Design Tokens and NFTs</li>
-    <li>Deploy a Token with LSPFactory</li>
-    <li>Mint a Token to a Universal Profile or a Vault</li>
-    <li>Transfer In and Out of a Universal Profile or a Vault</li>
-  </ul>
-<li><b>LSP9, LSP10 - Vaults</b></li>
-  <ul>
-    <li>Aesthetic Visualization of Vaults in the MyLuksoWallet DApp</li>
-    <li>Deploy a Vault with a Universal Receiver Delegate</li>
-    <li>Add the Vault to a Universal Profile (LSP10)</li>
-    <li>Remove a Vault from a Universal Profile (LSP10) (TO-DO)</li>
-  </ul>
+  
 <li><b>LSP6 - Key Manager</b></li>
   <ul>
     <li>Easy-to-Use Forms to Manage and View Permissions</li>
@@ -148,13 +161,6 @@ A comprehensive list of currently implemented features is listed below:
     <li>Manage Allowed Addresses to a Vault (TO-DO) </li>
   </ul>
 </ul>
-<li><b>LSP5/LSP12 - Received/Issued Assets</b></li>
-  <ul>
-    <li>Toggle Between Received and Issued Assets in the MLW DApp</li>
-    <li>Checkbox to Deploy a Contract as a Creator</li>
-  </ul>
-</ul>
-
 
 
 
