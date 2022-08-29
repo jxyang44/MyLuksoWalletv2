@@ -1,3 +1,5 @@
+//component for list of permissions that appears as a branch of the ManagePermissionsForm
+
 import React, { useState, useEffect } from "react";
 import { Address, Loading } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";

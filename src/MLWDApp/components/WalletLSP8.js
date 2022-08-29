@@ -1,10 +1,10 @@
 //LSP8 mini card - holds logic for expanding the image, dragging and dropping
-//this component is under construction and is currently a clone of WalletLSP7 code
+//similar to logic for LSP7
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { LSP8MintableContract, web3Provider } from "../../utils/luksoConfigs";
+import { LSP8MintableContract } from "../../utils/luksoConfigs";
 import { Address } from "../../components";
 import { useDrag } from "react-dnd";
 import "../MyLuksoWallet.css";
@@ -64,7 +64,7 @@ const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
             className={`font-['Arial'] cursor-default absolute w-[50vmax] h-[35vmax] aspect-square border-2 border-white top-0 rounded-lg 
         flex flex-col shadow-lg shadow-white items-center justify-start bg-black`}
             style={{ backgroundColor: assets[index]?.backgroundColor, color: assets[index]?.textColor }}>
-            <div className="absolute rotate-[90deg] text-5xl -right-24 top-1/2 text-center font-semibold">{assets[index].assetName}</div>
+            <div className="absolute  xl:text-5xl lg:text-4xl md:text-3xl text-2xl top-1/2 text-center font-semibold lsp8-name">{assets[index].assetName}</div>
 
             {assets[index].assetIcon !== "" && (
               <div className={`absolute top-0 right-0 w-[10%] m-2 aspect-square flex justify-center items-center rounded-full opacity-50 p-2`}>
@@ -77,9 +77,10 @@ const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
               </div>
             )}
 
-            <div className="absolute left-0 bottom-0 text-2xl text-center p-2 m-4 max-w-3xl overflow-x-auto border-4xl shadow-white shadow-inner whitespace-nowrap">
+{!assets[index].isSelected &&
+            <div className="absolute left-0 bottom-0 xl:text-2xl lg:text-xl md:text-base text-sm text-center p-2 m-4 max-w-[75%] text-ellipsis border-4xl shadow-white shadow-inner whitespace-nowrap overflow-hidden">
               Your token IDs: {assets[index].tokenIDsOf}
-            </div>
+            </div>}
 
             <div className="absolute flex flex-col items-center top-1/2 -translate-y-1/2 text-2xl w-[50%] aspect-square overflow-x-auto justify-center rounded-xl text-center shadow-white shadow-lg"></div>
             {assets[index].assetImage2 !== "" && (
@@ -88,12 +89,16 @@ const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
               </div>
             )}
             
-            <p className="text-7xl m-6 uppercase font-semibold brightness-200">{assets[index].assetSymbol}</p>
+            <p className="xl:text-7xl lg:text-5xl md:text-3xl text-xl m-6 uppercase font-semibold brightness-200">{assets[index].assetSymbol}</p>
           </div>
           {assets[index].isSelected && (
-            <div className="absolute -top-14 right-1/2 translate-x-1/2 text-4xl">
+            <><div className="absolute -top-14 right-1/2 translate-x-1/2 text-4xl">
               <Address address={assets[index].address} />
             </div>
+              <div className="absolute top-[36vmax] right-1/2 translate-x-1/2 text-2xl w-full">
+              Your token IDs: {assets[index].tokenIDsOf}
+            </div>
+            </>
           )}
         </div>
       </div>

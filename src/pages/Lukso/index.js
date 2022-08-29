@@ -1,2 +1,2 @@
-export {default as Introduction} from './Introduction';
+export {default as Resources} from './Resources';
 export {default as QuoteBox} from './QuoteBox';

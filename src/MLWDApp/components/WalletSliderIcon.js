@@ -42,16 +42,16 @@ const WalletSliderIcon = ({ index }) => {
   const style = selectStyle(isActive, canDrop);
 
   return (
-    <div ref={drop} className={`flex flex-col lg:text-[6rem] md:text-[4rem] text-[1rem] text-white items-center ${style}`}>
+    <div ref={drop} className={`flex flex-col xl:text-[6rem] md:text-[4rem] text-[1rem] text-white items-center ${style}`}>
       {index === 0 ? ( //if index is 0 show universal profile
         <>
           <BsFillPersonLinesFill />
-          <div className="lg:text-base text-xs -translate-y-1 text-center">Universal Profile</div>
+          <div className="xl:text-base text-xs -translate-y-1 text-center">Universal Profile</div>
         </>
       ) : ( //otherwise show vault
         <>
           <AiOutlineWallet />
-          <div className="lg:text-base text-xs -translate-y-1 text-center">
+          <div className="xl:text-base text-xs -translate-y-1 text-center">
             Vault {accountAddresses.vaults[index - 1] && accountAddresses.vaults[index - 1].substring(0, 8)}...
           </div>
         </>

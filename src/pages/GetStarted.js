@@ -10,7 +10,7 @@ const GetStarted = () => {
     <div>
       <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet"} subtitle={"Currently Customized for the Hackathon Submission"} buttonText={""} />
 
-      <div className="flex flex-col lg:mx-32 mx-8 gap-14">
+      <div className="flex flex-col xl:mx-32 mx-8 gap-14">
         <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
           <p className="font-bold"> *** Hackathon  - Developer Note *** </p>
           <p>

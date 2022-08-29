@@ -1,14 +1,12 @@
 //context provider for account balance, LSP7, and LSP8 related functions
 
-import React, { useEffect, useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import {
-  web3Provider,
-  web3, // same as web3Provider
+  web3,
   INTERFACE_IDS,
   LSP3Schema,
   LSP4Schema,
   LSP4Contract,
-  LSP8Schema,
   LSP7Contract,
   LSP7MintableContract,
   LSP8MintableContract,
@@ -25,11 +23,10 @@ const AssetsContext = createContext();
 
 export const AssetsProvider = ({ children }) => {
   const { currentAccount, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
-  const [accountBalance, setAccountBalance] = useState(0); // LYX balance of UP - TO-DO should probably move this to ProfileContext
+  const [accountBalance, setAccountBalance] = useState(0); // LYX balance of UP
   const [receivedAssets, setReceivedAssets] = useState(""); // array of all LSP5 Received Assets for the connected Universal Profile
   const [issuedAssets, setIssuedAssets] = useState(""); // array of all LSP12 Issued Assets for the connected Universal Profile
 
-  // TO-DO move this to ProfileContext
   // @desc sets accountBalance for universal profile - function should not be called on any address other than the connected UP
   // @param UPAddress - address of profile
   // @return sets accountBalance state
@@ -38,7 +35,7 @@ export const AssetsProvider = ({ children }) => {
     setAccountBalance(balance);
     return;
   };
-  
+
   // @desc used to decode token name or symbol
   // @param assetAddress address of LSP7 or LSP8
   // @param assetKey (e.g. LSP4Schema[1].key, LSP4Schema[2].key)
@@ -132,14 +129,15 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
-
   //  --------------------------------------------------  //
   //  ------------------  MINT ASSETS ------------------  //
   //  --------------------------------------------------  //
 
-
-  
-
+  //@desc applies guardrails and notifications before/after calling the transfer function
+  //@param assetAddress address of the asset contract
+  //@param mintAmount amount of tokens to mint
+  //@param mintToAddress address to mint the token to
+  //@param contract contract of the asset - should always be LSP7MintableContract (for now)
   const mintLSP7 = (assetAddress, mintAmount, mintToAddress, contract) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!mintToAddress) mintToAddress = currentAccount;
@@ -148,38 +146,39 @@ export const AssetsProvider = ({ children }) => {
     if (contract !== LSP7MintableContract)
       //double check that function parameters are passed correctly
       return swal("This feature currently only supports Lukso's official LSP7Mintable Contract.", "", "warning");
-
     mintFunction(assetAddress, web3.utils.toWei(mintAmount.toString()), mintToAddress, contract, "LSP7").then(curr => {
       if (curr) swal("Congratulations!", `${mintAmount} tokens were minted to ${mintToAddress}.`, "success");
     });
   };
 
+  //@desc applies guardrails and notifications before/after calling the transfer function
+  //@param assetAddress address of the asset contract
+  //@param tokenID tokenID of the token to mint
+  //@param mintToAddress address to mint the token to
+  //@param contract contract of the asset - should always be LSP8MintableContract (for now)
   const mintLSP8 = (assetAddress, tokenID, mintToAddress, contract) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!mintToAddress) mintToAddress = currentAccount;
-
-    getTokenOwnerOf(assetAddress, tokenID).then(res => {
-      if (res) return swal("This token ID is already taken.", "warning");
-    });
-
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
     if (contract !== LSP8MintableContract)
       //double check that function parameters are passed correctly
       return swal("This feature currently only supports Lukso's official LSP8Mintable Contract.", "", "warning");
-
     mintFunction(assetAddress, web3.utils.padRight(web3.utils.stringToHex(tokenID), 64), mintToAddress, contract, "LSP8").then(curr => {
       if (curr) swal("Congratulations!", `TokenID ${tokenID} was minted to ${mintToAddress}.`, "success");
     });
   };
 
+  //@desc mints the token, called from mintLSP7 and mintLSP8
+  //@param assetAddress address of the asset contract
   //@param secondParam mintAmount for LSP7 and tokenID for LSP8
+  //@param mintToAddress address to mint the token to
+  //@param contract contract of the asset - should always be LSP7MintableContract or LSP8MintableContract (for now)
+  //@param assetType string of the asset type - should always be "LSP7" or "LSP8" (for now)
+  //@return promise of the transaction
   const mintFunction = async (assetAddress, secondParam, mintToAddress, contract, LSP) => {
     try {
       const assetContract = new web3Window.eth.Contract(contract.abi, assetAddress);
-
       const assetFunction = assetContract.methods.mint(mintToAddress, secondParam, false, "0x");
-      // address to, uint256 amount, bool force, bytes memory data
-
       if (useRelay) {
         return await executeViaKeyManager(assetFunction.encodeABI, `Please wait. Minting your ${LSP} asset via a key manager...`); // not working
       } else {
@@ -200,7 +199,7 @@ export const AssetsProvider = ({ children }) => {
   //@param assetAddress address of the asset contract
   //@param transferAmount amount of tokens to transfer
   //@param transferToAddress address to transfer the token to
-  //@param contract contract of the asset - should always be LSPMintableContract (for now)
+  //@param contract contract of the asset - should always be LSP7MintableContract (for now)
   //@param transferFromAddress address to transfer the token from
   //@balanceOf balance of the current account
   //@param fromVault optional boolean describing whether the address is being transferred from a vault
@@ -212,7 +211,6 @@ export const AssetsProvider = ({ children }) => {
     if (Number(transferAmount) <= 0) return swal("Please enter a valid amount to mint.", "Amount must be greater than 0.", "warning");
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
     if (contract !== LSP7MintableContract) return swal("This feature currently only supports Lukso's official LSP7Mintable Contract.", "", "warning");
-
     transferFunction(
       assetAddress,
       web3.utils.toWei(transferAmount.toString()),
@@ -233,7 +231,7 @@ export const AssetsProvider = ({ children }) => {
   //@param assetAddress address of the asset contract
   //@param tokenID tokenID of the token to transfer
   //@param transferToAddress address to transfer the token to
-  //@param contract contract of the asset - should always be LSPMintableContract (for now)
+  //@param contract contract of the asset - should always be LSP8MintableContract (for now)
   //@param transferFromAddress address to transfer the token from
   //@balanceOf - unused for LSP8
   //@param fromVault optional boolean describing whether the address is being transferred from a vault
@@ -241,10 +239,8 @@ export const AssetsProvider = ({ children }) => {
     if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
     if (!transferToAddress) transferToAddress = currentAccount;
     if (!transferFromAddress) transferFromAddress = currentAccount;
-    // TO-DO check if tokenID exists aready exists - function tokenOwnerOf(bytes32 tokenId) external view returns (address);
     if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
     if (contract !== LSP8MintableContract) return swal("This feature currently only supports Lukso's official LSP8Mintable Contract.", "", "warning");
-
     transferFunction(
       assetAddress,
       web3.utils.padRight(web3.utils.stringToHex(tokenID), 64),
@@ -255,23 +251,26 @@ export const AssetsProvider = ({ children }) => {
       "LSP8"
     ).then(curr => {
       if (curr) {
-        swal("Congratulations!", `TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
-        console.log(`Congratulations! TokenID ${tokenID} token was transferred from ${transferFromAddress} to ${transferToAddress}.`);
+        swal("Congratulations!", `TokenID [${tokenID}] was transferred from ${transferFromAddress} to ${transferToAddress}.`, "success");
+        console.log(`Congratulations! TokenID [${tokenID}] was transferred from ${transferFromAddress} to ${transferToAddress}.`);
       }
     });
   };
 
-  //transfer
+  //@desc transfers the token, called from transferLSP7 and transferLSP8
+  //@param assetAddress address of the asset contract
+  //@param secondParam mintAmount for LSP7 and tokenID for LSP8
+  //@param mintToAddress address to mint the token to
+  //@param contract contract of the asset - should always be LSP7MintableContract or LSP8MintableContract (for now)
+  //@param assetType string of the asset type - should always be "LSP7" or "LSP8" (for now)
+  //@return promise of the transaction
   const transferFunction = async (assetAddress, secondParam, transferToAddress, contract, transferFromAddress, fromVault, LSP) => {
     try {
       const web3 = web3Window;
       const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
-
-      if (fromVault) {
+      if (fromVault) { //TO-DO work in progress
         console.log("from vault");
         const targetPayload = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x").encodeABI();
-        // function transfer(address from, address to, uint256 amount, bool force, bytes memory data) external;
-
         const myVault = new web3.eth.Contract(LSP9Contract.abi, transferFromAddress);
         const vaultPayload = await myVault.methods.execute(0, transferToAddress, 0, targetPayload).encodeABI();
         const owner = await myVault.methods.owner().call(); // TO-DO must equal transferFrom (for now - employ key manager later)
@@ -328,7 +327,6 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
-
   //  -----------------------------------------------  //
   //  ------------------ LSP7 only ------------------  //
   //  -----------------------------------------------  //
@@ -346,7 +344,6 @@ export const AssetsProvider = ({ children }) => {
     }
   };
 
- 
   //  -----------------------------------------------  //
   //  ------------------ LSP8 only ------------------  //
   //  -----------------------------------------------  //

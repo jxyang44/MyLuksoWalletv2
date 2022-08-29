@@ -1,5 +1,3 @@
-//
-
 import React from "react";
 
 const QAList = {
@@ -9,21 +7,21 @@ const QAList = {
       `The idea for MyLuksoWallet was inspired by the first Lukso hackathon, which started in July 2022. MyLuksoWallet was submitted under the "Universal Profile Tools - Token & NFT Wallet With Vault Manager" category.`,
   },
   Q2: {
-    question: "Who created MyLuksoWallet?",
-    answer:
-      "MyLuksoWallet was created by Jeff Yang. Jeff can be reached at jxyang#6165 on Discord, jxyang on Twitter, or myluksowallet@gmail.com.",
-  },
-  Q3: {
     question: "How can I contribute to the project?",
     answer: "We always welcome feedback from the community! Please contact us at any of our socials or e-mail us at myluksowallet@gmail.com."
   },
-  Q4: {
-    question: "Is MyLuksoWallet mobile-responsive?",
-    answer: "MyLuksoWallet was designed to interact with the browser extension. Currently, it cannot be used on mobile devices. When a mobile extension is released, we will work on a mobile-responsive version of MyLuksoWallet.",
-  },
   Q3: {
+    question: "Is MyLuksoWallet mobile-responsive?",
+    answer: "MyLuksoWallet was designed to interact with the browser extension. Currently, it should not be used on mobile devices. When a mobile extension is released, we will work on a mobile-responsive version of MyLuksoWallet.",
+  },
+  Q4: {
     question: "Want to join the team?",
     answer: "Please contact us at any of our socials or e-mail us at myluksowallet@gmail.com."
+  },
+  Q5: {
+    question: "Who created MyLuksoWallet?",
+    answer:
+      `"Jxyang" is the developer and founder of MyLuksoWallet. He is an active member of the Lukso community.`,
   },
 };
 
@@ -51,12 +49,14 @@ const QandA = ({ question, answer }) => {
 
 const AboutUs = () => {
   return (
-    <div className="w-5/6 lg:mx-32 mx-8 flex flex-col gap-1">
+    <section className="w-5/6 xl:mx-32 mx-8 flex flex-col gap-1" id="aboutus">
+      <div className="text-center text-2xl mb-4">About Us</div>
       <QandA question={QAList.Q1.question} answer={QAList.Q1.answer} />
       <QandA question={QAList.Q2.question} answer={QAList.Q2.answer} />
       <QandA question={QAList.Q3.question} answer={QAList.Q3.answer} />
       <QandA question={QAList.Q4.question} answer={QAList.Q4.answer} />
-    </div>
+      <QandA question={QAList.Q5.question} answer={QAList.Q5.answer} />
+    </section>
   );
 };
 

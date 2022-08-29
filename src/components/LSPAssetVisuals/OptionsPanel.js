@@ -4,7 +4,7 @@ import React from "react";
 
 const OptionsPanel = ({ defaultPanel, isPanelActive, setIsPanelActive }) => {
   return (
-    <div className="flex flex-row gap-1 scale-90 lg:text-lg text-sm bg-black bg-opacity-80 rounded-lg p-1">
+    <div className="flex flex-row gap-1 scale-90 xl:text-lg text-sm bg-black bg-opacity-80 rounded-lg p-1">
       |
       <button
         className="text-red-500 hover:text-white"

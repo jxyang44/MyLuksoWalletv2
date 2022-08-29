@@ -112,7 +112,7 @@ contains CSS for the MyLuksoWalletComponent
   }
 }
 
-/* LSP7 tilt */
+/* coin&card tilt */
 
 .tilted-coin {
   transform-style: preserve-3d;
@@ -137,4 +137,10 @@ contains CSS for the MyLuksoWalletComponent
   opacity: 1;
   z-index: 100;
   transition: transform 0.4s ease-out;
+}
+
+/* card name transform */
+.lsp8-name{
+  transform-origin: 50% 0;
+  transform: rotate(90deg) translateY(-24vmax);
 }

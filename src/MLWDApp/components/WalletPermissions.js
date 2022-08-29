@@ -7,7 +7,7 @@ import walletTexture from "../../assets/MyLuksoWalletVisual/Wallet Texture/black
 import { useNavigate } from "react-router-dom";
 import { web3Provider, UniversalProfileContract } from "../../utils/luksoConfigs";
 
-const tokenPurse = `mb-2 w-full h-5/6 bg-slate-500 border-2 border-black rounded-b-3xl shadow-lg custom-shadow text-white text-left p-1 font-normal overflow-y-auto lg:text-sm text-xs`;
+const tokenPurse = `mb-2 w-full h-5/6 bg-slate-500 border-2 border-black rounded-b-3xl shadow-lg custom-shadow text-white text-left p-1 font-normal overflow-y-auto xl:text-sm text-xs`;
 
 const WalletPermissions = ({ walletAddress, walletMetadata }) => {
   const navigate = useNavigate();

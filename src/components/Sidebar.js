@@ -7,7 +7,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { links } from "../utils/links";
 import { useStateContext } from "../contexts/StateContext";
 import { Logo, Socials } from "./";
-import { AiOutlineTwitter, AiOutlineYoutube, AiOutlineGithub } from "react-icons/ai";
+import { AiOutlineTwitter, AiOutlineYoutube } from "react-icons/ai";
 import { FaDiscord } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -39,7 +39,7 @@ const Sidebar = () => {
   }
   return (
     <div
-      className={`flex flex-col h-screen sticky top-0 border-r-[1px] border-r-slate-700  overflow-auto md:overflow-x-hidden md:hover:overflow-auto bg-gradient-to-l from-slate-900 via-slate-800 to-slate-800 rounded-b-md rounded-t-sm`}>
+      className={`flex flex-col h-screen sticky top-0 border-r-[1px] border-r-slate-700 overflow-auto md:overflow-x-hidden md:hover:overflow-auto bg-gradient-to-l from-slate-900 via-slate-800 to-slate-800 rounded-b-md rounded-t-sm`}>
       <div className={`absolute inset-0 h-screen bg-gradient-to-br ${background} rounded-lg blur opacity-25 -z-10`}></div>
       <div className="flex justify-between items-center ml-2 mt-4">
         <Logo customFunc={handleCloseSideBar} customProps={" py-2 px-1 "} />
@@ -51,7 +51,7 @@ const Sidebar = () => {
         </button>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 xl:text-base lg:text-sm text-xs">
         <button
           className=" text-white text-center w-5/6 py-1 px-3 border-2 hover:bg-slate-900 mx-3 hover:text-slate-white rounded"
           onClick={() => navigate("../MyLuksoWallet")}>
@@ -78,7 +78,6 @@ const Sidebar = () => {
         <div className="flex flex-wrap w-5/6 gap-2 justify-center">
           <Socials icon={<AiOutlineTwitter />} text={"Twitter"} link={"https://twitter.com/myluksowallet"} />
           <Socials icon={<AiOutlineYoutube />} text={"Youtube"} link={"https://www.youtube.com/channel/UC82THQV7NQHFQgw96DaVuVQ"} />
-          <Socials icon={<AiOutlineGithub />} text={"Github"} link={"https://github.com/jxyang44/MyLuksoWallet"} />
           <Socials icon={<FaDiscord />} text={"Discord"} link={"https://discord.gg/uZ53kj3k"} />
         </div>
       </div>

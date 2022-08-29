@@ -1,4 +1,4 @@
-//updates vault pseudo-metadata (stores on UP)
+//updates vault metadata (stored on UP)
 
 import React, { useState, useEffect } from "react";
 import { FormContainer, UpdateProfile } from "..";

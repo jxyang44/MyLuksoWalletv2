@@ -124,7 +124,7 @@ const LYXBalanceFuncs = () => {
   return (
     <div className="flex flex-row items-center gap-1">
       Balance: {accountBalance} LYX
-      <button onClick={handleTransfer} className="hover:text-blue-50 text-blue-400 lg:text-sm text-xs flex flex-row items-center">
+      <button onClick={handleTransfer} className="hover:text-blue-50 text-blue-400 xl:text-sm text-xs flex flex-row items-center">
         <BiTransfer /> Transfer
       </button>
     </div>

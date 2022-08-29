@@ -1,6 +1,6 @@
 import React from "react";
 import { Banner, Footer } from "../components";
-import { Introduction, Socials, QuoteBox, LSPs } from "./Lukso";
+import { Resources, QuoteBox } from "./Lukso";
 
 import luksoBanner from "../assets/Logos/Lukso_Original/LUKSO_2022_WORDMARK-01.png";
 
@@ -52,7 +52,7 @@ const AboutLukso = () => {
           <p>- If you want to learn more, feel free to check out the resources at the bottom of the page. -</p>
           <p>- All quotes and images are sourced from Lukso's websites. -</p>
         </div>
-        <div className="flex flex-col gap-32 mt-12">
+        <div className="flex flex-col gap-64 my-12">
           <QuoteBox
             title={information.aboutLukso.title}
             quote={information.aboutLukso.quote}
@@ -78,7 +78,7 @@ const AboutLukso = () => {
             image={information.aboutAssets.image}
           />
         </div>
-        <Introduction />
+        <Resources />
       </div>
       <Footer />
     </>

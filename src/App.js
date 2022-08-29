@@ -32,7 +32,7 @@ const App = () => {
       <BrowserRouter>
         <div className="flex relative">
           {activeMenu ? (
-            <div className="w-72 transition-all duration-300 sticky ease-in">
+            <div className="xl:w-72 w-64 transition-all duration-300 sticky ease-in">
               <Sidebar />
             </div>
           ) : (

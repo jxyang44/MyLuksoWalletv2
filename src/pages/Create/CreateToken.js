@@ -10,11 +10,13 @@ const LSPValues = {
   LSP7: {
     description: "LSP7 - Digital Asset (Based on ERC20)",
     type: "Token",
-    forms: [ //header data for form ribbons
+    forms: [
+      //header data for form ribbons
       { name: "Deploy / View", border: "border-sky-400 shadow-sky-400" },
       { name: "Mint", border: "border-green-500 shadow-green-500" },
     ],
-    initialDeployState: { //initial metadata
+    initialDeployState: {
+      //initial metadata
       tokenName: "", //token name
       tokenSymbol: "", //token symbol
       tokenDescription: "", //token description
@@ -77,7 +79,7 @@ const CreateToken = ({ LSP }) => {
 
   useEffect(() => {
     setActiveMenu(false);
-   
+
     setMintForm(curr => ({ ...curr, tokenAddress: localStorage.getItem(`recent${LSP}Address`), mintToAddress: currentAccount }));
   }, [LSP]);
 
@@ -86,39 +88,43 @@ const CreateToken = ({ LSP }) => {
       {activeMenu ? (
         <FullScreenButton text={`Deploy or Mint ${LSP} Assets`} />
       ) : (
-        <div className="lg:mx-32 mx-8 ">
+        <div className="xl:mx-16 ml-8">
           <div className="flex flex-row">
-            <div className="flex flex-col w-1/2 text-white items-left text-left">
-              <div className="text-sky-500 font-semibold lg:text-2xl text-lg">{LSPValues[LSP].description}</div>
-              <div className="lg:text-3xl text-xl mb-3 text-white">
+            <div className="flex flex-col w-1/2 text-white items-left text-left min-h-[85vh]">
+              <div className="text-sky-500 font-semibold xl:text-2xl text-lg">{LSPValues[LSP].description}</div>
+              <div className="xl:text-3xl text-xl mb-3 text-white">
                 Deploy a {LSP} {LSPValues[LSP].type} with Lukso's {LSP}Mintable Contract
               </div>
-              <div className="my-2 flex flex-row gap-1 lg:text-base text-sm">
-                Most recently deployed {LSP} contract from your browser:
-                <span className="font-bold">
-                  <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
-                </span>
-              </div>
-              <div>
-                <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
 
-                <div className="flex flex-row mr-8 gap-2">
-                  {showForm === "Deploy / View" && (
-                    <CreateLSPForm
-                      formValues={formValues}
-                      setFormValues={setFormValues}
-                      initialDeployState={LSPValues[LSP].initialDeployState}
-                      LSP={LSP}
-                    />
-                  )}
-                  {showForm === "Mint" && (
-                    <div className="flex flex-col justify-center">
-                      <MintLSPForm formValues={mintForm} setFormValues={setMintForm} initialMintState={LSPValues[LSP].initialMintState} LSP={LSP} />
-                    </div>
-                  )}
+                <div className="my-2 flex flex-row gap-1 xl:text-base text-sm">
+                  Most recently deployed {LSP} contract from your browser:
+                  <span className="font-bold">
+                    <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
+                  </span>
+                </div>
+              <div className="self-center">
+                <div>
+                  <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
+
+                  <div className="flex flex-row mr-8 gap-2">
+                    {showForm === "Deploy / View" && (
+                      <CreateLSPForm
+                        formValues={formValues}
+                        setFormValues={setFormValues}
+                        initialDeployState={LSPValues[LSP].initialDeployState}
+                        LSP={LSP}
+                      />
+                    )}
+                    {showForm === "Mint" && (
+                      <div className="flex flex-col justify-center">
+                        <MintLSPForm formValues={mintForm} setFormValues={setMintForm} initialMintState={LSPValues[LSP].initialMintState} LSP={LSP} />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+
             {LSP === "LSP7" && (
               <div className="relative w-1/2">
                 <div className="absolute top-10 right-10">

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { ProfileThemesForm, FormTabs, ManagePermissionsForm, PermissionTypesCheckbox } from "../../components";
+//component for the "My Universal Profile" page
+
+import React, { useState } from "react";
+import { ProfileThemesForm, FormTabs, ManagePermissionsForm } from "../../components";
 
 const forms = [
-  { name: "Profile Themes", border: "border-sky-400 shadow-sky-400" },
+  { name: "Profile Themes", border: "border-sky-400 shadow-sky-400 shadow-sm" },
   { name: "Manage Permissions", border: "border-green-500 shadow-green-500" },
 ];
 
@@ -22,9 +24,9 @@ const MyProfile = () => {
         </div>
 
         {showForm === "Profile Themes" && (
-          <div className="lg:text-3xl text-xl text-sky-500 max-w-5xl mt-12 border-2 p-6 rounded-xl border-white bg-slate-700">
+          <div className="xl:text-3xl text-xl text-sky-500 max-w-5xl mt-12 border-2 p-6 rounded-xl border-white bg-slate-700">
             "Styling" Metadata
-            <div className="text-white text-left lg:text-base text-sm flex flex-col gap-1 mt-2">
+            <div className="text-white text-left xl:text-base text-sm flex flex-col gap-1 mt-2">
               <p>
                 In addition to the standard LSP3 Metadata included in your profile (e.g. "description", "tags"), MyLuksoWallet provides the option to
                 add additional stylistic elements to your UP. This creates an engaging environment that can personalize your journey across any DApps

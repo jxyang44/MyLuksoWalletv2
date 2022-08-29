@@ -92,12 +92,12 @@ const Navbar = () => {
                   <RiUserSearchLine />
                 </div>
               )}
-              <p className="font-bold ml-1 lg:text-base text-sm text-black flex flex-row items-center gap-2">
+              <p className="font-bold ml-1 xl:text-base text-sm text-black flex flex-row items-center gap-2">
                 {profileJSONMetadata.name} {activeProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
               </p>
             </div>
             <button
-              className={`text-white lg:text-sm text-xs font-semibold  w-fit border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
+              className={`text-white xl:text-sm text-xs font-semibold  w-fit border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
                 useRelay ? "bg-green-500 contrast-100" : "bg-gray-300 contrast-20"
               }`}
               onClick={handleRelay}>
@@ -107,7 +107,7 @@ const Navbar = () => {
         ) : (
           <div className="flex flex-col gap-1 items-end">
             <Button buttonText="Connect Profile" buttonFunc={() => connectProfile()} />
-            <div className="text-white text-sm font-semibold flex flex-col gap-1 w-fit">
+            <div className="text-white xl:text-sm text-xs font-semibold flex flex-col gap-1 w-fit">
               <button //manual log-in with public key
                 className="border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"
                 onClick={() => loginWithKey("UP Address")}>

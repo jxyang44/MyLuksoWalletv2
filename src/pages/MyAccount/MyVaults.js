@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+//component for the "My Vaults" page
+
+import React, { useState } from "react";
 import { MyVaultsForm, FormTabs, ManagePermissionsForm } from "../../components";
 
 const forms = [
@@ -20,9 +22,9 @@ const MyProfile = () => {
       </div>
 
       {showForm === "Metadata" && (
-        <div className="lg:text-3xl text-xl text-sky-500 max-w-5xl mt-12 border-2 p-6 rounded-xl border-white bg-slate-700">
+        <div className="xl:text-3xl text-xl text-sky-500 max-w-5xl mt-12 border-2 p-6 rounded-xl border-white bg-slate-700">
           Vault Metadata
-          <div className="text-white text-left lg:text-base text-sm flex flex-col gap-1 mt-2">
+          <div className="text-white text-left xl:text-base text-sm flex flex-col gap-1 mt-2">
             <p>
               To streamline vault navigation within the MyLuksoWallet DApp, the user may assign a name, description, and color to the vault. The
               current implementation stores these settings in the user's Universal Profile.

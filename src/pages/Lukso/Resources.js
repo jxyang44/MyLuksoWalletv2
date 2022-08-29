@@ -4,6 +4,7 @@ import { AiOutlineTwitter, AiFillHome, AiFillQuestionCircle } from "react-icons/
 import { FaDiscord } from "react-icons/fa";
 import { IoDocumentSharp } from "react-icons/io5";
 import { BsFillFileCodeFill } from "react-icons/bs";
+
 const Link = ({ href, title, icon }) => {
   return (
     <a
@@ -13,16 +14,16 @@ const Link = ({ href, title, icon }) => {
       target="_blank">
       <div className="inline-block p-2 rounded-lg bg-sky-600 border border-white">{icon}</div>
 
-      <h6 className="mt-2 font-bold text-right">{title}</h6>
+      <div className="mt-2 xl:text-base lg:text-sm text-right">{title}</div>
     </a>
   );
 };
 
-const Introduction = () => {
+const Resources = () => {
   return (
-    <div className="max-w-screen-2xl px-20 py-8 border-4 rounded-xl border-sky-500 shadow-md shadow-sky-500 lg:mt-16 mt-24">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 lg:gap-x-16 lg:items-center">
-        <div className="max-w-lg mx-auto text-center lg:text-left lg:mx-0">
+    <div className="max-w-screen-2xl mx-8 p-8 border-4 rounded-xl border-sky-500 shadow-md shadow-sky-500 xl:mt-16 mt-24">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-y-8 xl:gap-x-16 xl:items-center">
+        <div className="max-w-lg mx-auto text-center xl:text-left xl:mx-0">
           <h2 className="text-3xl font-bold text-white sm:text-4xl">Lukso Resources</h2>
 
           <p className="mt-4 text-xl">Feel free to check out these links to learn more about Lukso.</p>
@@ -45,4 +46,4 @@ const Introduction = () => {
   );
 };
 
-export default Introduction;
+export default Resources;

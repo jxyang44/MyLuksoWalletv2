@@ -1,5 +1,5 @@
 //manage permissions to a connected Universal Profile or vault
-//TO-DO vaults does not work
+//TO-DO vaults does not work at the moment
 
 import React, { useState, useEffect } from "react";
 import { FormContainer, PermissionTypesCheckbox, Loading } from "..";

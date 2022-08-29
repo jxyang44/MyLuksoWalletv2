@@ -23,10 +23,9 @@ const ButtonShadow = ({ buttonText, buttonFunc, buttonColor, buttonTextColor }) 
         onMouseDown={() => setButtonPressed(true)}
         onMouseUp={() => setButtonPressed(false)}>
         <p
-          className={`font-bold lg:text-base text-sm ${
+          className={`font-bold xl:text-base text-sm ${
             buttonTextColor ? buttonTextColor : "text-black"
-          } flex flex-row items-center text-center`}>
-          {" "}
+          } flex flex-row items-center text-center whitespace-pre-line`}>
           {buttonText}
         </p>
       </button>

@@ -1,12 +1,12 @@
 //page to show detailed assets - allows for mint / transfer functions
 //this page is still a work in progress
 //to-dos: 
-//fix the multiple loading issue
-//get icons to line up with asset image
-//add issued assets logic
-//handle duplicates when an asset is owned and issued
-//edit asset data
-//view token in specific vault
+//  fix the multiple loading issue
+//  get icons to line up with asset image
+//  add issued assets logic
+//  handle duplicates when an asset is owned and issued
+//  edit asset data
+//  view token in specific vault
 
 import React, { useState, useEffect } from "react";
 import { useAssetsContext } from "../../contexts/AssetsContext";

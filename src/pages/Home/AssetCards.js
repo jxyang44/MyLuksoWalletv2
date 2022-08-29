@@ -45,36 +45,36 @@ const AssetCard = ({ LSP }) => {
     <div className="flex flex-col w-full h-[70vh] rounded-lg p-2 LSP-card-home justify-between">
       <div className="flex flex-col border-2 rounded-2xl">
         <div className="p-4 bg-gray-900 rounded-t-2xl">
-          <p className="lg:text-xl text-lg">{LSP.p1}</p>
-          <p className="lg:text-lg text-base text-gray-500">{LSP.p2}</p>
+          <p className="xl:text-xl text-lg">{LSP.p1}</p>
+          <p className="xl:text-lg text-base text-gray-500">{LSP.p2}</p>
         </div>
         <div className="flex flex-col justify-evenly bg-gradient-to-br from-sky-500 py-4">
           <img className="rounded-lg mx-8 my-16" src={LSP.image} />
-          <div className="lg:text-base text-sm text-white px-4">{LSP.p3}</div>
+          <div className="xl:text-base text-sm text-white px-4">{LSP.p3}</div>
         </div>
 
         <div className="p-4 bg-gray-900 rounded-b-2xl">
-          <p className="lg:text-base text-sm text-white">{LSP.p4}</p>
+          <p className="xl:text-base text-sm text-white">{LSP.p4}</p>
         </div>
       </div>
-      <div className="my-3 lg:text-lg text-base text-white bg-[#17141d] p-2 rounded-t-sm rounded-b-lg"> {LSP.p5} </div>
+      <div className="my-3 xl:text-lg text-base text-white bg-[#17141d] p-2 rounded-t-sm rounded-b-lg"> {LSP.p5} </div>
     </div>
   );
 };
 
 const AssetCards = () => {
   return (
-    <div className="flex flex-col justify-center w-full lg:px-32 px-8" id="assetcards">
-      <div className="lg:text-5xl text-4xl text-center text-sky-500">
+    <div className="flex flex-col justify-center w-full xl:px-32 px-8" id="assetcards">
+      <div className="xl:text-5xl text-4xl text-center text-sky-500">
         Visualize Digital Assets with the {""}
         <Link to="/myluksowallet" className="text-blue-500 font-semibold italic hover:text-white">
           MyLuksoWallet DApp
         </Link>
       </div>
-      <div className="lg:text-2xl text-xl mt-2 mb-6 text-center">Tokens, NFT 2.0 and Vaults</div>
+      <div className="xl:text-2xl text-xl mt-2 mb-6 text-center">Tokens, NFT 2.0 and Vaults</div>
 
       <div className="flex flex-row justify-between items-center">
-        <div className="lg:text-xl text-base mt-2 mb-6 text-left w-1/2">
+        <div className="xl:text-xl text-base mt-2 mb-6 text-left w-1/2">
           {/* <p>
             In the physical world, wallets, bags, and purses are used to store important pieces of information. This could include IDs, credit cards,
             concert tickets, insurance information, receipts, cash, photos of loved ones, or even stickers of your favorite superhero. Each of these
@@ -83,7 +83,7 @@ const AssetCards = () => {
           </p>
           <br></br> */}
           <div>
-            Lukso Standard Proposal 9 (LSP9) introduces the concept of Vaults. Vaults can be used in conjunction with Key Managers to restrict
+            Lukso Standard Proposal 9 (LSP9) introduces the concept of Vaults. Vaults can be used in conjunction with other LSPs to restrict
             permissions to specific smart contracts and interactions. This is not only useful for organizing assets, but also for security purposes.
             &nbsp;
             <a href="https://docs.lukso.tech/standards/universal-profile/lsp9-vault" className="text-blue-500 hover:text-blue-300" target="_blank">
@@ -96,7 +96,7 @@ const AssetCards = () => {
             Building on the idea of LSP9, the{" "}
             <Link to="/myluksowallet" className="text-blue-500 hover:text-blue-300 italic font-semibold">
               MyLuksoWallet DApp
-            </Link> {" "}
+            </Link>{" "}
             allows you to visualize blockchain concepts using their real-world physical counterparts.
             <ul className="list-disc list-inside ml-6">
               <li>Vaults (LSP9) as "wallets"</li>
@@ -104,8 +104,13 @@ const AssetCards = () => {
               <li>Tokens (LSP7) as "coins"</li>
               <li>NFTs (LSP8) as "cards"</li>
             </ul>
-            The dynamic between vaults, assets, UP and the surrounding permissions can be difficult to manage and understand. Our goal at MLW is to provide an
-            interactive tool to help newcomers understand how LSPs work. We hope you have fun along the way!
+            The dynamic between vaults, assets, UP and the surrounding permissions can be difficult to manage and understand. Our goal at MLW is to
+            provide an interactive tool to help newcomers understand how LSPs work. We hope you have fun along the way!
+          </div>
+          <br></br>
+          <div>
+            The concept of a visualized wallet is merely a prototype. In future iterations of MLW, this idea will be expanded to other representations depending on the context of the profile (e.g.
+            purses, bank vaults, etc.). We look forward to working with other creators to build a robust collection of visualizations to fit your needs.
           </div>
         </div>
 
@@ -121,4 +126,3 @@ const AssetCards = () => {
 };
 
 export default AssetCards;
-

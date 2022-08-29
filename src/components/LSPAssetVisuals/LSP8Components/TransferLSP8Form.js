@@ -4,7 +4,6 @@ import React, { useState} from "react";
 import { Input } from "../..";
 import { useAssetsContext } from "../../../contexts/AssetsContext";
 import { useProfileContext } from "../../../contexts/ProfileContext";
-
 const TransferLSP8 = ({ assetAddress,contract, balanceOf }) => {
   const {currentAccount} = useProfileContext();
   const [tokenID, setTokenID] = useState(0);

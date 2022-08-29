@@ -7,6 +7,7 @@ import { IPFS_GATEWAY } from "../../utils/luksoConfigs";
 import { Address, LYXBalanceFuncs } from "../../components";
 
 const WalletProfileCard = () => {
+  
   const { currentAccount, pendingProfileJSONMetadata, maxImageIndex } = useProfileContext();
   return (
     <div className="flex justify-center p-1 h-full w-5/6">
@@ -16,12 +17,12 @@ const WalletProfileCard = () => {
             <div className="flex flex-col h-full w-3/4">
               <p
                 className={
-                  "font-bold lg:text-3xl text-lg mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-tl from-white via-blue-500 to-white drop-shadow-3xl shadow-black hover:bg-gradient-to-tr"
+                  "font-bold xl:text-3xl text-lg mb-2 tracking-tight text-transparent bg-clip-text bg-gradient-to-tl from-white via-blue-500 to-white drop-shadow-3xl shadow-black hover:bg-gradient-to-tr"
                 }>
                 {pendingProfileJSONMetadata.name}
               </p>
-              <div className="xl:text-sm text-xs overflow-auto max-h-24 xl:max-h-56">
-                <div className="flex flex-col lg:gap-4 gap-1">
+              <div className="xl:text-sm text-xs overflow-auto max-h-24 lg:max-h-40 xl:max-h-56 pr-1">
+                <div className="flex flex-col xl:gap-4 gap-1">
                   <LYXBalanceFuncs />
                   <span className="flex gap-1">
                     UP Address: <Address address={currentAccount} left={6} right={6} />

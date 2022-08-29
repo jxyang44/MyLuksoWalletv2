@@ -89,7 +89,7 @@ const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
             <div
               className="absolute flex flex-col items-center top-1/2 -translate-y-1/2 text-2xl w-[50%] aspect-square overflow-x-auto justify-center rounded-full text-center shadow-white shadow-lg"
               style={{ background: `radial-gradient(#AAA 20%, transparent, ${assets[index]?.backgroundColor})` }}>
-              <p className="font-['Times'] text-4xl font-bold ">Owned</p>
+              <p className="font-['Times'] xl:text-4xl lg:text-3xl md:text-2xl text-md font-bold ">Owned</p>
               {assets[index].balanceOf && (
                 <p
                   className={`mt-1 font-semibold break-all brightness-50 ${

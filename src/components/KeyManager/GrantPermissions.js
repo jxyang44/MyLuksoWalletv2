@@ -1,4 +1,5 @@
-//gives MLW permissions to a connected Universal Profile on the "payment Relay Service" page
+// currently not used since "Payment Relay Service" is not yet implemented
+// this is an earlier implementation and should be removed in the future
 
 import React from "react";
 import { MM_PublicKey } from "../../utils/luksoConfigs";

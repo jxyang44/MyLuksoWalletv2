@@ -11,7 +11,7 @@ const WalletLeftProfile = ({ walletAddress, walletMetadata}) => {
 
   return (
     <div
-      className=" flex flex-col justify-center items-center rounded-lg border-slate-700 border-2 border-dashed w-full h-full my-1 lg:px-4"
+      className=" flex flex-col justify-center items-center rounded-lg border-slate-700 border-2 border-dashed w-full h-full my-1 xl:px-4 px-2"
       style={{ backgroundColor: UPColor, color: UPTextColor, backgroundImage: `url(${walletTexture})` }}>
       {/* background color and text set based on My Universal Profile Page */}
       <div className={`absolute inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>

@@ -10,8 +10,8 @@ const FormTabs = ({forms, showForm, setShowForm}) => {
     {forms.map((form,i) => {
       return (
         <button key={i+form}
-          className={` px-2 py-1 rounded-t 3/12 border-b-0 shadow-md lg:text-base text-sm text-slate-300  hover:text-white hover:bg-slate-700  ${
-            showForm === form.name && `border-2 bg-transparent font-semibold lg:text-lg text-base text-white ${form.border}`
+          className={` px-2 py-1 rounded-t 3/12 border-b-0 shadow-md xl:text-base text-sm text-slate-300  hover:text-white hover:bg-slate-700  ${
+            showForm === form.name && `border-2 bg-transparent font-semibold xl:text-lg text-base text-white ${form.border}`
           }`}
           onClick={() => setShowForm(form.name)}>
           {form.name}

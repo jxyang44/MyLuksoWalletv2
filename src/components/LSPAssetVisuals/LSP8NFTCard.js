@@ -17,7 +17,7 @@ const [borderSpinOuter, borderSpinInner, animateOuter, animateInner] = [
   ` before:animate-spin-CCW-5`,
   ` before:animate-spin-CW-5`,
 ];
-const subFontStyle = ` font-bold text-transparent bg-clip-text bg-gradient-to-bl from-white to-slate-300 lg:text-base text-sm not-italic `;
+const subFontStyle = ` font-bold text-transparent bg-clip-text bg-gradient-to-bl from-white to-slate-300 xl:text-base text-sm not-italic `;
 // const randomBackgrounds = ["token-wavy", "token-isometric", "token-topography", "token-glamorous", "token-signal", "token-diagonal-lines"];
 const defaultPanel = {
   mint: false,
@@ -50,7 +50,7 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
       getTokenIdsOf(assetAddress, currentAccount).then(res => {
         const formattedList = res
           .map(id => {
-            return web3Provider.utils.toUtf8(id);
+            return web3Provider.utils.toUtf8(id.toString());
           })
           .join(", ");
         setTokenIDs(formattedList);
@@ -98,14 +98,14 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
         style={{ color: assetMetadata.textColor, backgroundColor: assetMetadata.backgroundColor }}>
         <div className="absolute -inset-1 rounded-lg blur opacity-25 -z-10"></div>
 
-        <div className="absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2 lg:w-48 lg:h-48 w-28 h-28 text-center flex justify-center items-center">
+        <div className="absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2 xl:w-48 xl:h-48 w-28 h-28 text-center flex justify-center items-center">
           {assetImageBack && <img src={assetImageBack}></img>}
         </div>
 
         <div className="flex justify-between flex-col w-full h-full">
           <div className="flex justify-between items-start text-lg">
             <div className="flex flex-col h-full">
-              <div className={"italic font-bold lg:text-4xl text-2xl mb-1 contrast-200"}>
+              <div className={"italic font-bold xl:text-4xl text-2xl mb-1 contrast-200"}>
                 {assetName} - {assetSymbol}
               </div>
               <div className="italic font-semibold text-xl">
@@ -114,14 +114,14 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
                   <Address address={assetAddress} />
                 </div>
 
-                <div className="mt-2 lg:w-24 lg:h-24 w-16 h-16">
+                <div className="mt-2 xl:w-24 xl:h-24 w-16 h-16">
                   <img src={assetIcon}></img>
                 </div>
               </div>
             </div>
             {/* fix opacity of image */}
             <div
-              className={`relative w-3/12 lg:mt-4 lg:mr-4 mt-2 mr-2 aspect-square flex justify-center items-center rounded-full ${borderSpin} ${borderSpinOuter} ${
+              className={`relative w-3/12 xl:mt-4 xl:mr-4 mt-2 mr-2 aspect-square flex justify-center items-center rounded-full ${borderSpin} ${borderSpinOuter} ${
                 assetImageFront && animateOuter
               }`}>
               <div
@@ -145,7 +145,7 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
 
           <div className="flex justify-between items-end">
             {isExtraInfoActive ? (
-              <div className="relative rounded-lg p-1 w-3/6 lg:h-32 h-24 overflow-y-auto text-white lg:text-sm text-xs bg-slate-800">
+              <div className="relative rounded-lg p-1 w-3/6 xl:h-32 h-24 overflow-y-auto text-white xl:text-sm text-xs bg-slate-800">
                 <div>
                   <span className={subFontStyle}>Description:</span> {assetMetadata.description}
                 </div>
@@ -167,7 +167,7 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
               </div>
             ) : (
               <button
-                className="lg:text-base text-sm bg-black bg-opacity-80 rounded-lg py-1 px-2 text-white"
+                className="xl:text-base text-sm bg-black bg-opacity-80 rounded-lg py-1 px-2 text-white"
                 onClick={() => setIsExtraInfoActive(true)}>
                 Show more
               </button>

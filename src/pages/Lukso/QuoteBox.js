@@ -12,7 +12,7 @@ const QuoteBox = ({title,quote,source,image}) => {
   }, [scrollHeight]);
 
   return (
-    <div className="flex flex-row justify-between w-full gap-10 relative lg:px-32 px-8 h-[50vh]">
+    <div className="flex flex-row justify-between w-full gap-10 relative xl:px-32 lg:pr-16 px-8 h-[50vh]">
       <div className="flex flex-col justify-center gap-1 w-1/2 lg:px-4">
         <div className="text-sky-500 lg:text-3xl text-2xl font-semibold italic flex flex-row justify-between gap-4">{title} <BsChatQuoteFill/></div>
 

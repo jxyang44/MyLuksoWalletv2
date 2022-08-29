@@ -1,3 +1,5 @@
+//form to set MLW profile settings (color, text color, theme)
+
 import React, { useEffect } from "react";
 import { ButtonShadow, UpdateProfile, FormContainer } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";
@@ -18,7 +20,7 @@ const ProfileThemesForm = () => {
   };
 
   return (
-    <FormContainer title={"Profile Themes"} subtitle={"Settings Will Follow Your Profile"} mainOverride={"w-[50vw]"}>
+    <FormContainer title={"Profile Themes"} subtitle={"Settings Will Stay with Your Profile"} mainOverride={"w-[50vw]"}>
       <div className="flex flex-row items-center mb-4 justify-between h-8">
         <div className=" text-white font-semibold">Theme Settings</div> 
         <select

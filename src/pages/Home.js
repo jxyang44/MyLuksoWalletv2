@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Welcome, DigitalIdentity, AssetCards, WhatisMyLuksoWallet, Roadmap, AboutUs } from "./Home/index";
-import {Footer} from '../components'
+import { Footer } from "../components";
 import { useStateContext } from "../contexts/StateContext";
 
 const Home = () => {
@@ -12,15 +12,17 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center text-white gap-36">
-      <Welcome />
-      <DigitalIdentity />
-      <WhatisMyLuksoWallet />
-      <AssetCards />
-      <Roadmap />
-      <AboutUs />
+    <>
+      <div className="flex flex-col items-center text-white gap-36">
+        <Welcome />
+        <DigitalIdentity />
+        <WhatisMyLuksoWallet />
+        <AssetCards />
+        <Roadmap />
+        <AboutUs />
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 
