@@ -220,7 +220,7 @@ Were all suggestions followed?
   <ul><li>[✔️] Yes.</li></ul>
 </ul>
 
-As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3, which is why my GitHub account has only recently started turning green. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions and more importantly the time, so this really is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in the foreseeable future!
+As a relevant and personal aside, I recently left a decade-long career in an unrelated industry to pursue my own passions in gaming, web development and web3, which is why my GitHub account has only recently started turning green. I have also been a very strong supporter of Lukso for over a year now, for many reasons. This hackathon presented a perfect opportunity to capitalize on these passions, so this truly is a full-time project for me now, extending beyond the hackathon. I look forward to working alongside the Lukso team in the foreseeable future!
 
 <p align="right">(<a href="#judging">back to top</a>)</p>
 
