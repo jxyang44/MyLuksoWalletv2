@@ -67,7 +67,7 @@ This readme file is intentionally sparse. More detailed documentation can be fou
 
 Below are a list of major known issues that I am working through:
 <ul>
-  <li>The biggest to-do is getting the key manager execute function to work with the browser extension, which is primarily for changing the vault (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). For now, I am prompting the user to paste their private key in. This is currently in the "executeViaKeyManager" function in "ProfileContext.js".</li>
+  <li>The biggest to-do is getting vault functions to work with the browser extension. (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). For now, I am prompting the user to paste their private key in. This is done in the "executeViaKeyManager" function in "ProfileContext.js".</li>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
   </ul>
 
