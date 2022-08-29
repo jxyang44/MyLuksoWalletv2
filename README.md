@@ -127,7 +127,7 @@ A comprehensive list of currently implemented features is listed below:
 <li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
   <ul>
     <li>Front-End to Visualize and Design Tokens and NFTs</li>
-    <li>Deploy a Token with LSPFactory (Currently Using a Private Key)</li>
+    <li>Deploy a Token with LSPFactory</li>
     <li>Mint a Token to a Universal Profile or a Vault</li>
     <li>Transfer In and Out of a Universal Profile or a Vault</li>
   </ul>
