@@ -8,11 +8,16 @@ const GetStarted = () => {
 
   return (
     <div>
-      <Banner colorFrom={"from-sky-500"} title={"Get Started with MyLuksoWallet"} subtitle={"Currently Customized for the Hackathon Submission"} buttonText={""} />
+      <Banner
+        colorFrom={"from-sky-500"}
+        title={"Get Started with MyLuksoWallet"}
+        subtitle={"Currently Customized for the Hackathon Submission"}
+        buttonText={""}
+      />
 
       <div className="flex flex-col xl:mx-32 mx-8 gap-14">
         <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
-          <p className="font-bold"> *** Hackathon  - Developer Note *** </p>
+          <p className="font-bold"> *** Hackathon - Developer Note *** </p>
           <p>
             - We apologize in advance for any crude or low quality videos. These instructions are a work in progress and will be improved over time. -
           </p>
@@ -102,11 +107,9 @@ const GetStarted = () => {
           customStyle1={"ml-9"}
         /> */}
 
-        <div className="mt-8 font-semibold italic text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white max-w-5xl">
-          Congratulations, you have just created your very first Universal Profile! Feel free to explore MyLuksoWallet on your own.
-          <br></br>
-          <br></br>
-          You may also follow the additional steps below if you would like to continue with a guided tour.
+        <div className="mt-8 text-xl text-gray-300 xl:max-w-7xl max-w-5xl py-16 border-y border-y-gray-300 border-dashed text-center">
+        <p className="text-white text-2xl font-semibold">🥳 Congratulations, you have just created a Universal Profile and connected to MyLuksoWallet! 🥳</p>
+          <br></br>Feel free to explore the website on your own now. You can also follow the additional steps below if you would like to continue with a guided tour.
         </div>
 
         <StepLeft

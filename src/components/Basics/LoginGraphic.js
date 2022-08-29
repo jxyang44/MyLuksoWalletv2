@@ -14,7 +14,7 @@ const LoginGraphic = () => {
   let navigate = useNavigate();
 
   const handleSampleAccount = () => {
-    swal("Viewing sample account...", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. To create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
+    swal("A note on the sample account:", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. \nTo create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
       if (res) connectProfileUsingUPAddress(petOwner);
     });
   };
