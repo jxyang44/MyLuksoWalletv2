@@ -65,11 +65,11 @@ This readme file is intentionally sparse. More detailed documentation can be fou
   <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorial Playlist</a> - please note that additional functionality has been added since the videos were created. A full list of features is provided in this document.</li>
 </ul>
 
-Below are a list of major known issues that I am working on:
+Below are a list of major known issues that are being worked on:
 <ul>
-  <li>The biggest to-do is getting vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). For now, I am prompting the user to paste their private key in. This is done in the "executeViaKeyManager" function in "ProfileContext.js".</li>
+  <li>Get vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). The current version is prompting the user to paste their private key in. The code is implemented in the "executeViaKeyManager" function in "ProfileContext.js".</li>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
-  <li>Issued assets </li>
+  <li>Deploying an asset currently uses a private key instance of LSPFactory. Unfortunately, I was not able to get LSPFactory to work with the window. </li>
   </ul>
 
 
@@ -115,9 +115,44 @@ To get a local copy up and running follow these steps.
 ## Usage
 A comprehensive list of currently implemented features is listed below:
 <ul>
-<li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
-  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
-
+  
+<li><b>LSP0, LSP1, LSP2, LSP3 - Universal Profile Standards</b></li>
+  <ul>
+    <li>Front-End to Visualize and Design Universal Profiles</li>
+    <li>Add/Edit Standard Profile Metadata</li>
+    <li>Add/Edit Additional Profile Metadata (browser themes)</li>
+    <li>Add/Edit Vault Metadata (stored with the profile)</li>
+    <li>Create a Universal Profile via LSPFactory (the code is in RelayService.js, but the feature is currently disabled)</li>
+  </ul>
+<li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
+  <ul>
+    <li>Front-End to Visualize and Design Tokens and NFTs</li>
+    <li>Deploy a Token with LSPFactory (Currently Using a Private Key)</li>
+    <li>Mint a Token to a Universal Profile or a Vault</li>
+    <li>Transfer In and Out of a Universal Profile or a Vault</li>
+  </ul>
+<li><b>LSP9, LSP10 - Vaults</b></li>
+  <ul>
+    <li>Aesthetic Visualization of Vaults in the MyLuksoWallet DApp</li>
+    <li>Deploy a Vault with a Universal Receiver Delegate</li>
+    <li>Add the Vault to a Universal Profile (LSP10)</li>
+    <li>Remove a Vault from a Universal Profile (LSP10) (TO-DO)</li>
+  </ul>
+<li><b>LSP6 - Key Manager</b></li>
+  <ul>
+    <li>Easy-to-Use Forms to Manage and View Permissions</li>
+    <li>Add a New Permissioned Account to a Universal Profile</li>
+    <li>Update Specific Permissions for a Permissioned Account on a Universal Profile</li>
+    <li>Add a New Permissioned Account to a Vault</li>
+    <li>Update Specific Permissions for a Permissioned Account on a Vault</li>
+    <li>Manage Allowed Addresses to a Vault (TO-DO) </li>
+  </ul>
+</ul>
+<li><b>LSP5/LSP12 - Received/Issued Assets</b></li>
+  <ul>
+    <li>Toggle Between Received and Issued Assets in the MLW DApp</li>
+    <li>Checkbox to Deploy a Contract as a Creator</li>
+  </ul>
 </ul>
 
 
