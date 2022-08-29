@@ -175,9 +175,9 @@ Don't forget to give the project a star! Thanks again!
 <!-- CONTACT -->
 ## Contact
 
-Jeff Yang - LinkedIn: [Jeff Yang, FSA, MAAA](https://www.linkedin.com/in/jeff-yang-fsa-maaa/) - Twitter: [@jxyang](https://twitter.com/jxyang) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com
+Jeff Yang - LinkedIn: [Jeff Yang, FSA, MAAA](https://www.linkedin.com/in/jeff-yang-fsa-maaa/) - Discord: jxyang#6165 - E-mail: jxyang@gmail.com - Twitter: [@jxyang](https://twitter.com/jxyang)
 
-Reward payout address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
+Payout Address: 0xeBf5E8bD8ab301b90355d421282B4ad89DB32651
 
 Project Link (current working version beyond the hackathon): [https://www.myluksowallet.com](https://www.myluksowallet.com)
 
