@@ -177,9 +177,9 @@ Below are the driving forces in designing MyLuksoWallet.
 <li><b>Technical Excellence: Is the code well-written, well-documented, and/or technically innovative?</b></li>
   <ul><li>The project is primarily a front-end visual using examples from the Lukso tutorial documents. I don't think it is partically technically innovative at this point - there is still much to be done. And as a new web developer, I imagine the code isn't the most well-written or documented to industry standards, but that should improve over time, especially if this is made open-source in the future. I did try to document as much as I could.</li></ul>
 <li><b>User Experience & Design: Does the design of the project make the user experience easy?</b></li>
-  <ul><li>The core application of MyLuksoWallet is to take the technical architecture from the LSPs and create something user friendly and visually pleasing. If this has not been done, then I will need to go back to the drawing board. Creative feedback and collaboration with the community would be immensely helpful here.</li></ul>
+  <ul><li>The core application of MyLuksoWallet is to take the technical architecture from the LSPs and create something user friendly and visually pleasing. Creative feedback and collaboration with the community would also be immensely helpful in the future.</li></ul>
 <li><b>Usage of LUKSO’s new standards and tools: To what extent are the available standards and tools leveraged?</b></li>
-  <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs 0-12 (except LSP11) to varying degrees, lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord around these standards and tools. </li></ul>
+  <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs except LSP11 to varying degrees, lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord and contribute to the documents around these standards and tools. </li></ul>
 </ul>
 
 ### Challenge Criteria
