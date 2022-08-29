@@ -65,11 +65,11 @@ This readme file is intentionally sparse. More detailed documentation can be fou
   <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorial Playlist</a> - please note that additional functionality has been added since the videos were created. A full list of features is provided in this document.</li>
 </ul>
 
-Below are a list of major known issues that are being worked on:
+Below are a list of major known features that are being worked on:
 <ul>
-  <li>Get vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). The current version is prompting the user to paste their private key in. The code is implemented in the "executeViaKeyManager" function in "ProfileContext.js".</li>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
-  <li>Deploying an asset currently uses a private key instance of LSPFactory. Unfortunately, I was not able to get LSPFactory to work with the window. </li>
+  <li>Get vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). The current version is prompting the user to paste their private key in. The code is implemented in the "executeViaKeyManager" function in "ProfileContext.js".</li>
+  <li>Deploying an asset currently uses a private key instance of LSPFactory. The code works, but ideally, this should be done with the extension, not a private key instance. </li>
   <li>Add logic to add deployed asset to LSP12 - Issued Assets. </li>
   </ul>
 
