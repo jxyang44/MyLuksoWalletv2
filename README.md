@@ -62,13 +62,14 @@ This readme file is intentionally sparse. More detailed documentation can be fou
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from the Website</a></li>
   <li><a href="https://docs.google.com/presentation/d/1KGlWPiMQu9HsbDDt2WgSXEF9vcHWhigdcR9-jILy12k/edit?usp=sharing">Presentation Slides</a></li>
-  <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorial Playlist</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorial Playlist</a> - please note that additional functionality has been added since the videos were created. A full list of features is provided in this document.</li>
 </ul>
 
-Below are a list of major known issues that I am working through:
+Below are a list of major known issues that I am working on:
 <ul>
   <li>The biggest to-do is getting vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). For now, I am prompting the user to paste their private key in. This is done in the "executeViaKeyManager" function in "ProfileContext.js".</li>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
+  <li>Issued assets </li>
   </ul>
 
 
@@ -112,6 +113,15 @@ To get a local copy up and running follow these steps.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+A comprehensive list of currently implemented features is listed below:
+<ul>
+<li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
+  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
+
+</ul>
+
+
+
 
 _For examples on usage, please refer to the [Website Tutorials](https://myluksowallet-hackathon.netlify.app/getstarted)._
 
@@ -139,8 +149,21 @@ Below are the driving forces in designing MyLuksoWallet.
   <ul><li>I would say the tools are heavily leveraged. This project was designed with the LSPs as the foundation. I went through almost all the documentation and utilized all LSPs 0-12 (except LSP11) to varying degrees, lsp-factory.js, and erc725.js. I also actively engage in Q&A on Discord around these standards and tools. </li></ul>
 </ul>
 
-### Suggestions
+### Challenge Criteria
+Were the criteria listed in the challenge followed?
+<ul>
+<li>That can display tokens (LSP7) and NFTs (LSP8), as well as potentially legacy ERC20 and ERC721 assets (would require a token API to know if a user holds any).</li>
+  <ul><li>[✔️] The DApp currently only displays LSP7 and LSP8 tokens, but could easily be expanded to include ERC20 and ERC721. As noted in the criteria, it should simply be a matter of allowing the ERC20 and ERC721 APIs in the code, so this feature could be added if there is demand for it. </li></ul>
+<li>Should display owned assets using LSP5 Received Assets metadata and also created assets using LSP12 Issued Assets metadata.</li>
+  <ul><li>[✔️] There is a toggle in the MLW DApp to switch between received and issued assets. There is also a button to switch between these on the "My Assets" page.</li></ul>
+<li>The wallet should contain a vault manager based on LSP9 - Vaults to create vaults and move assets between vaults, which help to separate tokens and NFTs for better separation or vaults holding funds or information related to permissioned dApps.</li>
+  <ul><li>[✔️] In the MLW Dapp, the user may transfer assets in and out of vaults using a drag and drop feature. As noted earlier, the user must paste in their private key to transfer assets OUT of a vault. This should be corrected in the future. </li></ul>
+</ul>
 
+
+
+
+### Suggestions
 Were all suggestions followed?
 <ul>
 <li>Start building the next generation of dApps on Universal Profiles and have fun!</li>
