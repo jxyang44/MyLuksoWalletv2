@@ -13,7 +13,7 @@
     Submission For the LUKSO Build UP! #1 - For Judges Only
     <br />
     <br />
-    <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Version (8/31/22)</strong></a>
+    Use this link for judging: <a href="https://myluksowallet-hackathon.netlify.app"><strong>Hackathon Version (8/31/22)</strong></a>
     <br />
     <br />
     ·
