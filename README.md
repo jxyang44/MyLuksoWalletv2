@@ -69,7 +69,7 @@ Below are a list of major known features that are being worked on:
 <ul>
   <li>The carousel on the "My Assets" page is a bit wonky. You may need to reload a few times for it work correctly.</li>
   <li>Get vault functions to work with the browser extension (e.g. adding URD to vault, managing vault permissions, transferring OUT of vault). The current version is prompting the user to paste their private key in. The code is implemented in the "executeViaKeyManager" function in "ProfileContext.js".</li>
-  <li>Deploying an asset currently uses a private key instance of LSPFactory. The code works, but ideally, this should be done with the extension, not a private key instance. </li>
+  <li>Deploying a LSP7 or LSP8 asset with LSPFactory currently uses a private key instance. The code works, but ideally, this should be done with the extension, not a private key instance. </li>
   <li>Add logic to add deployed asset to LSP12 - Issued Assets. </li>
   </ul>
 
