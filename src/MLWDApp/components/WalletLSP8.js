@@ -1,5 +1,5 @@
 //LSP8 mini card - holds logic for expanding the image, dragging and dropping
-//similar to logic for LSP7
+//refer to WalletLSP7 for comments - the logic is similar
 
 import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
@@ -11,7 +11,7 @@ import "../MyLuksoWallet.css";
 import swal from "sweetalert";
 
 const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlySelected, handleSelected }) => {
-  const { web3Window, currentAccount } = useProfileContext();
+  const { currentAccount } = useProfileContext();
   const { transferLSP8 } = useAssetsContext();
 
   const [{ opacity }, drag] = useDrag(
@@ -22,7 +22,6 @@ const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
           if (dropResult.name === walletAddress) return swal(`"${assets[index].assetName}" (${assets[index].address}) is already in this wallet!`);
-          console.log(assets[index].assetName);
           swal(`Would you like to transfer "${assets[index].assetName}" (${assets[index].address}) from ${walletAddress} to ${dropResult.name}?`, {
             buttons: true,
           }).then(res => {
@@ -31,7 +30,6 @@ const WalletLSP8 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
                 content: "input",
               }).then(input => {
                 if (!input) return swal("", "No input provided.", "error");
-                console.log(assets[index].address, input, dropResult.name, LSP8MintableContract, walletAddress, assets[index].balanceOf);
                 transferLSP8(
                   assets[index].address,
                   input,

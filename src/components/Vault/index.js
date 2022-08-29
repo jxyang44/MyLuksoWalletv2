@@ -5,5 +5,3 @@ export { default as AddURDtoVault } from "./AddURDtoVault"; //adds URD to vault
 export { default as AddVaultToUP } from "./AddVaultToUP"; //adds vault to UP
 export { default as EditVault } from "./EditVault"; //redirects user to vault settings page, since vault is now part of profile
 export { default as VaultStep } from "./VaultStep"; //vault step component
-
-export { default as VaultPermissions } from "./VaultPermissions"; //TO-DO sets vault permissions

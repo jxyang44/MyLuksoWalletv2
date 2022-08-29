@@ -26,7 +26,6 @@ const DeployVault = ({ recentVaultAddress, recentVaultURDAddress }) => {
         const myVault = new web3Window.eth.Contract(LSP9Contract.abi, myVaultAddress);
         const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
         const setDataPayload = await myVault.methods["setData(bytes32,bytes)"](URD_DATA_KEY, myURDAddress).encodeABI();
-
         const executePayload = await myUP.methods.execute(0, myVaultAddress, 0, setDataPayload).encodeABI();
 
         const keyManagerAddress = await myUP.methods.owner().call();
@@ -48,7 +47,7 @@ const DeployVault = ({ recentVaultAddress, recentVaultURDAddress }) => {
 
     swal(
       `Hackathon Note: Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
-      `Please enter the browser extension private key associated with the vault owner address from Step 1:`,
+      `Please enter the browser extension private key:`,
       {
         content: "input",
         button: true,

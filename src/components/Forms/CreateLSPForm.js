@@ -5,7 +5,12 @@ import React, { useEffect } from "react";
 import { FormContainer } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
-import { createLSPFactoryPrivateKeyInstance, createLSPFactoryWindowInstance, LSP7MintableContract, LSP8MintableContract } from "../../utils/luksoConfigs.js";
+import {
+  createLSPFactoryPrivateKeyInstance,
+  createLSPFactoryWindowInstance,
+  LSP7MintableContract,
+  LSP8MintableContract,
+} from "../../utils/luksoConfigs.js";
 import swal from "sweetalert";
 // import Web3 from "web3";
 // const { LSPFactory } = require("@lukso/lsp-factory.js");
@@ -47,16 +52,16 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
         // const lspFactory = new LSPFactory(ethereum, {
         //   chainId: 2828,
         // });
-          
-          const lspFactory = createLSPFactoryPrivateKeyInstance();
-       
+
+        const lspFactory = createLSPFactoryPrivateKeyInstance();
+
         //const lspFactory = createLSPFactoryWindowInstance();
         return await lspFactory.LSP7DigitalAsset.deploy(
           {
             name: formValues.tokenName,
             symbol: formValues.tokenSymbol,
             controllerAddress: currentAccount,
-            creators: [formValues && currentAccount],
+            creators: [formValues.isCreator && currentAccount],
             isNFT: formValues.isNotDivisible, //currently not used
             digitalAssetMetadata: {
               description: formValues.description,

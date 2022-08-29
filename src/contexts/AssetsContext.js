@@ -173,7 +173,7 @@ export const AssetsProvider = ({ children }) => {
   //@param secondParam mintAmount for LSP7 and tokenID for LSP8
   //@param mintToAddress address to mint the token to
   //@param contract contract of the asset - should always be LSP7MintableContract or LSP8MintableContract (for now)
-  //@param assetType string of the asset type - should always be "LSP7" or "LSP8" (for now)
+  //@param LSP string of the asset type - should always be "LSP7" or "LSP8" (for now)
   //@return promise of the transaction
   const mintFunction = async (assetAddress, secondParam, mintToAddress, contract, LSP) => {
     try {
@@ -260,24 +260,26 @@ export const AssetsProvider = ({ children }) => {
   //@desc transfers the token, called from transferLSP7 and transferLSP8
   //@param assetAddress address of the asset contract
   //@param secondParam mintAmount for LSP7 and tokenID for LSP8
-  //@param mintToAddress address to mint the token to
+  //@param transferToAddress address to transfer the token to
   //@param contract contract of the asset - should always be LSP7MintableContract or LSP8MintableContract (for now)
-  //@param assetType string of the asset type - should always be "LSP7" or "LSP8" (for now)
+  //@param transferToAddress address to transfer the token from
+  //@param fromVault optional boolean describing whether the address is being transferred from a vault
+  //@param LSP string of the asset type - should always be "LSP7" or "LSP8" (for now)
   //@return promise of the transaction
   const transferFunction = async (assetAddress, secondParam, transferToAddress, contract, transferFromAddress, fromVault, LSP) => {
     try {
       const web3 = web3Window;
       const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
-      if (fromVault) { //TO-DO work in progress
-        console.log("from vault");
-        const targetPayload = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x").encodeABI();
-        const myVault = new web3.eth.Contract(LSP9Contract.abi, transferFromAddress);
-        const vaultPayload = await myVault.methods.execute(0, transferToAddress, 0, targetPayload).encodeABI();
-        const owner = await myVault.methods.owner().call(); // TO-DO must equal transferFrom (for now - employ key manager later)
-        if (owner !== currentAccount) console.log("is not owner of vault - function should revert");
-        const myUP = new web3.eth.Contract(UniversalProfileContract.abi, owner);
-        console.log(myVault, vaultPayload, owner, myUP);
-        return await myUP.methods.execute(0, transferToAddress, 0, vaultPayload).send({ from: owner, gasLimit: 300_000 });
+      if (fromVault) {
+        console.log("transferring from vault")
+        const transferABI = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x").encodeABI();
+
+        const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
+        const myVault = new web3Window.eth.Contract(LSP9Contract.abi, transferFromAddress);
+
+        const setDataPayload = await myVault.methods.execute(0, assetAddress, 0, transferABI).encodeABI();
+        const executePayload = await myUP.methods.execute(0, transferFromAddress, 0, setDataPayload);
+        executeViaKeyManager(executePayload.encodeABI, `Please wait. Transferring asset via key manager...`, "Your asset was transferred!");
       } else {
         const assetFunction = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x");
 

@@ -20,8 +20,9 @@ import walletTexture from "../../assets/MyLuksoWalletVisual/Wallet Texture/white
 import topPocketTexture from "../../assets/MyLuksoWalletVisual/Wallet Texture/black-linen.png";
 import swal from "sweetalert";
 
-const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
+const WalletRightContents = ({ walletAddress, walletMetadata, LSP, ownedAsset, setOwnedAsset, assetLoad}) => {
   const { currentAccount } = useProfileContext();
+
   const [assetsLoaded, setAssetsLoaded] = useState(false); //boolean are assets loaded
   const [assets, setAssets] = useState([]); //assets array of JSONs for each asset
   const { UPColor } = useStateContext(); //user determined UP color - stored in UP metadata, accessed through the "My Universal Profile" page
@@ -35,8 +36,12 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
         //wallet address implements vault interface
         if (!res) swal("Warning! Could not detect a LSP9Vault interface for this address.", "Proceed with caution.", "warning");
       });
-    handleLoadAssets();
   }, []);
+
+  useEffect(() => {
+     handleLoadAssets();
+  },[ownedAsset])
+
 
   const isVault = async walletAddress => {
     try {
@@ -54,12 +59,13 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
     }
   }, [assets]);
 
-  // TO-DO if not LSP7 or LSP8
+  // TO-DO clean this up
   const handleLoadAssets = async () => {
     setAssetsLoaded(false);
     setAssets([]);
 
-    if (assetsLoaded === false) {
+    // if (assetsLoaded === false) {
+      if(true){
       assetLoad().then(res => {
         //console.log("loading assets", res);
         setAssetsLoaded(true);
@@ -79,7 +85,7 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
                     LSP === "LSP8" &&
                     res[4]
                       .map(id => {
-                        return "["+web3Provider.utils.toUtf8(id.toString())+"]";
+                        return "[" + web3Provider.utils.toUtf8(id.toString()) + "]";
                       })
                       .join(", ");
                   setAssets(curr => [
@@ -99,7 +105,6 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
                       textColor: res[2]?.textColor ?? "", //text color
                       balanceOf: LSP === "LSP8" ? web3Provider.utils.toWei(res[3]) : res[3], //user balance of token
                       tokenIDsOf: formattedIDs,
-                      //TO-DO what needs to change for LSP8 (under construction)?
                     },
                   ]);
                 });
@@ -109,12 +114,6 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
         }
       });
     }
-  };
-
-  const assetLoad = async () => {
-    const profile = createErc725Instance(LSP3Schema, walletAddress);
-    const result = await profile.fetchData("LSP5ReceivedAssets[]");
-    return result.value;
   };
 
   //if an asset is selected, shift its position to the front of the pile
@@ -127,8 +126,6 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
     setSelectedIndex(index);
     // console.log(assets);
   };
- 
-  
 
   return (
     <div
@@ -143,7 +140,20 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
         <div className="h-0.5 w-full rounded-lg bg-gradient-to-r from-black via-white to-black"></div>
         <div className="flex flex-row xl:h-[15h] h-[14vh] my-1 gap-2">
           <div className="flex flex-col w-1/2 text-sm border-2 border-slate-200 rounded-lg p-1 bg-slate-700">
-            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 xl:text-base text-xs"> {LSP} Asset Addresses</div>
+            <div className="font-semibold border-b-[1px] border-slate-200 mb-1 xl:text-base text-xs flex flex-row justify-between">
+              <div>Addresses</div>
+
+              <div className=" flex flex-row items-center gap-1 xl:text-sm text-xs font-normal" >
+              {ownedAsset ? "Owned" : "Issued"}
+                <label class="relative inline-block h-3 w-6">
+                  <input type="checkbox" class="peer sr-only" />
+                  <span class="absolute inset-0 cursor-pointer rounded-full bg-sky-500 transition duration-200 before:absolute 
+                  before:bottom-0.5 before:left-0.5 before:h-2 before:w-2 peer-checked:before:translate-x-3
+                  before:rounded-full before:bg-white before:transition before:duration-200 before:shadow-sm 
+                  peer-checked:bg-green-500 peer-focus:ring" onClick={()=>setOwnedAsset(curr=>!curr)}></span>
+                </label>
+              </div>
+            </div>
             <div className="ml-2 xl:text-sm text-xs overflow-y-auto">
               {assets.map((asset, index) => {
                 return (
@@ -171,7 +181,11 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP }) => {
       <div
         className="flex flex-row-reverse justify-end h-2/3 my-2 w-full bg-slate-500 py-1 px-3 border border-black custom-shadow rounded-b-3xl"
         style={{ backgroundImage: `url(${topPocketTexture})` }}>
-        {isAnySelected && <div className={`absolute inset-0  bg-black rounded-md opacity-30 `} onClick={() => handleSelected(assets[selectedIndex], selectedIndex)}></div>}
+        {isAnySelected && (
+          <div
+            className={`absolute inset-0  bg-black rounded-md opacity-30 `}
+            onClick={() => handleSelected(assets[selectedIndex], selectedIndex)}></div>
+        )}
         {assetsLoaded ? (
           <>
             {LSP === "LSP7" && (

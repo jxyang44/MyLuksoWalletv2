@@ -89,55 +89,50 @@ const CreateToken = ({ LSP }) => {
         <FullScreenButton text={`Deploy or Mint ${LSP} Assets`} />
       ) : (
         <div className="xl:mx-16 ml-8">
-          <div className="flex flex-row">
-            <div className="flex flex-col w-1/2 text-white items-left text-left min-h-[85vh]">
-              <div className="text-sky-500 font-semibold xl:text-2xl text-lg">{LSPValues[LSP].description}</div>
-              <div className="xl:text-3xl text-xl mb-3 text-white">
-                Deploy a {LSP} {LSPValues[LSP].type} with Lukso's {LSP}Mintable Contract
-              </div>
-
-                <div className="my-2 flex flex-row gap-1 xl:text-base text-sm">
-                  Most recently deployed {LSP} contract from your browser:
-                  <span className="font-bold">
-                    <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
-                  </span>
-                </div>
-              <div className="self-center">
-                <div>
-                  <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
-
-                  <div className="flex flex-row mr-8 gap-2">
-                    {showForm === "Deploy / View" && (
-                      <CreateLSPForm
-                        formValues={formValues}
-                        setFormValues={setFormValues}
-                        initialDeployState={LSPValues[LSP].initialDeployState}
-                        LSP={LSP}
-                      />
-                    )}
-                    {showForm === "Mint" && (
-                      <div className="flex flex-col justify-center">
-                        <MintLSPForm formValues={mintForm} setFormValues={setMintForm} initialMintState={LSPValues[LSP].initialMintState} LSP={LSP} />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col text-white items-left text-left min-h-[85vh]">
+            <div className="text-sky-500 font-semibold xl:text-2xl text-lg">{LSPValues[LSP].description}</div>
+            <div className="xl:text-3xl text-xl mb-3 text-white">
+              Deploy a {LSP} {LSPValues[LSP].type} with Lukso's {LSP}Mintable Contract
             </div>
 
-            {LSP === "LSP7" && (
-              <div className="relative w-1/2">
-                <div className="absolute top-10 right-10">
-                  <LSP7TokenCoin createToken={formValues} />
+            <div className="my-2 flex flex-row gap-1 xl:text-base text-sm">
+              Most recently deployed {LSP} contract from your browser:
+              <span className="font-bold">
+                <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
+              </span>
+            </div>
+            <div className="flex flex-row ml-4 justify-between">
+              <div>
+                <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
+
+                <div className="flex flex-row w-full mr-8 gap-2">
+                  {showForm === "Deploy / View" && (
+                    <CreateLSPForm
+                      formValues={formValues}
+                      setFormValues={setFormValues}
+                      initialDeployState={LSPValues[LSP].initialDeployState}
+                      LSP={LSP}
+                    />
+                  )}
+                  {showForm === "Mint" && (
+                    <div className="flex flex-col justify-center">
+                      <MintLSPForm formValues={mintForm} setFormValues={setMintForm} initialMintState={LSPValues[LSP].initialMintState} LSP={LSP} />
+                    </div>
+                  )}
                 </div>
               </div>
-            )}
+              {LSP === "LSP7" && (
+                <div className="flex flex-col justify-center w-1/2 ">
+                  <LSP7TokenCoin createToken={formValues} />
+                </div>
+              )}
 
-            {LSP === "LSP8" && (
-              <div className="flex flex-col justify-center w-1/2">
-                <LSP8NFTCard createToken={formValues} />
-              </div>
-            )}
+              {LSP === "LSP8" && (
+                <div className="flex flex-col justify-center w-1/2">
+                  <LSP8NFTCard createToken={formValues} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

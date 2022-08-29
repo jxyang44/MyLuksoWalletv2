@@ -56,10 +56,10 @@ const Roadmap = () => {
             <h3 className="mt-4 text-xl font-bold text-sky-500">LSP7 & LSP8 Assets</h3>
 
             <p className="mt-1 text-sm white">
-              Implemented: Frontend to view LSP7 (LSP8 is currently a prototype), deploy LSP7 or LSP8 contracts, mint or transfer to a UP or vault
+              Implemented: Frontend to view LSP7 (LSP8 is currently a prototype), deploy LSP7 or LSP8 contracts, mint to a UP or vault, transfer to and from a UP or vault
             </p>
             <p className="mt-1 text-sm text-gray-400">
-              To-do: More LSP7 & LSP8 visual customization, view more images (current max is 1 icon and 2 images), mint or transfer FROM a
+              To-do: More LSP7 & LSP8 visual customization, view more images (current max is 1 icon and 2 images), mint from a
               permissioned vault, allow for functionality that extends from LSP7 and LSP8 contracts
             </p>
           </div>
@@ -69,11 +69,10 @@ const Roadmap = () => {
             <h3 className="mt-4 text-xl font-bold text-sky-500">LSP9 Vaults</h3>
 
             <p className="mt-1 text-sm white">
-              Implemented: Frontend to view vaults, deploy a vault and URD, add vault to profile, custom vault metadata (stored with UP)
+              Implemented: Frontend to view vaults, deploy a vault and URD, add vault to profile, custom vault metadata (stored with UP), manage vault permissions
             </p>
             <p className="mt-1 text-sm text-gray-400">
-              To-do: More visual customization (e.g. a purse, a bank vault, a tote bag, etc.), manage vault permissions, store metadata in the vault
-              (LSP3), transfer vault
+              To-do: More visual customization (e.g. a purse, a bank vault, a tote bag, etc.),  store metadata in the vault (LSP3), transfer vault
             </p>
           </div>
 
@@ -81,8 +80,8 @@ const Roadmap = () => {
             <LearnIcon />
             <h3 className="mt-4 text-xl font-bold text-sky-500">Key Manager</h3>
 
-            <p className="mt-1 text-sm white">Implemented: Frontend to manage permissions on UP</p>
-            <p className="mt-1 text-sm text-gray-400">To-do: Implement relay service</p>
+            <p className="mt-1 text-sm white">Implemented: Execute via key manager by entering private key</p>
+            <p className="mt-1 text-sm text-gray-400">To-do: Browser compatability with key manager, Implement relay service</p>
           </div>
 
           <div className="block p-8 transition border border-gray-800 shadow-xl rounded-xl hover:shadow-sky-500/10 hover:border-sky-500/10">

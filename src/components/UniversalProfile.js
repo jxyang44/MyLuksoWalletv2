@@ -73,7 +73,7 @@ const UniversalProfile = () => {
 
   return (
     <div
-      className="transition absolute right-1 top-12 p-8 rounded-md xl:w-2/6 lg:w-4/6 md:w-4/6 origin-top-right xl:scale-[.85] lg:scale-[.6] md:scale-[0.6] scale-[0.3] bg-opacity-30 bg-white text-black"
+      className="transition absolute right-1 top-12 p-8 rounded-md w-[640px] origin-top-right xl:scale-[.85] lg:scale-[.6] md:scale-[0.6] scale-[0.3] bg-opacity-30 bg-white text-black overflow-auto"
       style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000" }}>
       <div className={`absolute w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
       {!editMode && <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>}

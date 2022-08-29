@@ -1,4 +1,5 @@
-//manage permissions to a connected Universal Profile or vault
+//for allowed addresses on a vault
+//TO-DO vaults does not work at the moment
 
 import React, { useState, useEffect } from "react";
 import { FormContainer, PermissionTypesCheckbox, Loading } from "..";
@@ -14,7 +15,7 @@ const initialFormState = {
   newAddressValid: false, //true if new address user inputs is valid (must not be in existing addresses and must be a valid EOA or ERC725 address)
 };
 
-const ManagePermissionsForm = () => {
+const VaultPermissionsForm = () => {
   const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [newAddressSelection, setNewAddressSelection] = useState(false); //true if "New Address" is selected; false if "Existing Address" is selected
@@ -30,6 +31,11 @@ const ManagePermissionsForm = () => {
     };
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    handleGrantPermissions();
+  };
+
   useEffect(() => {
     setLoaded(false);
     if (formValues.addressFrom === "") return;
@@ -37,7 +43,7 @@ const ManagePermissionsForm = () => {
       if (res) {
         setOwner(res[3]); // owner of vault/UP
         setPermissionedAddress(res[0][0].value); /// AddressPermissions[]
-        setLoaded(true); //boolean to load form after addresses are successfully fetched
+        setLoaded(true);
       }
     });
   }, [formValues.addressFrom]);
@@ -46,7 +52,6 @@ const ManagePermissionsForm = () => {
     setFormValues(current => ({ ...current, addressTo: "" }));
   }, [newAddressSelection]);
 
-  //updates error messages and form values when new address input is changed
   const handleNewAddress = e => {
     setNewAddressMessage("");
     setFormValues(current => ({ ...current, addressTo: e.target.value, newAddressValid: false }));
@@ -62,46 +67,107 @@ const ManagePermissionsForm = () => {
     }
   };
 
-  //called on "Submit Changes"
-  const handleGrantPermissions = e => {
-    e.preventDefault();
+  const handleGrantPermissions = () => {
     if (!currentAccount) return swal("You are not connected to an account.");
     if (newAddressSelection && !formValues.newAddressValid) return swal("Address of new permissioned account is not valid.");
     if (formValues.addressFrom === "" || formValues.addressTo === "") return swal("Required fields must be completed.");
 
-    swal(
-      "Are you sure you would like to submit these changes to the blockchain?",
-      `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
-      { buttons: true }
-    ).then(value => {
-      if (value) {
-        newAddressSelection
-          ? addNewPermission(formValues.addressFrom, formValues.addressTo, permissions).then(res => {
-              console.log(res);
-              if (res)
-                swal(
-                  `Congratulations! Permissions have been added for ${formValues.addressTo}.`,
-                  `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
-                  "success"
-                );
-            })
-          : updateExistingPermission(formValues.addressFrom, formValues.addressTo, permissions).then(res => {
-              if (res)
-                swal(
-                  `Congratulations! Permissions have been modified for ${formValues.addressTo}.`,
-                  `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
-                  "success"
-                );
-            });
-      }
-    });
+
+    const startPermissions = privateKey => {
+      swal(
+        "Are you sure you would like to submit these changes to the blockchain?",
+        `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+        { buttons: true }
+      ).then(value => {
+        if (value) {
+          newAddressSelection
+            ? addNewPermission(formValues.addressFrom, formValues.addressTo, permissions, privateKey).then(res => {
+                console.log(res);
+                if (res)
+                  swal(
+                    `Congratulations! Permissions have been added for ${formValues.addressTo}.`,
+                    `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                    "success"
+                  );
+              })
+            : updateExistingPermission(formValues.addressFrom, formValues.addressTo, permissions, privateKey).then(res => {
+                if (res)
+                  swal(
+                    `Congratulations! Permissions have been modified for ${formValues.addressTo}.`,
+                    `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                    "success"
+                  );
+              });
+        }
+      });
+    };
+
+    if (currentAccount === formValues.addressFrom) startPermissions("");
+    else{
+      swal("Permission management for vaults has not been implemented yet. 👷");
+    }
+    // else {
+    //   swal(
+    //     `Hackathon Note: Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
+    //     `To update account permissions, you must be the owner of an account that already has permissions to the vault. If you wish to proceed, enter the private key associated with a permissioned account (this is most likely the browser extension private key from the profile that deployed the vault):`,
+    //     {
+    //       content: "input",
+    //       button: true,
+    //     }
+    //   ).then(value => {
+    //     if (value) {
+    //       startPermissions(value);
+    //     } else {
+    //       swal("No input detected.");
+    //     }
+    //   });
+    // }
+
+    
   };
+
+
+  // const handleManageAddresses = () => {
+  //   const manageAddresses = async (myVaultAddress, thirdPartyAddress, privateKey) => {
+  //     try {
+        
+  //       const web3 = web3Window;
+  //       const myEOA = web3Window.eth.accounts.wallet.add(privateKey);
+        
+
+  //       const myUP = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
+  //       console.log(myUP, thirdPartyAddress);
+  //       const allowedAddressesDataKey = constants.ERC725YKeys.LSP6["AddressPermissions:AllowedAddresses"] + thirdPartyAddress.substring(2); // constructing the data key of allowed addresses // of the 3rd party
+
+  //       // the data value holding the addresses that the 3rd party is allowed to interact with
+  //       const arrayOfAddresses = web3.eth.abi.encodeParameter("address[]", [myVaultAddress]);
+  //       console.log(arrayOfAddresses);
+  //       // encode setData payload on the UP
+  //       const setDataPayload = await myUP.methods["setData(bytes32,bytes)"](allowedAddressesDataKey, arrayOfAddresses).encodeABI();
+
+  //       // getting the Key Manager address from UP
+  //       const myKeyManagerAddress = await myUP.methods.owner().call();
+
+  //       // create an instance of the KeyManager
+  //       let myKM = new web3.eth.Contract(LSP6Contract.abi, myKeyManagerAddress);
+
+  //       // execute the setDataPayload on the KM
+  //       return await myKM.methods.execute(setDataPayload).send({
+  //         from: myEOA.address,
+  //         gasLimit: 600_000,
+  //       });
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   manageAddresses(myVaultAddress, thirdPartyAddress, privateKey).then(res => console.log(res));
+  // }
 
   return (
     <div className="flex flex-col">
       <FormContainer
-        title={`Manage Permissions`}
-        subtitle={`Manage Address Permissions to Your Universal Profile & Vaults`}
+        title={`Allowed Addresses`}
+        subtitle={`Manage Address Permissions to Your Vaults`}
         mainOverride={"border-green-500 shadow-green-500 h-fit rounded-tl-none max-w-2xl"}
         textOverride={"text-green-500"}>
         {currentAccount === "" ? (
@@ -109,18 +175,17 @@ const ManagePermissionsForm = () => {
         ) : (
           <>
             <div className="mb-4">
-              <div className={inputLabel}>Your Profile or Vault Address (required)</div>
+              <div className={inputLabel}>Your Vault Address (required)</div>
 
               <select
                 type="text"
                 value={formValues.addressFrom}
-                placeholder={"Profile or Vault Address"}
+                placeholder={"Vault Address"}
                 onChange={e => setFormValues(current => ({ ...current, addressFrom: e.target.value, addressTo: "" }))}
                 className={inputStyle}>
                 <option value="" disabled>
                   Select an Account
                 </option>
-                <option value={currentAccount}>Universal Profile - {currentAccount}</option>
                 {accountAddresses.vaults.map(vault => {
                   return (
                     <option key={vault} value={vault}>
@@ -201,7 +266,7 @@ const ManagePermissionsForm = () => {
               </button>
               <button
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={handleGrantPermissions}>
+                onClick={handleSubmit}>
                 Submit Changes
               </button>
             </div>
@@ -224,4 +289,4 @@ const ManagePermissionsForm = () => {
   );
 };
 
-export default ManagePermissionsForm;
+export default VaultPermissionsForm;

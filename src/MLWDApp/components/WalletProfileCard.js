@@ -1,5 +1,5 @@
 //UP profile in MLW DApp
-//TO-DO add more visual customization
+//TO-DO add more visual customization, fix the overflow text for different screen sizes
 
 import React from "react";
 import { useProfileContext } from "../../contexts/ProfileContext";
@@ -21,7 +21,7 @@ const WalletProfileCard = () => {
                 }>
                 {pendingProfileJSONMetadata.name}
               </p>
-              <div className="xl:text-sm text-xs overflow-auto max-h-24 lg:max-h-40 xl:max-h-56 pr-1">
+              <div className="xl:text-sm text-xs overflow-auto xl:max-h-[22vh] lg:max-h-[18vh] max-h-[14vh] pr-1">  
                 <div className="flex flex-col xl:gap-4 gap-1">
                   <LYXBalanceFuncs />
                   <span className="flex gap-1">
