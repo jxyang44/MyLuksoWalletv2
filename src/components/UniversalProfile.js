@@ -27,7 +27,7 @@ import "react-edit-text/dist/index.css";
 import swal from "sweetalert";
 
 const UniversalProfile = () => {
-  const [editMode, setEditMode] = useState(false); //determines whether profile can be edited; editMode adds
+  const [editMode, setEditMode] = useState(true); //determines whether profile can be edited
   const { UPColor, UPTextColor } = useStateContext();
   const {
     defaultMetadata,
@@ -75,7 +75,7 @@ const UniversalProfile = () => {
     <div
       className="transition absolute right-1 top-12 p-8 rounded-md w-[640px] origin-top-right xl:scale-[.85] lg:scale-[.6] md:scale-[0.6] scale-[0.3] bg-opacity-30 bg-white text-black overflow-auto"
       style={{ backgroundColor: UPColor ?? "#FFFFFF", color: UPTextColor ?? "#000000" }}>
-      <div className={`absolute w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-10`}></div>
+      <div className={`absolute w-full inset-0 bg-gradient-to-r from-slate-800 via-slate-600 to-slate-400 rounded-lg blur opacity-25 -z-20`}></div>
       {!editMode && <div className={`fixed inset-0 bg-black rounded-md opacity-10 z-40`} style={{ boxShadow: `0px 5px 10px 5px ${UPColor}` }}></div>}
       <button
         className={`absolute z-50 top-1 right-1 border rounded-xl px-2 text-white ${
@@ -108,8 +108,8 @@ const UniversalProfile = () => {
       </div>
 
       {isProfileLoaded ? (
-        <div className="flex flex-col gap-2 min-h-96">
-          <div className="mt-2 max-h-40 flex w-full hover:scale-105 justify-center text-base font-semibold text-blue-500 px-4 rounded border-2 border-blue-400 bg-slate-800 bg-opacity-60">
+        <div className="relative flex flex-col min-h-96 pt-16">
+          <div className="absolute top-4 max-h-44 flex w-full hover:scale-105 justify-center text-base font-semibold text-blue-500 px-4 rounded border-2 border-blue-400 bg-slate-800 bg-opacity-60">
             {profileJSONMetadata.backgroundImage.length > 0 ? (
               <UploadBannerImage
                 id="banner"
@@ -123,7 +123,7 @@ const UniversalProfile = () => {
             )}
           </div>
 
-          <div className="flex gap-5 items-center mt-6 border-color border-b-1 pb-6">
+          <div className="flex gap-3 items-center mt-6 border-color border-b-1 pb-6 px-2 z-10">
             <div className="w-1/3 flex justify-center items-center border-4 rounded-full content-square border-blue-400 shadow-blue-300 shadow-md aspect-square bg-gradient-to-tr from-pink-200 to-pink-100 hover:scale-105">
               {profileJSONMetadata.profileImage.length > 0 ? (
                 <UploadProfileImage
@@ -137,7 +137,8 @@ const UniversalProfile = () => {
                 <UploadProfileImage id="profile" />
               )}
             </div>
-            <div className="w-2/3">
+            <div className="w-2/3 mt-12 flex flex-col justify-end">
+              <div className="font-['Arial'] bg-gradient-to-r from-black via-slate-800 border-blue-400 border-2 rounded-t px-2 border-b-0 ">
               <EditText
                 defaultValue={profileJSONMetadata.name}
                 inputClassName="bg-success"
@@ -145,14 +146,17 @@ const UniversalProfile = () => {
                 onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
                 style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "2.25rem", fontWeight: "600", color: UPTextColor }}
               />
+              </div>
+              <div className=" border-blue-400 rounded-b border-2 px-2 text-md bg-white text-black border-t-0 shadow-md shadow-white">
               <EditTextarea
-                rows={5}
+                rows={3}
                 defaultValue={profileJSONMetadata.description}
                 inputClassName="bg-success"
                 value={pendingProfileJSONMetadata.description}
                 onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, description: e.target.value }))}
-                style={{ padding: "0px", margin: "0x", fontSize: "1.125rem", lineHeight: "1.25rem", color: UPTextColor }}
+                style={{ padding: "0px", margin: "0x"}}
               />
+              </div>
             </div>
           </div>
 

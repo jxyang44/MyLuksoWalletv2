@@ -81,12 +81,12 @@ const MyAssets = () => {
     dotsClass: "assets-carousel-dots",
     infinite: true,
     speed: 500,
-    swipe: false,
+    swipe: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    lazyLoad: true,
     vertical: true,
+   
   };
 
 
@@ -132,15 +132,19 @@ const MyAssets = () => {
           ) : (
             <div className="flex flex-row gap-28 xl:mx-16 mt-16">
               <div className="flex flex-col justify-start gap-2 w-5/12 xl:mx-24 mx-8 text-white">
-                <div className="text-sky-500 font-semibold text-4xl">Powered by Lukso Standard Proposals</div>
-                <div className="text-2xl mb-4 text-white">View and Manage Assets</div>
+                <div className="text-sky-500 font-semibold xl:text-4xl text-2xl">Powered by Lukso Standard Proposals</div>
+                <div className="xl:text-2xl text-lg mb-4 text-white flex flex-row gap-1 items-center">
+                  View and Manage LSP7
+                  (<GiTwoCoins/>)
+
+                   and LSP8 (<AiFillCreditCard/>) Assets</div>
 
                 <div className="mt-4">
                   <FormTabs forms={forms} showForm={showForm} setShowForm={setShowForm} />
                   {showForm === "Filter Assets" && (
                     <FormContainer
                       title={`Filter Assets`}
-                      subtitle={`Filter the View Between LSP7, lSP8, Received and Issued Assets`}
+                      subtitle={`Filter the View Between LSP7, LSP8, Received and Issued Assets`}
                       mainOverride={"border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[25vw]"}
                       textOverride={"text-sky-400"}>
                       <div className="my-4">
@@ -214,12 +218,12 @@ const MyAssets = () => {
                         return (
                           <>
                             {asset.LSP_7_8 === "LSP7" && (
-                              <div className="p-4">
+                              <div className="px-4 my-20">
                                 <LSP7TokenCoin key={index} assetAddress={asset.address} />
                               </div>
                             )}
                             {asset.LSP_7_8 === "LSP8" && (
-                              <div className="px-4 py-20">
+                              <div className="px-4 my-20">
                                 <LSP8NFTCard key={index} assetAddress={asset.address} />
                               </div>
                             )}
