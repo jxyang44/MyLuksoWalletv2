@@ -1,3 +1,5 @@
+//information for the sidebar
+
 import { AiFillHome, AiFillPlayCircle, AiTwotoneStar } from "react-icons/ai";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { GiCube, GiTwoCoins, GiAirplaneDeparture } from "react-icons/gi";

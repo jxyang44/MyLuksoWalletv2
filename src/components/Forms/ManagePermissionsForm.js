@@ -121,9 +121,9 @@ const ManagePermissionsForm = () => {
                   Select an Account
                 </option>
                 <option value={currentAccount}>Universal Profile - {currentAccount}</option>
-                {accountAddresses.vaults.map(vault => {
+                {accountAddresses.vaults.map((vault,i) => {
                   return (
-                    <option key={vault} value={vault}>
+                    <option key={vault+i} value={vault}>
                       Vault - {vault}
                     </option> //TO-DO add vault name to selection for clarity
                   );

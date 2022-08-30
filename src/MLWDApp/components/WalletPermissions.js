@@ -87,7 +87,7 @@ const WalletPermissions = ({ walletAddress, walletMetadata }) => {
             </GetPermissions>
           </div>
           <div className="mt-1">
-            <u>Allowed addresses</u> {/* TO-DO - add allowed addresses */}
+            <u>Allowed addresses 👷</u> {/* TO-DO - add allowed addresses */}  
           </div>
           <div
             className="absolute top-1 right-0 p-1 rounded-full bg-slate-800 text-blue-400 hover:text-blue-50 border-black border"

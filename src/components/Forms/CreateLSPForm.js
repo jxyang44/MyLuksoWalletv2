@@ -1,4 +1,5 @@
 //form to deploy either a LSP7 contract or a LSP8 contract
+//high priority to do - get LSPFactory to work with window instance
 //TO-DO allow user to select from pre-determined list of images
 
 import React, { useEffect } from "react";

@@ -24,7 +24,7 @@ const Navbar = () => {
       if (window.innerWidth < 768 && window.screen.orientation.type.includes("portrait")) {
         swal(
           "Mobile device detected.",
-          "MyLuksoWallet's core functionality is built around the browser extension. Mobile functionality is not supported at this time. \n If you would like to continue on mobile, please rotate the device to portrait mode for the best experience.",
+          "MyLuksoWallet's core functionality is built around the browser extension. Mobile functionality is not supported at this time. \n\n If you would like to continue on mobile, please rotate the device for the best experience.",
         );
       }
     };

@@ -44,7 +44,7 @@ const Roadmap = () => {
 
             <p className="mt-1 text-sm white">
               Implemented: Frontend to view profile, interact with the browser extension, update profile metadata settings, update MLW themes, update
-              vault themes, manage UP permissions, transfer native token
+              vault themes, transfer native token
             </p>
             <p className="mt-1 text-sm text-gray-400">
               To-do: More profile customization, clone existing metadata, allow for NFT profile pictures, view transaction history
@@ -66,10 +66,10 @@ const Roadmap = () => {
 
           <div className="block p-8 transition border border-gray-800 shadow-xl rounded-xl hover:shadow-sky-500/10 hover:border-sky-500/10">
             <LearnIcon />
-            <h3 className="mt-4 text-xl font-bold text-sky-500">LSP9 Vaults</h3>
+            <h3 className="mt-4 text-xl font-bold text-sky-500">LSP9 & LSP10 Vaults</h3>
 
             <p className="mt-1 text-sm white">
-              Implemented: Frontend to view vaults, deploy a vault and URD, add vault to profile, custom vault metadata (stored with UP), manage vault permissions
+              Implemented: Frontend to view vaults, deploy a vault and URD, add vault to profile, custom vault metadata (stored with UP), manage vault permissions and allowed addresses
             </p>
             <p className="mt-1 text-sm text-gray-400">
               To-do: More visual customization (e.g. a purse, a bank vault, a tote bag, etc.),  store metadata in the vault (LSP3), transfer vault
@@ -80,8 +80,8 @@ const Roadmap = () => {
             <LearnIcon />
             <h3 className="mt-4 text-xl font-bold text-sky-500">Key Manager</h3>
 
-            <p className="mt-1 text-sm white">Implemented: Execute via key manager by entering private key</p>
-            <p className="mt-1 text-sm text-gray-400">To-do: Browser compatability with key manager, Implement relay service</p>
+            <p className="mt-1 text-sm white">Implemented: Execute via key manager by entering private key, add/modify permissioned accounts</p>
+            <p className="mt-1 text-sm text-gray-400">To-do: Browser compatability with key manager, implement relay service</p>
           </div>
 
           <div className="block p-8 transition border border-gray-800 shadow-xl rounded-xl hover:shadow-sky-500/10 hover:border-sky-500/10">

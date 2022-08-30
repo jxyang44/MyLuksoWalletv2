@@ -42,7 +42,7 @@ const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
                 if (!valueNum) return swal("", "Input must be numeric.", "error");
                 if (valueNum <= 0) return swal("", "Input must be a positive number.", "error");
                 if (valueNum > Number(assets[index].balanceOf)) return swal("", "Transfer quantity exceeds your current balance.", "error");
-                console.log(assets[index].address, valueNum, dropResult.name, LSP7MintableContract, walletAddress, assets[index].balanceOf);
+                //console.log(assets[index].address, valueNum, dropResult.name, LSP7MintableContract, walletAddress, assets[index].balanceOf);
                 transferLSP7(
                   //calls transfer function on contract
                   assets[index].address, //asset contract address

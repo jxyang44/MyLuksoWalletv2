@@ -8,8 +8,6 @@ import { useAssetsContext } from "../../contexts/AssetsContext";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import {
   web3Provider,
-  createErc725Instance,
-  LSP3Schema,
   LSP4Schema,
   LSP9Contract,
   INTERFACE_IDS,
@@ -145,9 +143,9 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP, ownedAsset, s
 
               <div className=" flex flex-row items-center gap-1 xl:text-sm text-xs font-normal" >
               {ownedAsset ? "Owned" : "Issued"}
-                <label class="relative inline-block h-3 w-6">
-                  <input type="checkbox" class="peer sr-only" />
-                  <span class="absolute inset-0 cursor-pointer rounded-full bg-sky-500 transition duration-200 before:absolute 
+                <label className="relative inline-block h-3 w-6">
+                  <input type="checkbox" className="peer sr-only" />
+                  <span className="absolute inset-0 cursor-pointer rounded-full bg-sky-500 transition duration-200 before:absolute 
                   before:bottom-0.5 before:left-0.5 before:h-2 before:w-2 peer-checked:before:translate-x-3
                   before:rounded-full before:bg-white before:transition before:duration-200 before:shadow-sm 
                   peer-checked:bg-green-500 peer-focus:ring" onClick={()=>setOwnedAsset(curr=>!curr)}></span>

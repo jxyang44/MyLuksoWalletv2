@@ -50,7 +50,7 @@ const QandA = ({ question, answer }) => {
 const AboutUs = () => {
   return (
     <section className="w-5/6 xl:mx-32 mx-8 flex flex-col gap-1" id="aboutus">
-      <div className="text-center text-2xl mb-4">About Us</div>
+      <div className="text-center text-5xl mb-8 text-sky-500">About the Project</div>
       <QandA question={QAList.Q1.question} answer={QAList.Q1.answer} />
       <QandA question={QAList.Q2.question} answer={QAList.Q2.answer} />
       <QandA question={QAList.Q3.question} answer={QAList.Q3.answer} />

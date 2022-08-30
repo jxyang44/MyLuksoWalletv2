@@ -5,23 +5,19 @@ import { FaDiscord } from "react-icons/fa";
 
 const Footer = () => (
   <footer className="bg-slate-900 w-full mt-32 pt-12">
-    <div className="flex flex-col items-center max-w-5xl px-4 py-8 mx-auto sm:px-6 xl:px-8">
-      <div className="flex justify-center text-teal-300">
+    <div className="flex flex-col items-center max-w-5xl px-4 pb-8 mx-auto sm:px-6 xl:px-8">
+      <div className="flex justify-center text-teal-300 mb-4">
         <Logo />
       </div>
 
       <div className="flex flex-row gap-48 justify-end items-center">
         <p className="max-w-lg mx-auto mt-6 leading-relaxed text-left text-gray-400">
-          © 2022. All rights reserved by <b>MyLuksoWallet</b><br></br>
-         
+          © 2022. All rights reserved by <b>MyLuksoWallet</b>.
         </p>
         <p className="max-w-lg mx-auto mt-6 leading-relaxed text-right text-gray-400">
-          E-mail: <a href="mailto:myluksowallet@gmail.com" className="text-blue-500 hover:text-blue-300">
+          E-mail Us:{" "}
+          <a href="mailto:myluksowallet@gmail.com" className="text-blue-500 hover:text-blue-300">
             MyLuksoWallet@gmail.com
-          </a>
-          <br></br>
-          Website: <a href=" https://www.myluksowallet.com" className="text-blue-500 hover:text-blue-300">
-            https://www.myluksowallet.com
           </a>
         </p>
       </div>

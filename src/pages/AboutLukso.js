@@ -1,5 +1,7 @@
+//component for the "About LUKSO" page
+
 import React from "react";
-import { Banner, Footer } from "../components";
+import { Banner } from "../components";
 import { Resources, QuoteBox } from "./Lukso";
 
 import luksoBanner from "../assets/Logos/Lukso_Original/LUKSO_2022_WORDMARK-01.png";
@@ -80,7 +82,6 @@ const AboutLukso = () => {
         </div>
         <Resources />
       </div>
-      <Footer />
     </>
   );
 };

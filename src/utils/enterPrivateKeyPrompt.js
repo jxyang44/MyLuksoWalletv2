@@ -1,3 +1,4 @@
+//prompt for private key using key manager
 import swal from "sweetalert";
 
 export const enterPrivateKey = (inputMessage,functionCall,successMessage) => {

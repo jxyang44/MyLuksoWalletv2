@@ -14,10 +14,8 @@ const initialFormState = {
 };
 
 const RemoveVaultForm = () => {
-  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission } = useProfileContext();
+  const { currentAccount, accountAddresses, fetchAddresses } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
-  const [owner, setOwner] = useState(); //owner of contract
-  const [permissionedAddress, setPermissionedAddress] = useState(); //AddressPermissions[] associated with formValues.addressFrom
   const [loaded, setLoaded] = useState(false); //true if a valid addressFrom is selected
 
   const set = name => {
@@ -32,8 +30,6 @@ const RemoveVaultForm = () => {
     if (formValues.addressFrom === "") return;
     fetchAddresses(formValues.addressFrom).then(res => {
       if (res) {
-        setOwner(res[3]); // owner of vault/UP
-        setPermissionedAddress(res[0][0].value); /// AddressPermissions[]
         setLoaded(true);
       }
     });
@@ -41,7 +37,7 @@ const RemoveVaultForm = () => {
 
 
   const handleRemoveVault = () =>{
-    swal("go")
+    swal("This feature is pending implementation.")
   }
 
 

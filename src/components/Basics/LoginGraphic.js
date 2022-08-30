@@ -14,13 +14,13 @@ const LoginGraphic = () => {
   let navigate = useNavigate();
 
   const handleSampleAccount = () => {
-    swal("A note on the sample account:", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. \nTo create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
+    swal("A note on the sample account:", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. \n\nTo create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
       if (res) connectProfileUsingUPAddress(petOwner);
     });
   };
 
   return (
-    <div className="flex flex-col items-center gap-8 m-20">
+    <div className="flex flex-col items-center gap-8 m-20 mt-[10vh]">
       <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500 ">
         No Universal Profile detected.
       </div>

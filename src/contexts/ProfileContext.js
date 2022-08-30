@@ -1,4 +1,5 @@
-//context provider to manage extension connection, Universal Profile state, keymanager, etc.
+//context provider to manage extension connection, Universal Profile state, vault settings, permissions, and key manager
+//TO-DO organize these into separate contexts - this is getting messy
 
 import React, { useState, createContext, useContext } from "react";
 import Web3 from "web3";
@@ -13,6 +14,7 @@ import {
   LSP10Schema,
   createErc725Instance,
   INTERFACE_IDS,
+  constants,
 } from "../utils/luksoConfigs";
 import { useStateContext } from "./StateContext";
 import swal from "sweetalert";
@@ -50,6 +52,7 @@ export const ProfileProvider = ({ children }) => {
   const [accountAddresses, setAccountAddresses] = useState(defaultAddresses); // stores permissions, URD, vault, and key manager addresses for the connected UP
 
   //@desc connects to the UPextension, sets the Universal Profile address state, and fetches profile metadata
+  //@desc "web3Window" is initiated here and used throughout the application
   const connectProfile = async () => {
     try {
       if (!ethereum) return swal("Wallet not detected.", "", "error");
@@ -70,6 +73,9 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //@desc fetches information for an address (either UP or vault)
+  //@param address - address of the UP or vault
+  //@returns a promise resolving to [a list of permissions for the address, the URD of the address, a list of received vaults for the address, the owner (key manager for all intents and purposes if the account was created through the extension) of the address]
   const fetchAddresses = async address => {
     const getPermissions = async address => {
       const profile = createErc725Instance(LSP6Schema, address);
@@ -91,9 +97,11 @@ export const ProfileProvider = ({ children }) => {
     return Promise.all([getPermissions(address), getURD(address), getVaults(address), getKM(address)]);
   };
 
-  //address should only be universal profile
-  const setAccountAddressesFunction = address => {
-    fetchAddresses(address).then(res =>
+  //@desc calls the fetchAddresses function above and sets the state, so the application doesn't need to query the blockchain anytime the information is needed
+  //@desc this is only be used for the connected UP
+  //@param UPaddress should always equal currentAccount
+  const setAccountAddressesFunction = UPaddress => {
+    fetchAddresses(UPaddress).then(res =>
       setAccountAddresses(current => ({
         ...current,
         permissions: res[0][0].value,
@@ -104,6 +112,8 @@ export const ProfileProvider = ({ children }) => {
     );
   };
 
+  //@desc allows the user to log in with a public key to view a universal profile (read access only)
+  //@param keyType either "UP Address" or "Private Key" - NOTE: "Private Key" is disabled for now
   const loginWithKey = keyType => {
     swal(`Login with ${keyType}:`, {
       content: "input",
@@ -122,6 +132,8 @@ export const ProfileProvider = ({ children }) => {
       });
   };
 
+  //@desc connects the UP address if liginWithKey keytype is "UP Address"
+  //@param UPaddress - the UP address to connect
   const connectProfileUsingUPAddress = async UPAddress => {
     try {
       disconnectUPExtension();
@@ -133,6 +145,10 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //@desc gets all permissions associated with an account
+  //@param address the address of the UP or vault
+  //@param addressOf the address of the account in question
+  //@returns the decoded JSON of permissions for addressOf on address
   const getPermissionsOfAddresses = async (address, addressOf) => {
     if (!addressOf) addressOf = currentAccount;
     const erc725 = createErc725Instance(LSP6Schema, addressOf);
@@ -141,17 +157,6 @@ export const ProfileProvider = ({ children }) => {
       dynamicKeyParts: address,
     });
     return erc725.decodePermissions(addressPermission.value);
-  };
-
-  //TO-DO come back to this - not working
-  const activateAccountChangedListener = () => {
-    window.ethereum.on("accountsChanged", accounts => {
-      disconnectUPExtension();
-      setCurrentAccount(accounts[0]);
-      fetchProfileMetadata(accounts[0]);
-      setAccountAddressesFunction(accounts[0]);
-      console.log("------- UP extension account switched to: ------", accounts[0]);
-    });
   };
 
   //https://docs.lukso.tech/guides/universal-profile/read-profile-data
@@ -165,6 +170,76 @@ export const ProfileProvider = ({ children }) => {
       setCurrentAccount("");
     }
   }
+
+  //@desc identifies the type of account (EOA, ERCY725, neither)
+  //@param address the address of the account
+  //@returns the type of account
+  const getAccountType = async address => {
+    try {
+      return await web3Provider.eth.getCode(address).then(res => {
+        if (res === "0x") {
+          return "EOA";
+        } else {
+          return "ERC725";
+        }
+      });
+    } catch {
+      return "Invalid";
+    }
+  };
+
+    //@desc extract the largest image that fits in the container
+  //@param imageArray array of images from LSP3Profile metadata (e.g. profileImage, backgroundImage)
+  //@param maxSize maximum width of the image allowed in returned index
+  //@returns the array index of the image with the largest width <= maxSize
+  //TO-DO (low priority) - currently unused - always returns the first (largest) image
+  const maxImageIndex = (imageArray, maxSize) => {
+    return 0;
+  };
+
+  //@desc initializes Universal Profile state variables, called by connectProfile(), which is called when the user connects to the extension
+  //@param address Universal Profile address
+  //@param profileData promise JSON of profile data
+  //@param setProfileJSONMetadata React state setter for initial profile metadata
+  //@param setPendingProfileJSONMetadata equal to setProfileJSONMetadata on initialization
+  //@param setIsProfileLoaded React state setter indicating that profile metadata is loaded
+  async function fetchProfileMetadata(address) {
+    const profileData = await fetchProfileData(address);
+    if (profileData === undefined) return;
+    if (profileData.value !== null) {
+      setProfileJSONMetadata(current => ({
+        ...current,
+        ...profileData.value.LSP3Profile,
+      }));
+      setPendingProfileJSONMetadata(current => ({
+        ...current,
+        ...profileData.value.LSP3Profile,
+      }));
+
+      setTheme(profileData.value.LSP3Profile.MLWTheme); //MLW website theme
+      setUPColor(profileData.value.LSP3Profile.MLWUPColor); //MLW UP background color
+      setUPTextColor(profileData.value.LSP3Profile.MLWUPTextColor); //MLW UP text color
+      setIsProfileLoaded(true);
+      swal("Your account is now connected to MyLuksoWallet.", `Welcome ${profileData.value.LSP3Profile.name}!`, "success");
+    } else {
+      // const contractInstance = new web3Provider.eth.Contract(LSP9Contract.abi, address);
+      // const isVault = await contractInstance.methods.supportsInterface(INTERFACE_IDS[interfaceType]).call();
+
+      setIsProfileLoaded(true);
+      swal("Your account is now connected to MyLuksoWallet.", "No initial profile metadata was found for this account.", "warning");
+    }
+  }
+
+  //@desc resets all profile state variables to their default values
+  //@desc does not actually "disconnect" the login from the extension - user must do that manually in the extension
+  const disconnectUPExtension = () => {
+    setProfileJSONMetadata(defaultMetadata);
+    setPendingProfileJSONMetadata(defaultMetadata);
+    setAccountAddresses(defaultAddresses);
+    setIsProfileLoaded(false);
+    setCurrentAccount("");
+    setThemeDefaults();
+  };
 
   //  ------------------------------------------------------  //
   //  ------------------  VAULT FUNCTIONS ------------------  //
@@ -183,6 +258,41 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
+  //@desc fetches the allowed addresses associated a permissioned account linked to the universal profile
+  //@param thirdPartyAddress the address to check permissions for
+  //@returns an array of addresses that thirdPartyAddress has permissions for
+  const getAllowedAddresses = async thirdPartyAddress => {
+    try {
+      const erc725 = createErc725Instance(LSP6Schema, currentAccount);
+      const allowedAddressPermissions = await erc725.getData({
+        keyName: "AddressPermissions:AllowedAddresses:<address>",
+        dynamicKeyParts: thirdPartyAddress,
+      });
+      return allowedAddressPermissions.value;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //@desc gives an address permissions in the "AddressPermissions:AllowedAddresses<address>" key
+  //@param thirdPartyAddress the address to check permissions for
+  //@param allowedAddresses an array of addresses to give thirdPartyAddress permissions to
+  //@return a promise resolving to the transaction
+  const setAllowedAddresses = async (thirdPartyAddress, allowedAddresses) => {
+    if (!thirdPartyAddress) return swal("No permissioned address detected.", "", "warning");
+    try {
+      const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
+      const allowedAddressesDataKey = constants.ERC725YKeys.LSP6["AddressPermissions:AllowedAddresses"] + thirdPartyAddress.substring(2);
+      const arrayOfAddresses = web3Window.eth.abi.encodeParameter("address[]", allowedAddresses);
+      return await myUP.methods["setData(bytes32,bytes)"](allowedAddressesDataKey, arrayOfAddresses).send({
+        from: currentAccount,
+        gasLimit: 600_000,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   //  ------------------------------------------------------  //
   //  --------------------  PERMISSIONS --------------------  //
   //  ------------------------------------------------------  //
@@ -193,8 +303,8 @@ export const ProfileProvider = ({ children }) => {
   //@permissions decoded permissions JSON object to be changed
   //@return a promise that resolves to the executed transaction
   async function addNewPermission(addressFrom, addressTo, permissions) {
-    if (!currentAccount) return swal("You are not connected to an account.");
-    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.");
+    if (!currentAccount) return swal("You are not connected to an account.", "", "warning");
+    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.", "", "warning");
     try {
       swal(`Adding new permissions for ${addressTo} to ${addressFrom}...`, { button: false });
 
@@ -263,8 +373,8 @@ export const ProfileProvider = ({ children }) => {
   //@permissions decoded permissions JSON object to be changed
   //@return a promise that resolves to the executed transaction
   async function updateExistingPermission(addressFrom, addressTo, permissions) {
-    if (!currentAccount) return swal("You are not connected to an account.");
-    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.");
+    if (!currentAccount) return swal("You are not connected to an account.", "", "warning");
+    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.", "", "warning");
     try {
       swal(`Updating permissions for ${addressTo} on ${addressFrom}...`, { button: false });
 
@@ -290,7 +400,6 @@ export const ProfileProvider = ({ children }) => {
           from: currentAccount,
           gasLimit: 300_000,
         });
-
       } else {
         //if the address is a vault, execute via key manager
         const myVault = new web3Window.eth.Contract(LSP9Contract.abi, addressFrom);
@@ -299,82 +408,16 @@ export const ProfileProvider = ({ children }) => {
         const executePayload = await myUP.methods.execute(0, addressFrom, 0, setDataPayload);
         executeViaKeyManager(executePayload.encodeABI, `Please wait. Updating permissions via key manager...`, "Your permissions were updated!");
       }
-
     } catch (error) {
       console.log(error);
       swal("Something went wrong.", JSON.stringify(error), "warning");
     }
   }
 
-  //@desc identifies the type of account (EOA, ERCY725, neither)
-  //@param address the address of the account
-  //@returns the type of account
-  const getAccountType = async address => {
-    try {
-      return await web3Provider.eth.getCode(address).then(res => {
-        if (res === "0x") {
-          return "EOA";
-        } else {
-          return "ERC725";
-        }
-      });
-    } catch {
-      return "Invalid";
-    }
-  };
-
-  //@desc extract the largest image that fits in the container
-  //@param imageArray array of images from LSP3Profile metadata (e.g. profileImage, backgroundImage)
-  //@param maxSize maximum width of the image allowed in returned index
-  //@returns the array index of the image with the largest width <= maxSize
-  //TO-DO (low priority) - currently unused - always returns the first (largest) image
-  const maxImageIndex = (imageArray, maxSize) => {
-    return 0;
-  };
-
-  //@desc initializes Universal Profile state variables, called by connectProfile(), which is called when the user connects to the extension
-  //@param address Universal Profile address
-  //@param profileData promise JSON of profile data
-  //@param setProfileJSONMetadata React state setter for initial profile metadata
-  //@param setPendingProfileJSONMetadata equal to setProfileJSONMetadata on initialization
-  //@param setIsProfileLoaded React state setter indicating that profile metadata is loaded
-  async function fetchProfileMetadata(address) {
-    const profileData = await fetchProfileData(address);
-    if (profileData === undefined) return;
-    if (profileData.value !== null) {
-      setProfileJSONMetadata(current => ({
-        ...current,
-        ...profileData.value.LSP3Profile,
-      }));
-      setPendingProfileJSONMetadata(current => ({
-        ...current,
-        ...profileData.value.LSP3Profile,
-      }));
-
-      setTheme(profileData.value.LSP3Profile.MLWTheme); //MLW website theme
-      setUPColor(profileData.value.LSP3Profile.MLWUPColor); //MLW UP background color
-      setUPTextColor(profileData.value.LSP3Profile.MLWUPTextColor); //MLW UP text color
-      setIsProfileLoaded(true);
-      swal("Your account is now connected to MyLuksoWallet.", `Welcome ${profileData.value.LSP3Profile.name}!`, "success");
-    } else {
-      // const contractInstance = new web3Provider.eth.Contract(LSP9Contract.abi, address);
-      // const isVault = await contractInstance.methods.supportsInterface(INTERFACE_IDS[interfaceType]).call();
-
-      setIsProfileLoaded(true);
-      swal("Your account is now connected to MyLuksoWallet.", "No initial profile metadata was found for this account.", "warning");
-    }
-  }
-
-  //@desc resets all profile state variables to their default values
-  //@desc does not actually "disconnect" the login from the extension - user must do that manually in the extension
-  const disconnectUPExtension = () => {
-    setProfileJSONMetadata(defaultMetadata);
-    setPendingProfileJSONMetadata(defaultMetadata);
-    setAccountAddresses(defaultAddresses);
-    setIsProfileLoaded(false);
-    setCurrentAccount("");
-    setThemeDefaults();
-  };
+  //  ------------------------------------------------------  //
+  //  --------------------  KEY MANAGER --------------------  //
+  //  ------------------------------------------------------  //
+  //TO-DO move this to a different context
 
   //TO-DO code not finished
   const executeViaRelay = async (functionABI, swalMessage) => {
@@ -481,7 +524,6 @@ export const ProfileProvider = ({ children }) => {
         maxImageIndex,
         disconnectUPExtension,
         fetchProfileMetadata,
-        activateAccountChangedListener,
         web3Window,
         useRelay,
         setUseRelay,
@@ -494,6 +536,8 @@ export const ProfileProvider = ({ children }) => {
         addNewPermission,
         updateExistingPermission,
         isVault,
+        getAllowedAddresses,
+        setAllowedAddresses,
       }}>
       {children}
     </ProfileContext.Provider>

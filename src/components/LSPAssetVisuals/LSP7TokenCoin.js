@@ -44,11 +44,11 @@ const TokenCoin = ({ assetAddress, createToken }) => {
       getAssetMetadata(assetAddress).then(res => {
         //all other metadata
         setAssetMetadata(cur => ({ ...cur, ...res }));
-        console.log("metadata results:", res, assetMetadata);
-        res.icon && res.icon.length > 0 && setAssetIcon(res.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY)); 
-        if (res.images && res.images[0] !== null && res.images.length > 0) {
+        //console.log("metadata results:", res, assetMetadata);
+        res?.icon && res?.icon?.length > 0 && setAssetIcon(res?.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY)); 
+        if (res?.images && res.images[0] !== null && res?.images?.length > 0) {
           setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-          if (res.images.length > 1) setAssetImageBack(res.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
+          if (res?.images.length > 1) setAssetImageBack(res?.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
         }
         //TO-DO something with assets key if it exists
       });

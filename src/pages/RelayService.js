@@ -2,11 +2,11 @@
 //currently allows the user to 1. add permissions to the MLW dev account 2. create a test account with MLW
 //TO-DO implement relay service
 
-import React, { useState, useEffect } from "react";
-import { Banner, ButtonClean, GrantPermissions,Footer } from "../components";
-import { web3Provider, MM_PublicKey, createLSPFactoryPrivateKeyInstance } from "../utils/luksoConfigs.js";
-import swal from "sweetalert";
-import { AiOutlineCopy } from "react-icons/ai";
+// import React, { useState, useEffect } from "react";
+// import { Banner, ButtonClean, GrantPermissions,Footer } from "../components";
+// import { web3Provider, MM_PublicKey, createLSPFactoryPrivateKeyInstance } from "../utils/luksoConfigs.js";
+// import swal from "sweetalert";
+// import { AiOutlineCopy } from "react-icons/ai";
 
 
 const RelayService = () => {

@@ -1,12 +1,14 @@
 //component for the "My Vaults" page
 
 import React, { useState } from "react";
-import { MyVaultsForm, FormTabs, VaultPermissionsForm, RemoveVaultForm} from "../../components";
+import { MyVaultsForm, FormTabs, VaultPermissionsForm, RemoveVaultForm, ManagePermissionsForm } from "../../components";
 
 const forms = [
   { name: "Metadata", border: "border-sky-400 shadow-sky-400" },
-  { name: "Allowed Addresses", border: "border-green-500 shadow-green-500" },
+  { name: "Allowed Addresses", border: "border-violet-500 shadow-violet-500" },
   { name: "Remove Vault", border: "border-orange-500 shadow-orange-500" },
+  { name: "Manage Permissions", border: "border-green-500 shadow-green-500" },
+
 ];
 
 const MyProfile = () => {
@@ -21,6 +23,7 @@ const MyProfile = () => {
         {showForm === "Metadata" && <MyVaultsForm />}
         {showForm === "Allowed Addresses" && <VaultPermissionsForm />}
         {showForm === "Remove Vault" && <RemoveVaultForm />}
+        {showForm === "Manage Permissions" && <ManagePermissionsForm />}
       </div>
 
       {showForm === "Metadata" && (
@@ -34,6 +37,20 @@ const MyProfile = () => {
             <p>
               Future implementations could include attaching these variables to the vault itself or implementing compatibility with an ENS-like
               service.
+            </p>
+          </div>
+        </div>
+      )}
+      {showForm === "Allowed Addresses" && (
+        <div className="xl:text-3xl text-xl text-sky-500 max-w-5xl mt-12 border-2 p-6 rounded-xl border-white bg-slate-700">
+          Allowed Addresses
+          <div className="text-white text-left xl:text-base text-sm flex flex-col gap-1 mt-2">
+            <p>
+              An external address interacting with your Universal Profile can be restricted to only interact with a specific vault that it has permissions for. 
+              Managing allowed addresses on your vaults can allow others to execute functions on some of your assets without having access to others.
+            </p>
+            <p>
+              This presents many use cases, especially if you own a variety of assets in different categories.
             </p>
           </div>
         </div>

@@ -1,6 +1,8 @@
+//current unused 
+
 import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { web3 } from "../../utils/luksoConfigs";
+// import { AiOutlineSearch } from "react-icons/ai";
+// import { web3 } from "../../utils/luksoConfigs";
 
 const ProfileSearch = () => {
 

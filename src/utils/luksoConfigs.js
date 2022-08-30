@@ -1,7 +1,8 @@
+//main configurations
+
 import Web3 from "web3";
 const { LSPFactory } = require("@lukso/lsp-factory.js");
 const { ERC725 } = require("@erc725/erc725.js");
-
 
 //----- endpoints and gateways -----
 export const RPC_ENDPOINT = "https://rpc.l16.lukso.network";
@@ -19,8 +20,11 @@ export const web3Provider = new Web3(RPC_ENDPOINT);
 export const web3Window = new Web3(window.ethereum);
 
 //----- keys -----
-export const MM_PublicKey = process.env.REACT_APP_METAMASK_MY_DEV_ACCOUNT; //metamask public address - dev account
+export const MM_PublicKey = "0xA0Ffd0fFa4e115f6AC1B7b0461e0b6450161c448"; //metamask public address - dev account; currently unused for hackathon
+
+//NOTE --- if you just cloned this project, create .env file in the main directory and paste in: REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY="enter your private key"
 export const MM_PrivateKey = process.env.REACT_APP_METAMASK_MY_DEV_PRIVATE_KEY; //metamask private key - dev account - used for lspfactory private deployment (LSP7 and LSP8 contract deployment only)
+
 
 export const createLSPFactoryWindowInstance = () => new LSPFactory(window.ethereum, { chainId: chainId });
 

@@ -29,9 +29,9 @@ const LSPValues = {
       mintAmount: 1, //amount to mint
       backgroundColor: "#000000", //background color of coin
       textColor: "#FFFFFF", //text color of coin
-      isCreator: true, //is creator of token -- TO-DO currently does not save to blockchain
-      isNotDivisible: false,
-      tokenSupply: "",
+      isCreator: true, //is creator of token
+      isNotDivisible: false, //for LSP7 only
+      tokenSupply: "", //total supply of the token
     },
     initialMintState: {
       tokenAddress: localStorage.getItem(`recentLSP7Address`) ?? "",
@@ -88,7 +88,7 @@ const CreateToken = ({ LSP }) => {
       {activeMenu ? (
         <FullScreenButton text={`Deploy or Mint ${LSP} Assets`} />
       ) : (
-        <div className="xl:mx-16 ml-8">
+        <div className="xl:mx-24 ml-8">
           <div className="flex flex-col text-white items-left text-left min-h-[85vh]">
             <div className="text-sky-500 font-semibold xl:text-2xl text-lg">{LSPValues[LSP].description}</div>
             <div className="xl:text-3xl text-xl mb-3 text-white">

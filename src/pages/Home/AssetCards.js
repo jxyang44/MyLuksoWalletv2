@@ -48,7 +48,7 @@ const AssetCard = ({ LSP }) => {
           <p className="xl:text-xl text-lg">{LSP.p1}</p>
           <p className="xl:text-lg text-base text-gray-500">{LSP.p2}</p>
         </div>
-        <div className="flex flex-col justify-evenly bg-gradient-to-br from-sky-500 py-4">
+        <div className="flex flex-col justify-evenly bg-gradient-to-br from-sky-500 py-4 h-[45vh]">
           <img className="rounded-lg mx-8 my-16" src={LSP.image} />
           <div className="xl:text-base text-sm text-white px-4">{LSP.p3}</div>
         </div>
@@ -86,7 +86,7 @@ const AssetCards = () => {
             Lukso Standard Proposal 9 (LSP9) introduces the concept of Vaults. Vaults can be used in conjunction with other LSPs to restrict
             permissions to specific smart contracts and interactions. This is not only useful for organizing assets, but also for security purposes.
             &nbsp;
-            <a href="https://docs.lukso.tech/standards/universal-profile/lsp9-vault" className="text-blue-500 hover:text-blue-300" target="_blank">
+            <a href="https://docs.lukso.tech/standards/universal-profile/lsp9-vault" className="text-blue-500 hover:text-blue-300" target="_blank" rel="noreferrer">
               Learn more about Vaults here.
             </a>
             &nbsp;
@@ -114,7 +114,7 @@ const AssetCards = () => {
           </div>
         </div>
 
-        <div className="flex flex-row justify-center w-1/2 ml-20 my-10 items-center">
+        <div className="flex flex-row justify-center w-1/2 ml-20 my-10 items-center xl:px-16">
           <AssetCard LSP={LSPInfo.LSP8} />
           <AssetCard LSP={LSPInfo.LSP7} />
           <AssetCard LSP={LSPInfo.LSP0} />

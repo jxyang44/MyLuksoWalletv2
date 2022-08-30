@@ -1,3 +1,5 @@
+//component for the "Create Vault" page
+
 import React, { useEffect, useState } from "react";
 
 import { Banner } from "../../components/";
@@ -19,7 +21,7 @@ const CreateVault = () => {
       <Banner
         colorFrom={"from-sky-500"}
         title={"Create a LSP9 Vault"}
-        subtitle={"Vaults are used to organize and manage your assets"}
+        subtitle={"Vaults are Used to Organize and Manage Your Assets"}
         buttonText={""}
       />
 

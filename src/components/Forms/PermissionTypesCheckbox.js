@@ -1,4 +1,4 @@
-//component for list of permissions that appears as a branch of the ManagePermissionsForm
+//component for list of permissions that appears as a branch of the ManagePermissionsForm.js
 
 import React, { useState, useEffect } from "react";
 import { Address, Loading } from "../../components";

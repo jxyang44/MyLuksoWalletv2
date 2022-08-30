@@ -397,6 +397,7 @@ export const AssetsProvider = ({ children }) => {
         mintLSP8,
         transferLSP7,
         transferLSP8,
+        getTokenOwnerOf,
         getTokenIdsOf,
       }}>
       {children}

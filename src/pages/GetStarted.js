@@ -1,5 +1,7 @@
+//component for the "Get Started" page
+
 import React from "react";
-import { Banner, StepLeft, Footer } from "../components";
+import { Banner, StepLeft } from "../components";
 import { useProfileContext } from "../contexts/ProfileContext";
 import { useNavigate } from "react-router-dom";
 const GetStarted = () => {
@@ -17,9 +19,9 @@ const GetStarted = () => {
 
       <div className="flex flex-col xl:mx-32 mx-8 gap-14">
         <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
-          <p className="font-bold"> *** Hackathon - Developer Note *** </p>
+          <p className="font-bold text-lg"> *** Hackathon Note *** </p>
           <p>
-            - We apologize in advance for any crude or low quality videos. These instructions are a work in progress and will be improved over time. -
+            - These instructions, including the videos, are a work in progress and will be improved over time. -
           </p>
         </div>
         <StepLeft
@@ -150,7 +152,6 @@ const GetStarted = () => {
           buttonFunc={() => window.open("https://youtu.be/g3nO7Vq6h5E")}
         />
       </div>
-      <Footer />
     </div>
   );
 };

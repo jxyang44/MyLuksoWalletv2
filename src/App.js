@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useStateContext } from "./contexts/StateContext";
-import { Navbar, Sidebar } from "./components";
+import { Navbar, Sidebar, Footer } from "./components";
 import {
   Home,
   MyLuksoWallet,
@@ -16,6 +16,16 @@ import {
   MyVaults,
   UnderConstruction,
 } from "./pages";
+
+
+const ScrollToTop = (props) => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return <>{props.children}</>
+};
 
 
 const App = () => {
@@ -44,7 +54,8 @@ const App = () => {
             <div className="sticky w-full top-0 z-10">
               <Navbar />
             </div>
-            <div>
+            <div className="min-h-screen">
+              <ScrollToTop>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
@@ -54,7 +65,7 @@ const App = () => {
                 <Route path="/myuniversalprofile" element={<MyProfile />} />
                 <Route path="/myassets" element={<MyAssets />} />
                 <Route path="/myvaults" element={<MyVaults />} />
-                <Route path="/relayservice" element={<RelayService />} />
+                <Route path="/relayservice" element={<UnderConstruction />} />
                 <Route path="/createtoken" element={<CreateToken LSP="LSP7" />} />
                 <Route path="/createnft" element={<CreateToken LSP="LSP8" />} />
                 <Route path="/createvault" element={<CreateVault />} />
@@ -63,7 +74,9 @@ const App = () => {
                 <Route path="/nftsearch" element={<UnderConstruction />} />
                 <Route path="/vaultsearch" element={<UnderConstruction />} />
               </Routes>
+              </ScrollToTop>
             </div>
+            <Footer />
           </div>
         </div>
       </BrowserRouter>

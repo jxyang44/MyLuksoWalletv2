@@ -20,7 +20,7 @@ const DigitalIdentity = () => {
             </div>
             
             <div className="xl:text-xl md:text-base xl:mr-24 md:mr-12 mt-8 tracking-wide">
-            <p>As technological innovations progress, the eventual dematerialization of plastic IDs, leather wallets, paper receipts and other physical vessels for digitizable information is inevitable.
+            <p>As technology advances, the eventual dematerialization of plastic IDs, leather wallets, paper contracts and other physical vessels for digitizable information is inevitable.
                 In the coming years, we ought to consider the protocols that can best represent our digital identity in a trusted, decentralized, interoperable, secure, accessible, and easy-to-use manner.
                 This is where <a className="font-semibold italic text-blue-500 hover:text-blue-300" href='https://lukso.network/faq' rel="noreferrer" target="_blank"> Lukso </a> comes in.
             </p>
