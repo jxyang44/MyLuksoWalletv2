@@ -223,7 +223,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
   };
 
   return (
-    <FormContainer title={`Create ${LSP} Token`} subtitle={"Your token will be deployed on the blockchain (we pay for gas during the hackathon)"} mainOverride={"rounded-tl-none"}>
+    <FormContainer title={`Create ${LSP} Token`} subtitle={"Your token will be deployed on the blockchain (no confirmation needed). It will then be minted (you will need to confirm to mint)."} mainOverride={"rounded-tl-none"}>
       <div className="mb-4">
         <div className={inputLabel}>Token Name (required)</div>
         <input

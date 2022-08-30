@@ -87,8 +87,8 @@ const NFTCardFull = ({ assetAddress, createToken }) => {
       backgroundColor: createToken.backgroundColor,
       textColor: createToken.textColor,
     });
-    setBalanceOf(createToken.mintAmount);
-    setTotalSupply(createToken.mintAmount); //TO-DO change if using capped
+    setBalanceOf(1);
+    setTotalSupply(1); //TO-DO change if using capped
   }, [createToken]);
 
   return (

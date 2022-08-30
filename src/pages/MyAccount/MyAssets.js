@@ -130,8 +130,8 @@ const MyAssets = () => {
           {activeMenu ? (
             <FullScreenButton text={`My Tokens and NFTs`} />
           ) : (
-            <div className="flex flex-row gap-28 xl:mx-16 mt-16">
-              <div className="flex flex-col justify-start gap-2 w-5/12 xl:mx-24 mx-8 text-white">
+            <div className="flex flex-row justify-center gap-28 xl:mx-16 mt-16">
+              <div className="flex flex-col justify-start gap-2 w-5/12 mx-8 text-white">
                 <div className="text-sky-500 font-semibold xl:text-4xl text-2xl">Powered by Lukso Standard Proposals</div>
                 <div className="xl:text-2xl text-lg mb-4 text-white flex flex-row gap-1 items-center">
                   View and Manage LSP7
@@ -144,7 +144,7 @@ const MyAssets = () => {
                   {showForm === "Filter Assets" && (
                     <FormContainer
                       title={`Filter Assets`}
-                      subtitle={`Filter the View Between LSP7, LSP8, Received and Issued Assets`}
+                      subtitle={`Filter the View Between LSP7, LSP8, Received and Issued Assets. Known Bug: Owned balance shows your UP balance even if you switch to a vault. For now, to properly view your balance, use the MLW DApp.`}
                       mainOverride={"border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[25vw]"}
                       textOverride={"text-sky-400"}>
                       <div className="my-4">
