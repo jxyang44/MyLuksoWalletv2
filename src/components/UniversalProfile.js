@@ -94,10 +94,10 @@ const UniversalProfile = () => {
       </button>
       <div
         className="flex flex-col justify-between items-center border-2 border-blue-400 rounded-md py-2 shadow-md shadow-blue-400/50 gap-0.5 bg-slate-800 bg-opacity-70 text-white  "
-        style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
+        style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor ?? "#000000"}` }}>
         <div
           className={`flex flex-row gap-2 text-2xl font-semibold font-header z-50 text-transparent bg-clip-text`}
-          style={{ backgroundImage: `linear-gradient(to top left, #fff, ${UPTextColor}, #fff)` }}>
+          style={{ backgroundImage: `linear-gradient(to top left, #fff, ${UPTextColor ?? "#BBBBBB"}, #fff)` }}>
           Universal Profile
           <a href={`https://l16.universalprofile.cloud/${currentAccount}`} target="_blank" className="hover:scale-105">
             <img src={UniversalCloudLogo} alt="Lukso Cloud Logo" className="w-8 h-8" />
@@ -128,7 +128,7 @@ const UniversalProfile = () => {
           <div className="flex gap-3 items-center mt-6 border-color border-b-1 pb-6 px-2 z-10">
             <div
               className="w-1/3 flex justify-center items-center border-4 rounded-full content-square shadow-md aspect-square bg-gradient-to-tr from-pink-200 to-pink-100 hover:scale-105"
-              style={{ borderColor: UPTextColor, boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
+              style={{ borderColor: UPTextColor ?? "#DDDDDD", boxShadow: `0px 4px 6px -1px ${UPTextColor?? "#000000"}` }}>
               {profileJSONMetadata.profileImage.length > 0 ? (
                 <UploadProfileImage
                   id="profile"
@@ -154,8 +154,8 @@ const UniversalProfile = () => {
                 />
               </div>
               <div
-                className=" border-blue-400 rounded-b border-2 px-2 text-md bg-gradient-to-l from-slate-100 text-black border-t-0"
-                style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
+                className=" border-blue-400 rounded-b border-2 px-2 text-md bg-white text-black border-t-0"
+                style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor?? "#000000"}` }}>
                 <EditTextarea
                   rows={3}
                   defaultValue={profileJSONMetadata.description}
