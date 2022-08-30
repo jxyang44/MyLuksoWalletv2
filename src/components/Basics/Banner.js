@@ -12,7 +12,7 @@ const Banner = ({ colorFrom, title, subtitle, buttonText, buttonFunc, buttonColo
         <LuksoLogoOuter className="absolute w-24 h-24 stroke-[9] fill-white stroke-white animate-spin-CCW-20" />
         <LuksoLogoInner className="absolute w-24 h-24 stroke-[11] fill-white stroke-white animate-spin-CW-10" />
         <div className="ml-28 flex flex-col text-left text-white">
-          <h3 className="w-fit xl:text-4xl text-xl tracking-tight font-extrabold font-secondary text-transparent bg-clip-text bg-gradient-to-l pr-40 from-white to-pink-100">
+          <h3 className="w-fit xl:text-4xl text-3xl tracking-tight font-extrabold font-secondary text-transparent bg-clip-text bg-gradient-to-l pr-40 from-white to-pink-100">
             {title}
           </h3>
           <p className="w-fit xl:text-xl text-base tracking-wide font-semibold font-secondary whitespace-pre-line text-transparent bg-clip-text bg-gradient-to-l pr-40 from-teal-100 to-teal-300">

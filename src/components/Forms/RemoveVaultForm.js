@@ -1,5 +1,4 @@
-//for allowed addresses on a vault
-
+//remove a vault
 
 import React, { useState, useEffect } from "react";
 import { FormContainer, PermissionTypesCheckbox, Loading } from "..";

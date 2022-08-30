@@ -4,7 +4,7 @@
 //  clean up formatting
 //  edit asset data
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useAssetsContext } from "../../contexts/AssetsContext";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
@@ -53,20 +53,17 @@ const MyAssets = () => {
   const [showReceivedAssets, setShowReceivedAssets] = useState(true);
   const [showIssuedAssets, setShowIssuedAssets] = useState(false);
   const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [walletAddress, setWalletAddress] = useState("");
+  const [walletAddress, setWalletAddress] = useState(currentAccount);
   const [showForm, setShowForm] = useState("Filter Assets");
-
+  
   useEffect(() => {
     if (currentAccount) setActiveMenu(false);
-
-    // setTimeout(() => {
-    //   setShowScreen(true);
-    // }, 1000);
-  }, []);
-
-  useEffect(() => {
+    setWalletAddress(currentAccount);
     handleLoadAssets(currentAccount);
+    
   }, []);
+
+
 
   const sliderSettings = {
     customPaging: i => {
@@ -92,6 +89,7 @@ const MyAssets = () => {
     vertical: true,
   };
 
+
   const handleLoadAssets = (walletAddress) => {
     setAssets([]);
     setAssetsLoaded(false);
@@ -114,6 +112,7 @@ const MyAssets = () => {
   };
 
   const assetLoad = async walletAddress => {
+    console.log(walletAddress)
     const profile = createErc725Instance(LSP3Schema, walletAddress);
     let result1, result2;
     if (showReceivedAssets) result1 = await profile.fetchData("LSP5ReceivedAssets[]");
@@ -197,7 +196,7 @@ const MyAssets = () => {
                         <div className="flex items-center justify-end">
                           <button
                             className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            onClick={handleLoadAssets}>
+                            onClick={()=>handleLoadAssets(walletAddress)}>
                             Reload Assets
                           </button>
                         </div>
