@@ -95,7 +95,9 @@ const UniversalProfile = () => {
       <div
         className="flex flex-col justify-between items-center border-2 border-blue-400 rounded-md py-2 shadow-md shadow-blue-400/50 gap-0.5 bg-slate-800 bg-opacity-70 text-white  "
         style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
-        <div className="flex flex-row gap-2 text-2xl font-semibold font-header z-50">
+        <div
+          className={`flex flex-row gap-2 text-2xl font-semibold font-header z-50 text-transparent bg-clip-text`}
+          style={{ backgroundImage: `linear-gradient(to top left, #fff, ${UPTextColor}, #fff)` }}>
           Universal Profile
           <a href={`https://l16.universalprofile.cloud/${currentAccount}`} target="_blank" className="hover:scale-105">
             <img src={UniversalCloudLogo} alt="Lukso Cloud Logo" className="w-8 h-8" />
@@ -124,7 +126,9 @@ const UniversalProfile = () => {
           </div>
 
           <div className="flex gap-3 items-center mt-6 border-color border-b-1 pb-6 px-2 z-10">
-            <div className="w-1/3 flex justify-center items-center border-4 rounded-full content-square border-blue-400 shadow-blue-300 shadow-md aspect-square bg-gradient-to-tr from-pink-200 to-pink-100 hover:scale-105">
+            <div
+              className="w-1/3 flex justify-center items-center border-4 rounded-full content-square shadow-md aspect-square bg-gradient-to-tr from-pink-200 to-pink-100 hover:scale-105"
+              style={{ borderColor: UPTextColor, boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
               {profileJSONMetadata.profileImage.length > 0 ? (
                 <UploadProfileImage
                   id="profile"
@@ -138,24 +142,28 @@ const UniversalProfile = () => {
               )}
             </div>
             <div className="w-2/3 mt-12 flex flex-col justify-end">
-              <div className="font-['Arial'] bg-gradient-to-r from-black via-slate-800 border-blue-400 border-2 rounded-t px-2 border-b-0 ">
-              <EditText
-                defaultValue={profileJSONMetadata.name}
-                inputClassName="bg-success"
-                value={pendingProfileJSONMetadata.name}
-                onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
-                style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "2.25rem", fontWeight: "600", color: UPTextColor }}
-              />
+              <div
+                className="font-['Arial'] bg-gradient-to-r from-slate-900 via-slate-800 border-blue-400 border-2 rounded-t px-2 border-b-0 "
+                style={{ color: UPTextColor ?? "white" }}>
+                <EditText
+                  defaultValue={profileJSONMetadata.name}
+                  inputClassName="bg-success"
+                  value={pendingProfileJSONMetadata.name}
+                  onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
+                  style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "2.25rem", fontWeight: "600" }}
+                />
               </div>
-              <div className=" border-blue-400 rounded-b border-2 px-2 text-md bg-white text-black border-t-0 shadow-md shadow-white">
-              <EditTextarea
-                rows={3}
-                defaultValue={profileJSONMetadata.description}
-                inputClassName="bg-success"
-                value={pendingProfileJSONMetadata.description}
-                onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, description: e.target.value }))}
-                style={{ padding: "0px", margin: "0x"}}
-              />
+              <div
+                className=" border-blue-400 rounded-b border-2 px-2 text-md bg-gradient-to-l from-slate-100 text-black border-t-0"
+                style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor}` }}>
+                <EditTextarea
+                  rows={3}
+                  defaultValue={profileJSONMetadata.description}
+                  inputClassName="bg-success"
+                  value={pendingProfileJSONMetadata.description}
+                  onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, description: e.target.value }))}
+                  style={{ padding: "0px", margin: "0x" }}
+                />
               </div>
             </div>
           </div>

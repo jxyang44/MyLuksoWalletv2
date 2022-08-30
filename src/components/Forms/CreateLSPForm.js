@@ -46,7 +46,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
     const createTokenContract = async () => {
       try {
         console.log("------------ deploying new LSP7 token contract ------------");
-        swal("Deploying your LSP7Mintable token contract...", "You may click outside this window.", { button: false });
+        swal("Deploying your LSP7Mintable token contract... (we pay for gas during the hackathon)", "You may click outside this window.", { button: false });
 
         // TO-DO can't get window to work
         // await ethereum.request({ method: 'eth_requestAccounts', params: [] });
@@ -116,8 +116,12 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
     currentAccount
       ? createTokenContract().then(res => {
           // mint immediately after deployment so user is not confused where their tokens are
-          //console.log(res, res.LSP7DigitalAsset.address);
-          if (res & (formValues.mintAmount > 0)) mintLSP7(res.LSP7DigitalAsset.address, formValues.mintAmount, currentAccount, LSP7MintableContract);
+          console.log(res, res.LSP7DigitalAsset.address);
+          if (res && (Number(formValues.mintAmount) > 0)) {
+          console.log("minting tokens");
+            mintLSP7(res.LSP7DigitalAsset.address, formValues.mintAmount, currentAccount, LSP7MintableContract);
+          
+          }
         })
       : swal("A profile must be connected before deploying a contract.");
   };
@@ -127,7 +131,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
     const createTokenContract = async () => {
       try {
         console.log("------------ deploying new LSP8 token contract ------------");
-        swal("Deploying your LSP8Mintable token contract", "You may click outside this window.", { button: false });
+        swal("Deploying your LSP8Mintable token contract...", "You may click outside this window.", { button: false });
 
         // const lspFactory = createLSPFactoryWindowInstance();
         const lspFactory = createLSPFactoryPrivateKeyInstance();
@@ -219,7 +223,7 @@ const CreateLSPForm = ({ formValues, setFormValues, initialDeployState, LSP }) =
   };
 
   return (
-    <FormContainer title={`Create ${LSP} Token`} subtitle={"Your token will be deployed on the blockchain"} mainOverride={"rounded-tl-none"}>
+    <FormContainer title={`Create ${LSP} Token`} subtitle={"Your token will be deployed on the blockchain (we pay for gas during the hackathon)"} mainOverride={"rounded-tl-none"}>
       <div className="mb-4">
         <div className={inputLabel}>Token Name (required)</div>
         <input
