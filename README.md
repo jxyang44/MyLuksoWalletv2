@@ -48,6 +48,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Link to video submission for the hackathon: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
+
 MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be the main platform new users visit when looking to interact with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, more Lukso learning and other sensible additions.
 
 At a high level, functionality includes:
@@ -58,8 +60,6 @@ At a high level, functionality includes:
   <li>LSP9 Vaults - Deploy a vault/URD, add a vault to a UP, manage vault permissions, manage allowed addresses, transfer assets in and out of a vault, apply metadata settings to a vault </li>
 </ul>
 A more comprehensive list of functions can be found in this document.
-
-Link to the required video submission: https://www.youtube.com/watch?v=nronIM7Lgxc&t=57s
 
 This readme file is intentionally sparse. More detailed documentation can be found at:
 <ul>  
@@ -172,7 +172,7 @@ Below are the driving forces in designing MyLuksoWallet.
 <li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
   <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
 <li><b>Originality & Creativity: How novel and innovative is the idea?</b></li>
-  <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. I'm not sure how original or creative that idea is, as opposed to just early mover advantage. In terms of innovation, there are perhaps two pieces that set MyLuksoWallet apart: 
+  <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. The overwhelming majority of the design decisions are original, including the idea of assigning LSPs to dematerialized real-world items (e.g. a wallet, coin, card, and more in the future). In terms of innovation, there are perhaps two pieces that set MyLuksoWallet apart: 
     <ol>
       <li>Visually representing the interaction between UPs and LSPs as a wallet could make it easier for newcomers to understand how the pieces work together. If users take to this idea, different aesthetic models could be implemented in the future depending on the users' preferences. </li>
     <li>I think the idea of standardizing common browser settings (e.g. color themes - [bg, border, shadow, text], fonts, other stylings) to profile/vault metadata has traction, because these elements can significantly increase the level of personalization and immersion with any DApp. This also further bolsters the concept of decentralization, since it dilutes some of the branding decisions from the DApp developer. Because it's early in the process, standardizing these could enable developers to integrate these settings into their DApps. This could be done as part of LSP3, or perhaps a new standard. </li></ol></li></ul>
