@@ -145,7 +145,7 @@ const MyAssets = () => {
                     <FormContainer
                       title={`Filter Assets`}
                       subtitle={`Filter the View Between LSP7, LSP8, Received and Issued Assets. Known Bug: Owned balance shows your UP balance even if you switch to a vault. For now, to properly view your balance, use the MLW DApp.`}
-                      mainOverride={"border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[25vw]"}
+                      mainOverride={"border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[35vw]"}
                       textOverride={"text-sky-400"}>
                       <div className="my-4">
                         <div className={inputLabel}>Selected UP or Vault Address</div>

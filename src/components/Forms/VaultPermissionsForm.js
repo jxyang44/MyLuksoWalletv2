@@ -31,7 +31,6 @@ const VaultPermissionsForm = () => {
   useEffect(() => {
     setLoaded(false);
     getAllowedAddresses(formValues.thirdPartyAddress).then(res => {
-      console.log(res);
       if (res) {
         setOriginalAllowedVaults(res);
         setAllowedVaults(res);
@@ -44,10 +43,15 @@ const VaultPermissionsForm = () => {
   }, [formValues.thirdPartyAddress]);
 
   const handleSubmit = () => {
-    swal("Please confirm:", `Grant ${formValues.thirdPartyAddress} permissions to the following vaults: ${allowedVaults}`, { button: true }).then(value => {
+    swal(
+      "Please confirm:",
+      `Grant ${formValues.thirdPartyAddress} allowed access to the following vaults: ${allowedVaults}? Please make sure that the address already has the CALL permission before confirming.`,
+      { button: true }
+    ).then(value => {
       if (value)
         setAllowedAddresses(formValues.thirdPartyAddress, allowedVaults).then(res => {
-          console.log(res);
+          if (res)
+            swal("Congratulations!", `${formValues.thirdPartyAddress} is now allowed to access the following vaults: ${allowedVaults}`, "success");
         });
     });
   };
