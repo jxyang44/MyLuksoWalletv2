@@ -115,7 +115,6 @@ A comprehensive list of currently implemented features is listed below:
       <li>Aesthetic Visualization of Vaults in the MyLuksoWallet DApp</li>
       <li>Deploy a Vault with a Universal Receiver Delegate</li>
       <li>Add the Vault to a Universal Profile (LSP10)</li>
-      <li>Remove a Vault from a Universal Profile (LSP10) (TO-DO)</li>
     </ul>
  
   <li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
@@ -150,7 +149,7 @@ A comprehensive list of currently implemented features is listed below:
       <li>Update Specific Permissions for a Permissioned Account on a Universal Profile</li>
       <li>Add a New Permissioned Account to a Vault</li>
       <li>Update Specific Permissions for a Permissioned Account on a Vault</li>
-      <li>Manage Allowed Addresses to a Vault (TO-DO) </li>
+      <li>Manage Allowed Addresses to a Vault</li>
     </ul>
 </ul>
 
