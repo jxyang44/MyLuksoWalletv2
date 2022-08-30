@@ -23,7 +23,7 @@
     ·
     <a href="https://myluksowallet-hackathon.netlify.app/getstarted">Website Tutorials</a>
     ·
-    <a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorials</a>
+    <a href="https://www.youtube.com/watch?v=Fcii2svh6KY&list=PLFBtxrByZXCQ195uSM921M6CGcAUf3k6O">Youtube Tutorials Playlist</a>
     ·
   </p>
 </div>
