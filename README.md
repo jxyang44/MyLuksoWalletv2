@@ -107,7 +107,7 @@ To get a local copy up and running follow these steps.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-A comprehensive list of currently implemented features is listed below:
+A comprehensive list of currently implemented features:
 
 <ul>
   <li><b>LSP9, LSP10 - Vaults</b></li>
