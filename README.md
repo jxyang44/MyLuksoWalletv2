@@ -48,7 +48,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be one of the main platforms new users visit when interacting with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, and other sensible additions.
+MyLuksoWallet is a front-end asset management tool. The ultimate goal is to be the main platform new users visit when looking to interact with Universal Profiles, LSP7 Tokens, LSP8 NFTs, and LSP9 Vaults. In the future, we also hope to incorporate a relay service, marketplace, more Lukso learning and other sensible additions.
 
 Functionality includes:
 <ul>
