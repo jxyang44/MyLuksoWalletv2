@@ -119,6 +119,7 @@ A comprehensive list of currently implemented features:
       <li>Aesthetic Visualization of Vaults in the MyLuksoWallet DApp</li>
       <li>Deploy a Vault with a Universal Receiver Delegate</li>
       <li>Add the Vault to a Universal Profile (LSP10)</li>
+      <li>Transfer a LSP7 or LSP8 Token In and Out of a Permissioned Vault</li>
     </ul>
  
   <li><b>LSP4, LSP7, LSP8 - Tokens</b></li>
@@ -128,7 +129,6 @@ A comprehensive list of currently implemented features:
       <li>Mint a  LSP7 or LSP8 Token to a Universal Profile</li>
       <li>Mint a  LSP7 or LSP8 Token to a Vault</li>
       <li>Transfer a LSP7 or LSP8 Token In and Out of a Universal Profile</li>
-      <li>Transfer a LSP7 or LSP8 Token In and Out of a Permissioned Vault</li>
     </ul>
 
   <li><b>LSP5/LSP12 - Received/Issued Assets</b></li>
