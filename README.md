@@ -153,7 +153,7 @@ A comprehensive list of currently implemented features:
       <li>Update Specific Permissions for a Permissioned Account on a Universal Profile</li>
       <li>Add a New Permissioned Account to a Vault</li>
       <li>Update Specific Permissions for a Permissioned Account on a Vault</li>
-      <li>Manage Allowed Addresses to a Vault</li>
+      <li>Manage Allowed Addresses for a User</li>
     </ul>
 </ul>
 
