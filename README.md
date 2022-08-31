@@ -60,7 +60,7 @@ At a high level, functionality includes:
   <li>LSP9 Vaults - Deploy a vault/URD, add a vault to a UP, manage vault permissions, manage allowed addresses, transfer assets in and out of a vault, apply metadata settings to a vault </li>
 </ul>
 A more comprehensive list of functions can be found in this document.
-
+<br />
 This readme file is intentionally sparse. More detailed documentation can be found at:
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from the Website</a></li>
