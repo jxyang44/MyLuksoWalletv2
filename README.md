@@ -171,7 +171,7 @@ Below are the driving forces in designing MyLuksoWallet.
 ### Criteria
 <ul>
 <li><b>Potential Contribution: How will this project contribute to the growth of the LUKSO ecosystem?</b></li>
-  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles and LSPs. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
+  <ul><li>This criterion is the core driver behind MyLuksoWallet. The goal is for the platform to be user-friendly so newcomers to Lukso can instantly interact with Universal Profiles, digital assets and vaults. The eventual plan is not only to provide services around LSPs, but also to help share technical knowledge in a non-technical way via tutorials, instructions, articles, social media, etc. </li></ul>
 <li><b>Originality & Creativity: How novel and innovative is the idea?</b></li>
   <ul><li>MyLuksoWallet's initial directive is to be one of the first-to-market platforms for allowing the community to interact with Universal Profiles and LSPs. The overwhelming majority of the design decisions are original, including the idea of assigning LSPs to dematerialized real-world items (e.g. a wallet, coin, card, and more in the future). Inspiration was also drawn from universal.page.</li>
     <li>In terms of innovation, there are perhaps two pieces that set MyLuksoWallet apart: 
