@@ -61,6 +61,7 @@ At a high level, functionality includes:
 </ul>
 A more comprehensive list of functions can be found in this document.
 <br />
+<br />
 This readme file is intentionally sparse. More detailed documentation can be found at:
 <ul>  
   <li><a href="https://myluksowallet-hackathon.netlify.app/getstarted">Tutorials from the Website</a></li>
