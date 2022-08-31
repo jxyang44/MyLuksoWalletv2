@@ -194,7 +194,7 @@ Were the criteria listed in the challenge followed?
 <li>Should display owned assets using LSP5 Received Assets metadata and also created assets using LSP12 Issued Assets metadata.</li>
   <ul><li>[✔️] There is a toggle in the MLW DApp to switch between received and issued assets. There is also a button to switch between these on the "My Assets" page.</li></ul>
 <li>The wallet should contain a vault manager based on LSP9 - Vaults to create vaults and move assets between vaults, which help to separate tokens and NFTs for better separation or vaults holding funds or information related to permissioned dApps.</li>
-  <ul><li>[✔️] In the MLW Dapp, the user may transfer assets in and out of vaults using a drag and drop feature. As noted earlier, the user must paste in their private key to transfer assets OUT of a vault. This should be corrected in the future. </li></ul>
+  <ul><li>[✔️] In the MLW DApp, the user may transfer assets in and out of vaults using a drag and drop feature. As noted earlier, the user must paste in their private key to transfer assets OUT of a vault. This should be corrected in the future. </li></ul>
 </ul>
 
 ### Pending Implementation
