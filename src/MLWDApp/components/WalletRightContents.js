@@ -136,7 +136,7 @@ const WalletRightContents = ({ walletAddress, walletMetadata, LSP, ownedAsset, s
           {LSP} Assets for {walletMetadata?.vaultName} <Address address={walletAddress} left={6} right={6} />
         </div>
         <div className="h-0.5 w-full rounded-lg bg-gradient-to-r from-black via-white to-black"></div>
-        <div className="flex flex-row xl:h-[15h] h-[14vh] my-1 gap-2">
+        <div className="flex flex-row xl:h-[15vh] h-[14vh] my-1 gap-2">
           <div className="flex flex-col w-1/2 text-sm border-2 border-slate-200 rounded-lg p-1 bg-slate-700">
             <div className="font-semibold border-b-[1px] border-slate-200 mb-1 xl:text-base text-xs flex flex-row justify-between">
               <div>Addresses</div>

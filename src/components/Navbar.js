@@ -7,7 +7,7 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 import { useStateContext } from "../contexts/StateContext";
 import { useProfileContext } from "../contexts/ProfileContext";
-import { UniversalProfile, Button, Logo } from "./";
+import { UniversalProfile, ButtonColor, Logo } from "./";
 import { IPFS_GATEWAY } from "../utils/luksoConfigs";
 import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
@@ -66,7 +66,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center h-14 mb-4 relative">
+    <div className="flex justify-between items-center h-14 relative">
       <div onClick={() => setActiveMenu(curr => !curr)} className="relative rounded p-3 text-slate-300 cursor-pointer hover:text-white mr-44">
         <AiOutlineMenu />
       </div>
@@ -75,7 +75,7 @@ const Navbar = () => {
           <Logo customFunc={""} customProps={"hover:text-white"} />
         </div>
       )}
-      <div className="flex flex-col items-end gap-1 mt-6 mb-1 mr-1">
+      <div className="flex flex-col items-end gap-1 mt-1 mb-1 mr-1">
         {isProfileLoaded ? (
           <>
             <div
@@ -96,17 +96,17 @@ const Navbar = () => {
                 {profileJSONMetadata.name} {activeProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
               </p>
             </div>
-            <button
+            {/* <button
               className={`text-white xl:text-sm text-xs font-semibold  w-fit border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center ${
                 useRelay ? "bg-green-500 contrast-100" : "bg-gray-300 contrast-20"
               }`}
               onClick={handleRelay}>
               Use Relay: {useRelay ? "On" : "Off"}
-            </button>
+            </button> */}
           </>
         ) : (
           <div className="flex flex-col gap-1 items-end">
-            <Button buttonText="Connect Profile" buttonFunc={() => connectProfile()} />
+            <ButtonColor buttonText="Connect Profile" buttonFunc={() => connectProfile()} customStyle ={"bg-blue-500 hover:bg-blue-700"} />
             <div className="text-white xl:text-sm text-xs font-semibold flex flex-col gap-1 w-fit">
               <button //manual log-in with public key
                 className="border border-white px-3 hover:text-slate-800 hover:bg-slate-200 rounded-xl opacity-80 flex flex-row items-center justify-center"

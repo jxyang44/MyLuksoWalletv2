@@ -1,7 +1,7 @@
 //form to set MLW profile settings (color, text color, theme)
 
 import React, { useEffect } from "react";
-import { ButtonShadow, UpdateProfile, FormContainer } from "../../components";
+import { ButtonColor, UpdateProfile, FormContainer } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
 
@@ -99,7 +99,7 @@ const ProfileThemesForm = () => {
       </div>
 
       <div className="flex items-center justify-between mt-8">
-        <ButtonShadow buttonText={"Reset"} buttonFunc={setToDefault} buttonColor={"bg-gray-700"} buttonTextColor={"white"} />
+        <ButtonColor buttonText={"Reset"} buttonFunc={setToDefault} />
         <UpdateProfile />
       </div>
     </FormContainer>

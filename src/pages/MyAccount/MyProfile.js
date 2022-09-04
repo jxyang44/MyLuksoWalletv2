@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ProfileThemesForm, FormTabs, ManagePermissionsForm } from "../../components";
-
+import { useStateContext } from "../../contexts/StateContext";
 const forms = [
   { name: "Profile Themes", border: "border-sky-400 shadow-sky-400 shadow-sm" },
   { name: "Manage Permissions", border: "border-green-500 shadow-green-500" },
@@ -10,14 +10,14 @@ const forms = [
 
 const MyProfile = () => {
   const [showForm, setShowForm] = useState(forms[0].name);
-
+  const { activeProfile } = useStateContext();
   return (
     <div className="flex flex-row mx-32 mt-8">
-      <div className="flex flex-col w-full items-center">
+      <div className={`flex flex-col w-full items-center`}>
         <div className="text-sky-500 font-semibold text-4xl">Universal Profile Manager</div>
         <div className="text-2xl mb-4 text-white">Universal Profile Settings</div>
 
-        <div className="mt-4">
+        <div className={`mt-4 ${activeProfile ? "self-start" : "self-center"}`}>
           <FormTabs forms={forms} showForm={showForm} setShowForm={setShowForm} />
           {showForm === "Profile Themes" && <ProfileThemesForm />}
           {showForm === "Manage Permissions" && <ManagePermissionsForm />}

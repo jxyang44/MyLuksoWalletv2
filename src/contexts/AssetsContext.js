@@ -70,7 +70,7 @@ export const AssetsProvider = ({ children }) => {
       const contractInstance = new web3.eth.Contract(LSP4Contract.abi, assetAddress);
       return await contractInstance.methods.supportsInterface(INTERFACE_IDS[interfaceType]).call();
     } catch (error) {
-      return console.log("Contract could not be checked for interface");
+      //return console.log("Contract could not be checked for interface");
     }
   };
 
@@ -100,7 +100,7 @@ export const AssetsProvider = ({ children }) => {
     try {
       return decodedAssetMetadata.value.url.replace("ipfs://", IPFS_GATEWAY);
     } catch (error) {
-      console.log("URL could not be fetched");
+      //console.log("URL could not be fetched");
     }
   }
 
@@ -111,21 +111,21 @@ export const AssetsProvider = ({ children }) => {
       const responseJSON = await response.json();
       return responseJSON.LSP4Metadata;
     } catch (error) {
-      console.log("JSON data of IPFS link could not be fetched");
+      //console.log("Metadata link could not be fetched. Does this asset have metadata?");
     }
   }
 
   // @desc Used to retrieve the metadata for assetAddress
-  // @param assetAddress Smart contract address of the asset
+  // @param assetAddress smart contract address of the asset
   // @param metaDataLink IPFS URL of the metadata
-  // @returns Promise json of asset metadata
+  // @returns a promise resolving to a json of asset metadata
   const getAssetMetadata = async assetAddress => {
     try {
       const decodedData = await getAssetByKey(assetAddress, LSP4Schema[3].key);
       const metaDataLink = await getMetaDataLink(decodedData);
       return await fetchAssetMetadata(metaDataLink);
     } catch (error) {
-      return console.log("Metadata of an asset could not be fetched");
+      return console.log(`Metadata link of ${assetAddress} could not be fetched. Does this asset have metadata?`);
     }
   };
 
@@ -271,7 +271,7 @@ export const AssetsProvider = ({ children }) => {
       const web3 = web3Window;
       const assetContract = new web3.eth.Contract(contract.abi, assetAddress);
       if (fromVault) {
-        console.log("transferring from vault")
+        console.log("transferring from vault");
         const transferABI = assetContract.methods.transfer(transferFromAddress, transferToAddress, secondParam, false, "0x").encodeABI();
 
         const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
@@ -327,6 +327,35 @@ export const AssetsProvider = ({ children }) => {
     } catch (error) {
       return console.log("Balance of an asset could not be fetched");
     }
+  };
+
+  // @desc transfers ownership of the contract to newAddress
+  // @param assetAddress smart contract address of the asset
+  // @param newAddress new address to set as owner
+  // @returns promise resolving to transferOwnership transaction
+  const transferOwnership = async (assetAddress, newAddress) => {
+    if (currentAccount === "") return swal("Please connect to a Universal Profile.", "", "warning");
+    if (!assetAddress) return swal("The contract address for this asset could not be located.", "", "warning");
+    //check if currentAddress is = owner
+
+    const transferOwnershipFunction = async (assetAddress, newAddress) => {
+      try {
+        console.log(assetAddress, newAddress, currentAccount);
+        const assetContract = new web3.eth.Contract(LSP7Contract.abi, assetAddress);
+        const owner = await assetContract.methods.owner().call();
+        if (owner !== currentAccount) return swal("You are not the owner of this smart contract.", "You must be the owner of the contract to transfer ownership.", "error");
+        return await assetContract.methods.transferOwnership(newAddress).send({ from: currentAccount, gasLimit: 300_000 });
+      } catch (error) {
+        return console.log("Ownership could not be transferred", error);
+      }
+    };
+
+    transferOwnershipFunction(assetAddress, newAddress).then(curr => {
+      if (curr) {
+        swal("Congratulations!", `Ownership of contract [${assetAddress}] was transferred from ${currentAccount} to ${newAddress}.`, "success");
+        console.log(`Congratulations! Ownership of contract [${assetAddress}] was transferred from ${currentAccount} to ${newAddress}.`);
+      }
+    });
   };
 
   //  -----------------------------------------------  //
@@ -399,6 +428,7 @@ export const AssetsProvider = ({ children }) => {
         transferLSP8,
         getTokenOwnerOf,
         getTokenIdsOf,
+        transferOwnership,
       }}>
       {children}
     </AssetsContext.Provider>

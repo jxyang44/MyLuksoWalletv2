@@ -29,7 +29,7 @@ const QuoteBox = ({title,quote,source,image}) => {
       </div>
 
       <div ref={imgRef} className={`flex justify-center items-center w-1/2 perspective-l ${persAnimation && "perspective-l-animation"}`}>
-        <img className="py-10 px-2 bg-gradient-to-br from-sky-400 via-sky-200 rounded-lg bg-opacity-40" src={image} alt="Lukso Logo" />
+        <img className="py-10 px-2 bg-gradient-to-br from-sky-400 via-sky-200 rounded-lg bg-opacity-40" src={image} alt="Lukso Image" />
       </div>
     </div>
   );

@@ -14,13 +14,13 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center text-white gap-36">
+      <div className="flex flex-col items-center text-white gap-36 pb-32">
         <Welcome />
         <DigitalIdentity />
         <WhatisMyLuksoWallet />
         <AssetCards />
-        <Roadmap />
         <GetStarted />
+        <Roadmap />
         <AboutUs />
       </div>
     </>

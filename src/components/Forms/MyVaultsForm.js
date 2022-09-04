@@ -1,5 +1,5 @@
 //updates vault metadata (stored on UP)
-
+//TO-DO only update on "upload edits" - currently uploading pending edits on every change
 import React, { useState, useEffect } from "react";
 import { FormContainer, UpdateProfile } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
@@ -16,7 +16,7 @@ const initialFormState = {
 };
 
 const ManagePermissionsForm = () => {
-  const { currentAccount, accountAddresses, profileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
+  const { currentAccount, accountAddresses, profileJSONMetadata, setPendingProfileJSONMetadata} = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //initial form input values
 
 
@@ -28,7 +28,7 @@ const ManagePermissionsForm = () => {
 
   useEffect(() => {
     const vaultMetadata = { [`MLW_Vault_${formValues.vaultAddress}`]: { ...formValues } };
-    formValues.vaultAddress && setPendingProfileJSONMetadata(curr => ({ ...curr, ...vaultMetadata }));
+    formValues.vaultAddress && setPendingProfileJSONMetadata(curr => ({ ...curr, ...vaultMetadata })); 
   }, [formValues]);
 
   //updates form values with UP metadata
@@ -37,9 +37,9 @@ const ManagePermissionsForm = () => {
     const vaultKey = `MLW_Vault_${formValues.vaultAddress}`;
     setFormValues(curr => ({
       ...curr,
-      vaultName: profileJSONMetadata[vaultKey]?.vaultName ?? "",
-      vaultDescription: profileJSONMetadata[vaultKey]?.vaultDescription ?? "",
-      vaultColor: profileJSONMetadata[vaultKey]?.vaultColor ?? "",
+      vaultName: profileJSONMetadata[vaultKey]?.vaultName,
+      vaultDescription: profileJSONMetadata[vaultKey]?.vaultDescription,
+      vaultColor: profileJSONMetadata[vaultKey]?.vaultColor,
     }));
   }, [formValues.vaultAddress]);
 
@@ -64,7 +64,7 @@ const ManagePermissionsForm = () => {
                 {accountAddresses.vaults.map(vault => {
                   return (
                     <option key={vault} value={vault}>
-                      Vault - {vault}
+                       {profileJSONMetadata["MLW_Vault_" + vault]?.vaultName ?? "Unnamed Vault"} - {vault}
                     </option>
                   );
                 })}

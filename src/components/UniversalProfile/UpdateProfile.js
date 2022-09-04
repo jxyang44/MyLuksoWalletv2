@@ -9,7 +9,7 @@ import {
   IPFS_GATEWAY,
   UniversalProfileContract,
 } from "../../utils/luksoConfigs";
-import { ButtonShadow } from "..";
+import { ButtonShadow,ButtonColor } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
 
@@ -124,7 +124,7 @@ const UpdateProfile = () => {
   };
 
   return (
-  <ButtonShadow buttonText={"Upload Edits"} buttonFunc={handleUploadEdits} buttonColor={"bg-green-500"} buttonTextColor={"text-green-800"} />
+  <ButtonColor buttonText={"Upload Edits"} buttonFunc={handleUploadEdits}   customStyle={"bg-green-500 hover:bg-green-700"} />
   );
 };
 

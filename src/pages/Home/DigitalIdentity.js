@@ -13,7 +13,7 @@ const DigitalIdentity = () => {
     
     return (
     <div className = "flex flex-row justify-between h-[calc(100vmin-100px)] w-full gap-10 relative px-32" id="digitalidentity">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-600 to-black rounded-lg blur-xl opacity-25 -z-5"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-sky-500 to-black rounded-lg blur-xl opacity-25 -z-5"></div>
         <div className='flex flex-col justify-center gap-2 w-1/2 z-10'>
             <div className="text-sky-500 xl:text-5xl text-4xl font-semibold">
             Digital Identity

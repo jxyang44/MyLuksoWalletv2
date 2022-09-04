@@ -21,8 +21,8 @@ const WalletProfileCard = () => {
                 }>
                 {pendingProfileJSONMetadata.name}
               </p>
-              <div className="xl:text-sm text-xs overflow-auto xl:max-h-[22vh] lg:max-h-[18vh] max-h-[14vh] pr-1">  
-                <div className="flex flex-col xl:gap-4 gap-1">
+              <div className="xl:text-sm text-xs overflow-auto xl:max-h-[22vh] lg:max-h-[18vh] max-h-[14vh] mr-1">  
+                <div className="flex flex-col xl:gap-1 gap-0.5">
                   <LYXBalanceFuncs />
                   <span className="flex gap-1">
                     UP Address: <Address address={currentAccount} left={6} right={6} />

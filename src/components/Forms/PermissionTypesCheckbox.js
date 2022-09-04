@@ -24,7 +24,7 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 
 const PermissionTypesCheckbox = ({ addressFrom, addressTo, permissions, setPermissions }) => {
   const [loaded, setLoaded] = useState(false);
-  const { getPermissionsOfAddresses } = useProfileContext();
+  const { getPermissionsOfAddresses, profileJSONMetadata} = useProfileContext();
   const [originalPermissions, setOriginalPermissions] = useState();
   // {originalPermissions[key] === permissions[key] && "DEFAULT"}
   useEffect(() => {
@@ -47,7 +47,7 @@ const PermissionTypesCheckbox = ({ addressFrom, addressTo, permissions, setPermi
           <div className=" pb-1 mb-5 border-b-4 border-white">
             <div className={`font-semibold text-2xl text-green-500`}>Permissions</div>
             <div className="text-white flex flex-row gap-1">
-              Permissions for <Address address={addressTo} left={10} right={6} /> on <Address address={addressFrom} left={10} right={6} />.
+              Permissions for <Address address={addressTo} left={4} right={6} /> on {profileJSONMetadata["MLW_Vault_" + addressFrom]?.vaultName ?? "Unnamed Vault"} - <Address address={addressFrom} left={4} right={6} />.
             </div>
           </div>
           <div className=" grid grid-cols-2">

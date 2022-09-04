@@ -15,7 +15,7 @@ const initialFormState = {
 };
 
 const ManagePermissionsForm = () => {
-  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission } = useProfileContext();
+  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission, profileJSONMetadata } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [newAddressSelection, setNewAddressSelection] = useState(false); //true if "New Address" is selected; false if "Existing Address" is selected
   const [newAddressMessage, setNewAddressMessage] = useState(""); //message to display
@@ -124,8 +124,8 @@ const ManagePermissionsForm = () => {
                 {accountAddresses.vaults.map((vault,i) => {
                   return (
                     <option key={vault+i} value={vault}>
-                      Vault - {vault}
-                    </option> //TO-DO add vault name to selection for clarity
+                      {profileJSONMetadata["MLW_Vault_" + vault]?.vaultName ?? "Unnamed Vault"} - {vault}
+                    </option>
                   );
                 })}
               </select>

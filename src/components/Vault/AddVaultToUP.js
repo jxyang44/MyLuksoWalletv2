@@ -12,7 +12,6 @@ const AddVaultToUP = ({ recentVaultAddress }) => {
 
   const handleAddVault = () => {
     if (!currentAccount) return swal("You are not connected to an account.");
-
     swal(
       `Please enter the address of the vault to add to your profile.`,
       `Paste this address into the box below if you are unsure: \n${localStorage.getItem("recentLSP9Address")}`,
@@ -24,7 +23,7 @@ const AddVaultToUP = ({ recentVaultAddress }) => {
       .then(value => {
         if (value) {
           isVault(value).then(res => {
-            if (!res) return swal(`${value} does not support the vault interface.`,"", "warning");
+            if (!res) return swal(`${value} does not support the vault interface.`, "", "warning");
             addVault(value).then(res => {
               if (res) {
                 swal(
@@ -32,9 +31,7 @@ const AddVaultToUP = ({ recentVaultAddress }) => {
                   "Please wait a few seconds and refresh the page if the vault does not show up in your account.",
                   "success"
                 );
-                setTimeout(() => {
-                  fetchAddresses(currentAccount); //adds vault to state
-                }, 5000);
+                fetchAddresses(currentAccount); //adds vault to state
               }
             });
           });

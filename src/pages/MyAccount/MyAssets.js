@@ -81,7 +81,7 @@ const MyAssets = () => {
     dotsClass: "assets-carousel-dots",
     infinite: true,
     speed: 500,
-    swipe: true,
+    swipe: false,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
@@ -112,7 +112,6 @@ const MyAssets = () => {
   };
 
   const assetLoad = async walletAddress => {
-    console.log(walletAddress)
     const profile = createErc725Instance(LSP3Schema, walletAddress);
     let result1, result2;
     if (showReceivedAssets) result1 = await profile.fetchData("LSP5ReceivedAssets[]");
@@ -218,13 +217,13 @@ const MyAssets = () => {
                         return (
                           <>
                             {asset.LSP_7_8 === "LSP7" && (
-                              <div className="px-4 my-20">
-                                <LSP7TokenCoin key={index} assetAddress={asset.address} />
+                              <div className="px-4 my-20" key={asset+index+"LSP7"}>
+                                <LSP7TokenCoin assetAddress={asset.address} />
                               </div>
                             )}
                             {asset.LSP_7_8 === "LSP8" && (
-                              <div className="px-4 my-20">
-                                <LSP8NFTCard key={index} assetAddress={asset.address} />
+                              <div className="px-4 my-20" key={asset+index+"LSP8"}>
+                                <LSP8NFTCard assetAddress={asset.address} />
                               </div>
                             )}
                           </>

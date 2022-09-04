@@ -31,8 +31,9 @@ contains CSS for the MyLuksoWalletComponent
   flex-direction: row;
   justify-content: flex-start;
   align-items: baseline;
-  border: white solid 3px;
-  box-shadow: 0px 0px 5px 0px white;
+  border: theme("colors.sky.500") solid 3px;
+  box-shadow: 0px 0px 5px 0px theme("colors.sky.500");
+  background-color: theme("colors.slate.800");
   border-radius: 14px;
   width: fit-content;
   padding: 10px 40px 6px 40px;
@@ -42,17 +43,19 @@ contains CSS for the MyLuksoWalletComponent
   width: fit-content;
   height: fit-content;
   cursor: pointer;
+  filter: contrast(0.1);
 }
 
 .slick-dots li div:hover,
 .slick-dots li div:focus {
-  color: theme("colors.sky.500");
   background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
 }
 
 .slick-dots li.slick-active {
   box-shadow: #4158d0 0px 0px 0px 2px;
   color: theme("colors.sky.500");
+  filter: contrast(1);
+  font-weight: bolder;
 }
 
 

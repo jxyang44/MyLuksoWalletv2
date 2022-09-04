@@ -98,7 +98,7 @@ export const ProfileProvider = ({ children }) => {
   };
 
   //@desc calls the fetchAddresses function above and sets the state, so the application doesn't need to query the blockchain anytime the information is needed
-  //@desc this is only be used for the connected UP
+  //@desc this is only used for the connected UP
   //@param UPaddress should always equal currentAccount
   const setAccountAddressesFunction = UPaddress => {
     fetchAddresses(UPaddress).then(res =>
@@ -505,6 +505,9 @@ export const ProfileProvider = ({ children }) => {
         swal("Something went wrong.", "Please try again later.", "warning");
       });
   };
+
+
+
 
   return (
     <ProfileContext.Provider

@@ -10,6 +10,7 @@ import {
   MyMenuItem,
   Loading,
   ButtonShadow,
+  ButtonColor,
   UpdateProfile,
   DisconnectProfile,
   UploadProfileImage,
@@ -128,7 +129,7 @@ const UniversalProfile = () => {
           <div className="flex gap-3 items-center mt-6 border-color border-b-1 pb-6 px-2 z-10">
             <div
               className="w-1/3 flex justify-center items-center border-4 rounded-full content-square shadow-md aspect-square bg-gradient-to-tr from-pink-200 to-pink-100 hover:scale-105"
-              style={{ borderColor: UPTextColor ?? "#DDDDDD", boxShadow: `0px 4px 6px -1px ${UPTextColor?? "#000000"}` }}>
+              style={{ borderColor: UPTextColor ?? "#DDDDDD", boxShadow: `0px 4px 6px -1px ${UPTextColor ?? "#000000"}` }}>
               {profileJSONMetadata.profileImage.length > 0 ? (
                 <UploadProfileImage
                   id="profile"
@@ -150,12 +151,12 @@ const UniversalProfile = () => {
                   inputClassName="bg-success"
                   value={pendingProfileJSONMetadata.name}
                   onChange={e => setPendingProfileJSONMetadata(current => ({ ...current, name: e.target.value }))}
-                  style={{ padding: "0px", margin: "0x", fontSize: "1.75rem", lineHeight: "2.25rem", fontWeight: "600" }}
+                  style={{ padding: "0px", margin: "0x", fontSize: "1.5rem", lineHeight: "2rem", fontWeight: "600" }}
                 />
               </div>
               <div
                 className=" border-blue-400 rounded-b border-2 px-2 text-md bg-white text-black border-t-0"
-                style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor?? "#000000"}` }}>
+                style={{ boxShadow: `0px 4px 6px -1px ${UPTextColor ?? "#000000"}` }}>
                 <EditTextarea
                   rows={3}
                   defaultValue={profileJSONMetadata.description}
@@ -179,18 +180,13 @@ const UniversalProfile = () => {
           </div>
 
           {editMode ? (
-            <div className="flex flex-row justify-between self-end w-full gap-3">
+            <div className="grid grid-cols-3 gap-4 mt-2">
               <UpdateProfile />
-              <ButtonShadow
-                buttonText={"Discard Edits"}
-                buttonFunc={handleDiscardEdits}
-                buttonColor={"bg-red-500"}
-                buttonTextColor={"text-red-800"}
-              />
+              <ButtonColor buttonText={"Discard Edits"} buttonFunc={handleDiscardEdits} customStyle={"bg-red-500 hover:bg-red-700"} />
               <DisconnectProfile />
             </div>
           ) : (
-            <div className="flex flex-row justify-end self-end w-full gap-3 z-50">
+            <div className="flex flex-row justify-end self-end w-full z-50 mt-2">
               <DisconnectProfile />
             </div>
           )}

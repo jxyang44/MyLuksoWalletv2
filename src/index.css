@@ -34,7 +34,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border:  theme("colors.sky.500") solid 2px;
+  border: theme("colors.sky.500") solid 2px;
   box-shadow: 0 0 3px 1px theme("colors.sky.400");
   border-radius: 10px;
   width: fit-content;
@@ -141,6 +141,13 @@ body {
 }
 
 /*----- image perspective for home page images -----*/
+
+.perspective-vault {
+  transform: perspective(800px) rotateY(-25deg);
+  opacity: 1;
+}
+
+
 .perspective-l {
   transform: perspective(800px) rotateY(25deg) scale(0.9) rotateX(10deg);
   filter: blur(2px);

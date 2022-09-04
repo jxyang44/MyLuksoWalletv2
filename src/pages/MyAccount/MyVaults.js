@@ -1,12 +1,12 @@
 //component for the "My Vaults" page
 
 import React, { useState } from "react";
-import { MyVaultsForm, FormTabs, VaultPermissionsForm, RemoveVaultForm, ManagePermissionsForm } from "../../components";
+import { MyVaultsForm, FormTabs, VaultPermissionsForm, EditVaultOwnerForm, ManagePermissionsForm } from "../../components";
 
 const forms = [
   { name: "Metadata", border: "border-sky-400 shadow-sky-400" },
   { name: "Allowed Addresses", border: "border-violet-500 shadow-violet-500" },
-  { name: "Remove Vault", border: "border-orange-500 shadow-orange-500" },
+  { name: "Edit Vault Owner", border: "border-orange-500 shadow-orange-500" },
   { name: "Manage Permissions", border: "border-green-500 shadow-green-500" },
 
 ];
@@ -22,7 +22,7 @@ const MyProfile = () => {
         <FormTabs forms={forms} showForm={showForm} setShowForm={setShowForm} />
         {showForm === "Metadata" && <MyVaultsForm />}
         {showForm === "Allowed Addresses" && <VaultPermissionsForm />}
-        {showForm === "Remove Vault" && <RemoveVaultForm />}
+        {showForm === "Edit Vault Owner" && <EditVaultOwnerForm />}
         {showForm === "Manage Permissions" && <ManagePermissionsForm />}
       </div>
 

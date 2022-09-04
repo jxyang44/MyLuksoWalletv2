@@ -7,6 +7,7 @@ export { default as UniversalProfile } from "./UniversalProfile"; //universal pr
 export { default as Button } from "./Basics/Button"; //button type 1
 export { default as ButtonClean } from "./Basics/ButtonClean"; //button type 2
 export { default as ButtonShadow } from "./Basics/ButtonShadow"; //button type 3
+export { default as ButtonColor } from "./Basics/ButtonColor"; //button type 3
 export { default as Banner } from "./Basics/Banner"; //banner for top of some pages
 export { default as Loading } from "./Basics/Loading"; //loading animation
 export { default as Footer } from "./Basics/Footer"; //footer
@@ -32,7 +33,7 @@ export { default as CreateLSPForm } from "./Forms/CreateLSPForm"; //deploy contr
 export { default as MintLSPForm } from "./Forms/MintLSPForm"; //mint form for LSPs 7 and 8
 export { default as MyVaultsForm } from "./Forms/MyVaultsForm"; //vault metadata
 export { default as VaultPermissionsForm } from "./Forms/VaultPermissionsForm"; //manages allowed addresses
-export { default as RemoveVaultForm } from "./Forms/RemoveVaultForm"; //removes a vault from LSP10
+export { default as EditVaultOwnerForm } from "./Forms/EditVaultOwnerForm"; //renounce/transfer ownership
 
 //large LSP asset visuals
 export { default as LSP7TokenCoin } from "./LSPAssetVisuals/LSP7TokenCoin"; //large coin visual for LSP7

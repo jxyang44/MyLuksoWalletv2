@@ -14,7 +14,7 @@ const initialFormState = {
 };
 
 const VaultPermissionsForm = () => {
-  const { currentAccount, accountAddresses, getAllowedAddresses, setAllowedAddresses } = useProfileContext();
+  const { currentAccount, accountAddresses, getAllowedAddresses, setAllowedAddresses, profileJSONMetadata } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [allVaults, setAllVaults] = useState(accountAddresses.vaults); //ReceivedVaults[] owned by currentAccount
   const [originalAllowedVaults, setOriginalAllowedVaults] = useState([]); //ReceivedVaults[] owned by currentAccount - before submitting changes
@@ -98,18 +98,18 @@ const VaultPermissionsForm = () => {
               <div className={inputLabel}>Vaults to Permission (required)</div>
               {loaded ? (
                 <div className="text-white">
-                  {allVaults.map((key, index) => {
+                  {allVaults.map((vault, index) => {
                     return (
                       <div className="flex flex-row items-center gap-1" key={index}>
                         <input
                           type="checkbox"
-                          value={allowedVaults.includes(key)}
-                          checked={allowedVaults.includes(key)}
-                          onChange={() => handleCheck(key)}
+                          value={allowedVaults.includes(vault)}
+                          checked={allowedVaults.includes(vault)}
+                          onChange={() => handleCheck(vault)}
                         />
-                        {key}{" "}
-                        {allowedVaults.includes(key) !== originalAllowedVaults.includes(key) && (
-                          <div className="font-semibold text-red-500"> - MODIFIED</div>
+                        {profileJSONMetadata["MLW_Vault_" + vault]?.vaultName ?? "Unnamed Vault"} - {vault}
+                        {allowedVaults.includes(vault) !== originalAllowedVaults.includes(vault) && (
+                          <div className="font-semibold text-red-500"> MODIFIED</div>
                         )}
                       </div>
                     );

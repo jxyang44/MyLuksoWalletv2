@@ -2,7 +2,7 @@
 
 import React from "react";
 import swal from "sweetalert";
-import { ButtonShadow } from "..";
+import { ButtonColor } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
 
@@ -34,7 +34,7 @@ const DisconnectProfile = () => {
     }
   };
   return (
-    <ButtonShadow buttonText={"Disconnect Profile"} buttonFunc={handleDisconnect} buttonColor={"bg-slate-500"} buttonTextColor={"text-red-500"} />
+    <ButtonColor buttonText={"Disconnect Profile"} buttonFunc={handleDisconnect}  />
   );
 };
 

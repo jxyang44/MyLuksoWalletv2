@@ -7,18 +7,18 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 import { AiOutlineWallet } from "react-icons/ai";
 import { useDrop } from "react-dnd";
 import { BsFillPersonLinesFill } from "react-icons/bs";
-
+import { IPFS_GATEWAY } from "../../utils/luksoConfigs";
 const WalletSliderIcon = ({ index }) => {
-  const { accountAddresses, currentAccount } = useProfileContext();
+  const { accountAddresses, currentAccount, pendingProfileJSONMetadata } = useProfileContext();
 
   //styling for drag and drop
   function selectStyle(isActive, canDrop) {
     if (isActive) {
       //dragged item is placed on top of a valid drop box
-      return "bg-green-500 scale-110 border-4 border-white rounded-lg";
+      return "scale-110 border-4 border-white rounded-lg";
     } else if (canDrop) {
       //highlights all droppable components for the dragged item
-      return "bg-sky-500 rounded-lg border-4 border-white";
+      return "rounded-lg border-2 border-white";
     } else {
       return "";
     }
@@ -45,14 +45,23 @@ const WalletSliderIcon = ({ index }) => {
     <div ref={drop} className={`flex flex-col xl:text-[6rem] md:text-[4rem] text-[1rem] text-white items-center ${style}`}>
       {index === 0 ? ( //if index is 0 show universal profile
         <>
-          <BsFillPersonLinesFill />
-          <div className="xl:text-base text-xs -translate-y-1 text-center">Universal Profile</div>
+          {pendingProfileJSONMetadata.profileImage.length > 0 ? (
+            <img className="rounded border-2 xl:w-24 xl:h-24 md:w-16 md:h-16 w-4 h-4 p-1 scale-90" style={{ borderColor: `${pendingProfileJSONMetadata.MLWUPColor ?? ""}` }} src={pendingProfileJSONMetadata.profileImage[0].url?.replace("ipfs://", IPFS_GATEWAY)}></img>
+          ) : (
+            <div style={{ color: `${pendingProfileJSONMetadata.MLWUPColor ?? ""}` }}>
+              <BsFillPersonLinesFill />
+            </div>
+          )}
+          <div className="xl:text-base text-xs -translate-y-1 text-center">Profile</div>
         </>
-      ) : ( //otherwise show vault
+      ) : (
+        //otherwise show vault
         <>
-          <AiOutlineWallet />
-          <div className="xl:text-base text-xs -translate-y-1 text-center">
-            Vault {accountAddresses.vaults[index - 1] && accountAddresses.vaults[index - 1].substring(0, 8)}...
+          <div style={{ color: `${pendingProfileJSONMetadata["MLW_Vault_" + accountAddresses.vaults[index - 1]]?.vaultColor ?? ""}` }}>
+            <AiOutlineWallet />
+          </div>
+          <div className="xl:text-base text-xs -translate-y-1 text-center contrast">
+            {pendingProfileJSONMetadata["MLW_Vault_" + accountAddresses.vaults[index - 1]]?.vaultName ?? accountAddresses?.vaults[index - 1].substring(0, 8) +"..." ?? "[Invalid Vault]"}
           </div>
         </>
       )}

@@ -39,7 +39,7 @@ const information = {
 
 const AboutLukso = () => {
   return (
-    <>
+    <div className="pb-32">
       <Banner
         colorFrom={"from-sky-500"}
         title={`About Lukso`}
@@ -82,7 +82,7 @@ const AboutLukso = () => {
         </div>
         <Resources />
       </div>
-    </>
+    </div>
   );
 };
 

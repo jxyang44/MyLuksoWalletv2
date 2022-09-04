@@ -4,12 +4,13 @@ import React from "react";
 import { Banner, StepLeft } from "../components";
 import { useProfileContext } from "../contexts/ProfileContext";
 import { useNavigate } from "react-router-dom";
+import stepsBg from "../assets/Home/stepsbg.png";
 const GetStarted = () => {
   const navigate = useNavigate();
   const { connectProfile } = useProfileContext();
 
   return (
-    <div>
+    <div className="bg-fixed bg-blend-multiply bg-slate-800" style={{ backgroundImage: `url(${stepsBg})` }}>
       <Banner
         colorFrom={"from-sky-500"}
         title={"Get Started with MyLuksoWallet"}
@@ -17,12 +18,10 @@ const GetStarted = () => {
         buttonText={""}
       />
 
-      <div className="flex flex-col xl:mx-32 mx-8 gap-14">
+      <div className="flex flex-col xl:mx-32 mx-8 gap-14 pb-32">
         <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
           <p className="font-bold text-lg"> *** Hackathon Note *** </p>
-          <p>
-            - These instructions, including the videos, are a work in progress and will be improved over time. -
-          </p>
+          <p>- These instructions, including the videos, are a work in progress and will be improved over time. -</p>
         </div>
         <StepLeft
           title={"Step 1"}
@@ -110,8 +109,11 @@ const GetStarted = () => {
         /> */}
 
         <div className="mt-8 text-xl text-gray-300 xl:max-w-7xl max-w-5xl py-16 border-y border-y-gray-300 border-dashed text-center">
-        <p className="text-white text-2xl font-semibold">🥳 Congratulations, you have just created a Universal Profile and connected to MyLuksoWallet! 🥳</p>
-          <br></br>Feel free to explore the website on your own now. You can also follow the additional steps below if you would like to continue with a guided tour.
+          <p className="text-white text-2xl font-semibold">
+            🥳 Congratulations, you have just created a Universal Profile and connected to MyLuksoWallet! 🥳
+          </p>
+          <br></br>Feel free to explore the website on your own now. You can also follow the additional steps below if you would like to continue with
+          a guided tour.
         </div>
 
         <StepLeft

@@ -7,7 +7,7 @@ import { useAssetsContext } from "../../contexts/AssetsContext";
 import { IPFS_GATEWAY, LSP4Schema, LSP7MintableContract } from "../../utils/luksoConfigs";
 import { useSwipeable } from "react-swipeable";
 import { Address,  OptionsPanel } from "..";
-import { Name, Background ,MintLSP7Form, TransferLSP7Form} from "./LSP7Components";
+import { Name, Background ,MintLSP7Form, TransferLSP7Form, PermissionsLSP7Form} from "./LSP7Components";
 
 const subFontStyle = ` font-bold font-['']`;
 const defaultPanel = {
@@ -48,7 +48,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
         res?.icon && res?.icon?.length > 0 && setAssetIcon(res?.icon[0]?.url?.replace("ipfs://", IPFS_GATEWAY)); 
         if (res?.images && res.images[0] !== null && res?.images?.length > 0) {
           setAssetImageFront(res.images[0][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults first image to front
-          if (res?.images.length > 1) setAssetImageBack(res?.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
+          if (res?.images?.length > 1) setAssetImageBack(res?.images[1][0]?.url?.replace("ipfs://", IPFS_GATEWAY)); //defaults second image to back
         }
         //TO-DO something with assets key if it exists
       });
@@ -140,7 +140,7 @@ const TokenCoin = ({ assetAddress, createToken }) => {
           <Name assetName={assetName} rotationOffset={0} />
 
           <div>
-            {isPanelActive.permissions && <div className="animate-fadeInLeft">Permissions(TO-DO)</div>}
+            {isPanelActive.permissions && <PermissionsLSP7Form assetAddress={assetAddress} contract={LSP7MintableContract}/>}
             {isPanelActive.mint && <MintLSP7Form assetAddress={assetAddress} contract={LSP7MintableContract} />}
             {isPanelActive.transfer && <TransferLSP7Form assetAddress={assetAddress} contract={LSP7MintableContract} balanceOf={balanceOf} />}
           </div>
