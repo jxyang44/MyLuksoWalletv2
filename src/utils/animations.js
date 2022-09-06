@@ -5,4 +5,3 @@ export const animateOnEntry = (imgRef, setState, factor) => {
   const height = imgRef.current.getBoundingClientRect().height;
   Math.abs(top) <= height * factor ? setState(true) : setState(false);
 };
-

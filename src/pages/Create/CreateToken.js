@@ -2,7 +2,7 @@
 //used for both LSP7 and LSP8 tokens
 
 import React, { useState, useEffect } from "react";
-import { FormTabs, Address, LSP7TokenCoin, LSP8NFTCard, CreateLSPForm, MintLSPForm, FullScreenButton } from "../../components";
+import { FormTabs, Address, LSP7TokenCoin, LSP8NFTCard, CreateLSPForm, MintLSPForm, FullScreenButton, ContainerWithHeader } from "../../components";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
 
@@ -80,7 +80,11 @@ const CreateToken = ({ LSP }) => {
   useEffect(() => {
     setActiveMenu(false);
 
-    setMintForm(curr => ({ ...curr, tokenAddress: localStorage.getItem(`recent${LSP}Address`), mintToAddress: currentAccount }));
+    setMintForm(curr => ({
+      ...curr,
+      tokenAddress: localStorage.getItem(`recent${LSP}Address`),
+      mintToAddress: currentAccount,
+    }));
   }, [LSP]);
 
   return (
@@ -88,24 +92,22 @@ const CreateToken = ({ LSP }) => {
       {activeMenu ? (
         <FullScreenButton text={`Deploy or Mint ${LSP} Assets`} />
       ) : (
-        <div className="xl:mx-24 ml-8">
-          <div className="flex flex-col text-white items-left text-left min-h-[85vh]">
-            <div className="text-sky-500 font-semibold xl:text-2xl text-lg">{LSPValues[LSP].description}</div>
-            <div className="xl:text-3xl text-xl mb-3 text-white">
-              Deploy a {LSP} {LSPValues[LSP].type} with Lukso's {LSP}Mintable Contract
-            </div>
-
-            <div className="my-2 flex flex-row gap-1 xl:text-base text-sm">
-              Most recently deployed {LSP} contract from your browser:
-              <span className="font-bold">
-                <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
-              </span>
-            </div>
-            <div className="flex flex-row ml-4 justify-between">
+        <ContainerWithHeader
+          title={LSPValues[LSP].description}
+          subtitle={`Deploy a ${LSP} ${LSPValues[LSP].type} with Lukso's ${LSP}Mintable
+        Contract`}>
+          <div className="mb-8 flex flex-wrap justify-center gap-1 text-sm text-white xl:text-base">
+            Most recently deployed {LSP} contract from this browser:
+            <span className="font-bold">
+              <Address address={localStorage.getItem(`recent${LSP}Address`) ?? "N/A"} />
+            </span>
+          </div>
+         
+            <div className="flex flex-col md:flex-row justify-between min-h-[85vh]">
               <div>
                 <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
 
-                <div className="flex flex-row w-full mr-8 gap-2">
+                <div className="flex w-full flex-row gap-2">
                   {showForm === "Deploy / View" && (
                     <CreateLSPForm
                       formValues={formValues}
@@ -122,19 +124,19 @@ const CreateToken = ({ LSP }) => {
                 </div>
               </div>
               {LSP === "LSP7" && (
-                <div className="flex flex-col justify-center w-1/2 ">
+                <div className="flex md:w-1/2 flex-col justify-center ">
                   <LSP7TokenCoin createToken={formValues} />
                 </div>
               )}
 
               {LSP === "LSP8" && (
-                <div className="flex flex-col justify-center w-1/2">
+                <div className="flex md:w-1/2 flex-col justify-center">
                   <LSP8NFTCard createToken={formValues} />
                 </div>
               )}
-            </div>
+        
           </div>
-        </div>
+        </ContainerWithHeader>
       )}
     </>
   );

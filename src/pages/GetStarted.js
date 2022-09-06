@@ -4,13 +4,16 @@ import React from "react";
 import { Banner, StepLeft } from "../components";
 import { useProfileContext } from "../contexts/ProfileContext";
 import { useNavigate } from "react-router-dom";
-import stepsBg from "../assets/Home/stepsbg.png";
+import stepsBg from "../assets/Home/stepsbg.jpg";
 const GetStarted = () => {
   const navigate = useNavigate();
   const { connectProfile } = useProfileContext();
 
   return (
-    <div className="bg-fixed bg-blend-multiply bg-slate-800" style={{ backgroundImage: `url(${stepsBg})` }}>
+    <div
+      className="bg-slate-800 bg-fixed bg-blend-multiply"
+      style={{ backgroundImage: `url(${stepsBg})` }}
+    >
       <Banner
         colorFrom={"from-sky-500"}
         title={"Get Started with MyLuksoWallet"}
@@ -18,10 +21,13 @@ const GetStarted = () => {
         buttonText={""}
       />
 
-      <div className="flex flex-col xl:mx-32 mx-8 gap-14 pb-32">
-        <div className=" border-y-gray-500 border-y my-10 py-10 text-center flex flex-col gap-4 text-white">
-          <p className="font-bold text-lg"> *** Hackathon Note *** </p>
-          <p>- These instructions, including the videos, are a work in progress and will be improved over time. -</p>
+      <div className="mx-8 flex flex-col gap-14 pb-32 xl:mx-32">
+        <div className="md:my-10 flex flex-col gap-4 border-y border-y-gray-500 py-10 text-center text-white">
+          <p className="text-lg font-bold"> *** Hackathon Note *** </p>
+          <p>
+            - These instructions, including the videos, are a work in progress
+            and will be improved over time. -
+          </p>
         </div>
         <StepLeft
           title={"Step 1"}
@@ -32,7 +38,11 @@ const GetStarted = () => {
             "**IMPORTANT** Your Universal Profile settings are tied to a smart contract on the blockchain, not to the browser extension itself. As long as you retain your private key, you will have access to your smart contract account. Lukso utilizes blockchain technology to ensure that your information is not governed by a centralized entity.",
           ]}
           buttonText={"Instructions"}
-          buttonFunc={() => window.open("https://docs.lukso.tech/guides/browser-extension/install-browser-extension")}
+          buttonFunc={() =>
+            window.open(
+              "https://docs.lukso.tech/guides/browser-extension/install-browser-extension"
+            )
+          }
           customStyle1={"ml-4"}
         />
 
@@ -108,12 +118,14 @@ const GetStarted = () => {
           customStyle1={"ml-9"}
         /> */}
 
-        <div className="mt-8 text-xl text-gray-300 xl:max-w-7xl max-w-5xl py-16 border-y border-y-gray-300 border-dashed text-center">
-          <p className="text-white text-2xl font-semibold">
-            🥳 Congratulations, you have just created a Universal Profile and connected to MyLuksoWallet! 🥳
+        <div className="mt-8 max-w-5xl border-y border-dashed border-y-gray-300 py-16 text-center text-xl text-gray-300 xl:max-w-7xl">
+          <p className="text-2xl font-semibold text-white">
+            🥳 Congratulations, you have just created a Universal Profile and
+            connected to MyLuksoWallet! 🥳
           </p>
-          <br></br>Feel free to explore the website on your own now. You can also follow the additional steps below if you would like to continue with
-          a guided tour.
+          <br></br>Feel free to explore the website on your own now. You can
+          also follow the additional steps below if you would like to continue
+          with a guided tour.
         </div>
 
         <StepLeft

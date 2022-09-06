@@ -3,38 +3,24 @@
 
 import React from "react";
 import { RiUserSearchLine } from "react-icons/ri";
-import { ButtonShadow } from "..";
+import { ButtonShadow, SampleAccounts } from "..";
 import { useNavigate } from "react-router-dom";
 import { useProfileContext } from "../../contexts/ProfileContext";
-import { petOwner } from "../../utils/sampleAccounts";
-import swal from "sweetalert";
 
 const LoginGraphic = () => {
-  const { connectProfile, connectProfileUsingUPAddress } = useProfileContext();
+  const { connectProfile } = useProfileContext();
   let navigate = useNavigate();
 
-  const handleSampleAccount = () => {
-    swal("A note on the sample account:", "This account is for demonstration purposes only. You will be able to READ data from the blockchain, but you will not be able to WRITE any data to the blockchain. \n\nTo create an account with WRITE permissions, please connect your profile to the browser extension.").then(res => {
-      if (res) connectProfileUsingUPAddress(petOwner);
-    });
-  };
-
   return (
-    <div className="flex flex-col items-center gap-8 m-20 mt-[10vh]">
-      <div className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500 ">
+    <div className="mt-24 flex min-h-screen w-3/4 flex-col items-center justify-center gap-8 md:w-1/2 lg:w-1/3 xl:w-1/4">
+      <div className="bg-gradient-to-r from-red-500 to-yellow-500 bg-clip-text text-xl font-bold text-transparent ">
         No Universal Profile detected.
       </div>
-      <div className="flex justify-center items-center animate-pulse-slow text-9xl text-blue-500 border-sky-300 bg-gradient-to-tr from-pink-200 to-pink-100 border-8 rounded-full p-12 shadow-sky-300 shadow-lg">
+      <div className="flex animate-pulse-slow items-center justify-center rounded-full border-8 border-sky-300 bg-gradient-to-tr from-pink-200 to-pink-100 p-12 text-9xl text-blue-500 shadow-lg shadow-sky-300">
         <RiUserSearchLine />
       </div>
-      <div className="text-green-500">Please connect a Universal Profile to view your assets.</div>
-      <div className="flex flex-row gap-6">
-        <ButtonShadow //TO-DO
-          buttonText={"View Example Account (Pet Owner)"}
-          buttonFunc={handleSampleAccount}
-          buttonColor={"bg-slate-500"}
-          buttonTextColor={"text-black"}
-        />
+      <div className="text-center text-green-500">Please connect a Universal Profile to view your assets.</div>
+      <div className="flex justify-center gap-6">
         <ButtonShadow buttonText={"Connect Profile"} buttonFunc={() => connectProfile()} buttonColor={"bg-blue-500"} buttonTextColor={"text-black"} />
         <ButtonShadow
           buttonText={"Instructions"}
@@ -43,6 +29,7 @@ const LoginGraphic = () => {
           buttonTextColor={"text-black"}
         />
       </div>
+      <SampleAccounts />
     </div>
   );
 };

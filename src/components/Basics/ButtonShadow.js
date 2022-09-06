@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 
-const ButtonShadow = ({ buttonText, buttonFunc, buttonColor, buttonTextColor }) => {
+const ButtonShadow = ({
+  buttonText,
+  buttonFunc,
+  buttonColor,
+  buttonTextColor,
+}) => {
   const [buttonPressed, setButtonPressed] = useState(false);
 
   useEffect(() => {
@@ -15,17 +20,21 @@ const ButtonShadow = ({ buttonText, buttonFunc, buttonColor, buttonTextColor }) 
   return (
     buttonText !== "" && (
       <button
-        className={`flex justify-center items-center border-2 rounded-lg transition-colors duration-100 from-gray-100 max-w-xs w-44 h-12 ${buttonColor}
+        className={`flex h-12 w-44 max-w-xs items-center justify-center rounded-lg border-2 from-gray-100 transition-colors duration-100 ${buttonColor}
       hover:bg-gradient-to-t ${
-        buttonPressed ? "bg-gradient-to-t opacity-70" : "bg-gradient-to-b shadow-md shadow-black/80 "
+        buttonPressed
+          ? "bg-gradient-to-t opacity-70"
+          : "bg-gradient-to-b shadow-md shadow-black/80 "
       }`}
         onClick={buttonFunc}
         onMouseDown={() => setButtonPressed(true)}
-        onMouseUp={() => setButtonPressed(false)}>
+        onMouseUp={() => setButtonPressed(false)}
+      >
         <p
-          className={`font-bold xl:text-base text-sm ${
+          className={`text-sm font-bold xl:text-base ${
             buttonTextColor ? buttonTextColor : "text-black"
-          } flex flex-row items-center text-center whitespace-pre-line`}>
+          } flex flex-row items-center whitespace-pre-line text-center`}
+        >
           {buttonText}
         </p>
       </button>

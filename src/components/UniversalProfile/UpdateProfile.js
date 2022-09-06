@@ -9,11 +9,11 @@ import {
   IPFS_GATEWAY,
   UniversalProfileContract,
 } from "../../utils/luksoConfigs";
-import { ButtonShadow,ButtonColor } from "..";
+import { ButtonShadow, ButtonColor } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({customStyle}) => {
   const {
     web3Window,
     useRelay,
@@ -31,7 +31,10 @@ const UpdateProfile = () => {
       setIsEdited(false);
       return;
     }
-    JSON.stringify(pendingProfileJSONMetadata) === JSON.stringify(profileJSONMetadata) ? setIsEdited(false) : setIsEdited(true);
+    JSON.stringify(pendingProfileJSONMetadata) ===
+    JSON.stringify(profileJSONMetadata)
+      ? setIsEdited(false)
+      : setIsEdited(true);
   }, [pendingProfileJSONMetadata]);
 
   //TO-DO add length limits to name and description characters?
@@ -47,30 +50,51 @@ const UpdateProfile = () => {
 
     const edits = []; //used to display the metadata fields that were changed; displayed in a modal to the user
     for (const [key, newValue] of Object.entries(pendingProfileJSONMetadata)) {
-      if (newValue instanceof File) { //images are saved to pendingProfileJSONMetadata as Files - manually parse into string to display to user
+      if (newValue instanceof File) {
+        //images are saved to pendingProfileJSONMetadata as Files - manually parse into string to display to user
         edits.push({
           key,
           newValue: newValue.name,
-          oldValue: profileJSONMetadata[key][0]?.url?.replace("ipfs://", IPFS_GATEWAY) || profileJSONMetadata[key][0]?.name || "old picture", //TO-DO need more cases based on how url is stored
+          oldValue:
+            profileJSONMetadata[key][0]?.url?.replace(
+              "ipfs://",
+              IPFS_GATEWAY
+            ) ||
+            profileJSONMetadata[key][0]?.name ||
+            "old picture", //TO-DO need more cases based on how url is stored
         });
-      } else if (newValue && newValue !== profileJSONMetadata[key]) { //otherwise JSON.stringify
-        edits.push({ key, newValue: JSON.stringify(newValue), oldValue: JSON.stringify(profileJSONMetadata[key]) });
+      } else if (newValue && newValue !== profileJSONMetadata[key]) {
+        //otherwise JSON.stringify
+        edits.push({
+          key,
+          newValue: JSON.stringify(newValue),
+          oldValue: JSON.stringify(profileJSONMetadata[key]),
+        });
       }
     }
 
-    swal({ //user must confirm changes before proceeding
-      title: "Please confirm upload of these changes to the Lukso network. Once confirmed, your edits cannot be reverted.",
-      text: `${edits.map(edit => `\nUPDATE: "${edit.key}" \nFROM: "${edit.oldValue}" \nTO: "${edit.newValue}"\n`)}`,
+    swal({
+      //user must confirm changes before proceeding
+      title:
+        "Please confirm upload of these changes to the Lukso network. Once confirmed, your edits cannot be reverted.",
+      text: `${edits.map(
+        (edit) =>
+          `\nUPDATE: "${edit.key}" \nFROM: "${edit.oldValue}" \nTO: "${edit.newValue}"\n`
+      )}`,
       buttons: {
         cancel: true,
         confirm: true,
       },
-    }).then(value => {
+    }).then((value) => {
       if (value) {
-        editProfile().then(res => {
+        editProfile().then((res) => {
           if (res !== undefined && res) {
             setProfileJSONMetadata(pendingProfileJSONMetadata); //if successful upload, then setProfileJSONMetadata to pendingProfileJSONMetadata
-            swal("Congratulations!", "Your Universal Profile has been updated on the Lukso blockchain!", "success");
+            swal(
+              "Congratulations!",
+              "Your Universal Profile has been updated on the Lukso blockchain!",
+              "success"
+            );
           }
         });
       }
@@ -80,15 +104,31 @@ const UpdateProfile = () => {
   //primary logic to update profile information on the blockchain
   const editProfile = async () => {
     try {
-      console.log("------------------ STARTING PROFILE UPDATE PROCESS ------------------");
-      const web3 = web3Window; 
+      console.log(
+        "------------------ STARTING PROFILE UPDATE PROCESS ------------------"
+      );
+      const web3 = web3Window;
       const jsonFile = { LSP3Profile: pendingProfileJSONMetadata }; //pendingProfileJSONMetadata is updated in UserProfile.js
-      console.log("------------------ client-side data ------------------\n", jsonFile);
+      console.log(
+        "------------------ client-side data ------------------\n",
+        jsonFile
+      );
 
-      swal("Please wait. Saving profile metadata on IPFS...", "You may click outside this window.", { button: false});
+      swal(
+        "Please wait. Saving profile metadata on IPFS...",
+        "You may click outside this window.",
+        { button: false }
+      );
       const lspFactory = createLSPFactoryWindowInstance();
-      const uploadResult = await lspFactory.UniversalProfile.uploadProfileData(jsonFile.LSP3Profile); //no gas needed
-      console.log("------------------ uploaded IPFS data ------------------\n", uploadResult, uploadResult.url, uploadResult.json);
+      const uploadResult = await lspFactory.UniversalProfile.uploadProfileData(
+        jsonFile.LSP3Profile
+      ); //no gas needed
+      console.log(
+        "------------------ uploaded IPFS data ------------------\n",
+        uploadResult,
+        uploadResult.url,
+        uploadResult.json
+      );
 
       const erc725 = createErc725Instance(LSP3Schema, currentAccount);
       const encodedData = erc725.encodeData({
@@ -99,20 +139,34 @@ const UpdateProfile = () => {
           url: uploadResult.url,
         },
       });
-      console.log("------------------ encoded data ------------------\n", encodedData);
+      console.log(
+        "------------------ encoded data ------------------\n",
+        encodedData
+      );
 
-      const universalProfileContract = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
+      const universalProfileContract = new web3.eth.Contract(
+        UniversalProfileContract.abi,
+        currentAccount
+      );
 
       if (useRelay) {
         //use key manager
         return executeViaKeyManager(
-          universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).encodeABI,
+          universalProfileContract.methods["setData(bytes32[],bytes[])"](
+            encodedData.keys,
+            encodedData.values
+          ).encodeABI,
           "Setting Universal Profile data via Key Manager..."
         );
       } else {
         //pay from account balance
-        swal("Please confirm update of Universal Profile data to the blockchain...", { button: false});
-        return await universalProfileContract.methods["setData(bytes32[],bytes[])"](encodedData.keys, encodedData.values).send({
+        swal(
+          "Please confirm update of Universal Profile data to the blockchain...",
+          { button: false }
+        );
+        return await universalProfileContract.methods[
+          "setData(bytes32[],bytes[])"
+        ](encodedData.keys, encodedData.values).send({
           from: currentAccount,
           gasLimit: 300_000,
         });
@@ -124,7 +178,11 @@ const UpdateProfile = () => {
   };
 
   return (
-  <ButtonColor buttonText={"Upload Edits"} buttonFunc={handleUploadEdits}   customStyle={"bg-green-500 hover:bg-green-700"} />
+    <ButtonColor
+      buttonText={"Upload Edits"}
+      buttonFunc={handleUploadEdits}
+      customStyle={`${customStyle ?? "bg-green-500 hover:bg-green-700"}`}
+    />
   );
 };
 

@@ -2,7 +2,15 @@
 
 import React, { useEffect } from "react";
 
-import { Welcome, DigitalIdentity, AssetCards, WhatisMyLuksoWallet, Roadmap, GetStarted, AboutUs } from "./Home/index";
+import {
+  Welcome,
+  DigitalIdentity,
+  AssetCards,
+  WhatisMyLuksoWallet,
+  Roadmap,
+  GetStarted,
+  AboutUs,
+} from "./Home/index";
 import { useStateContext } from "../contexts/StateContext";
 
 const Home = () => {
@@ -14,7 +22,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center text-white gap-36 pb-32">
+      <div className="flex flex-col items-center gap-12 md:gap-36 pb-32 text-white">
         <Welcome />
         <DigitalIdentity />
         <WhatisMyLuksoWallet />

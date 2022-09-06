@@ -5,7 +5,10 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 import { useAssetsContext } from "../../contexts/AssetsContext";
 import { LSP7MintableContract } from "../../utils/luksoConfigs";
 import { Address } from "../../components";
-import { Name, Background } from "../../components/LSPAssetVisuals/LSP7Components";
+import {
+  Name,
+  Background,
+} from "../../components/LSPAssetVisuals/LSP7Components";
 import { useDrag } from "react-dnd";
 import "../MyLuksoWallet.css";
 import swal from "sweetalert";
@@ -16,7 +19,15 @@ import swal from "sweetalert";
 //@param LSP should always be "LSP7"
 //@param isCurrentlySelected is the asset currently clicked
 //@param does something when asset is currently clicked
-const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlySelected, handleSelected }) => {
+const WalletLSP7 = ({
+  walletAddress,
+  index,
+  assets,
+  setAssets,
+  LSP,
+  isCurrentlySelected,
+  handleSelected,
+}) => {
   const { currentAccount } = useProfileContext();
   const { transferLSP7 } = useAssetsContext();
 
@@ -29,19 +40,36 @@ const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
         //fires when item is dropped
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
-          if (dropResult.name === walletAddress) return swal(`"${assets[index].assetName}" (${assets[index].address}) is already in this wallet!`); //if user drags and drops item into the wallet it is already in
-          swal(`Would you like to transfer "${assets[index].assetName}" (${assets[index].address}) from ${walletAddress} to ${dropResult.name}?`, {
-            buttons: true,
-          }).then(res => {
+          if (dropResult.name === walletAddress)
+            return swal(
+              `"${assets[index].assetName}" (${assets[index].address}) is already in this wallet!`
+            ); //if user drags and drops item into the wallet it is already in
+          swal(
+            `Would you like to transfer "${assets[index].assetName}" (${assets[index].address}) from ${walletAddress} to ${dropResult.name}?`,
+            {
+              buttons: true,
+            }
+          ).then((res) => {
             if (res)
-              swal(`You currently own ${assets[index].balanceOf} ${assets[index].assetSymbol}.`, "How much would you like to transfer?", {
-                content: "input",
-              }).then(input => {
+              swal(
+                `You currently own ${assets[index].balanceOf} ${assets[index].assetSymbol}.`,
+                "How much would you like to transfer?",
+                {
+                  content: "input",
+                }
+              ).then((input) => {
                 if (!input) return swal("", "No input provided.", "error");
                 const valueNum = Number(input);
-                if (!valueNum) return swal("", "Input must be numeric.", "error");
-                if (valueNum <= 0) return swal("", "Input must be a positive number.", "error");
-                if (valueNum > Number(assets[index].balanceOf)) return swal("", "Transfer quantity exceeds your current balance.", "error");
+                if (!valueNum)
+                  return swal("", "Input must be numeric.", "error");
+                if (valueNum <= 0)
+                  return swal("", "Input must be a positive number.", "error");
+                if (valueNum > Number(assets[index].balanceOf))
+                  return swal(
+                    "",
+                    "Transfer quantity exceeds your current balance.",
+                    "error"
+                  );
                 //console.log(assets[index].address, valueNum, dropResult.name, LSP7MintableContract, walletAddress, assets[index].balanceOf);
                 transferLSP7(
                   //calls transfer function on contract
@@ -57,7 +85,7 @@ const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
           });
         }
       },
-      collect: monitor => ({
+      collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.4 : 1, //change opacity of token if it is being dragged
       }),
     }),
@@ -68,37 +96,65 @@ const WalletLSP7 = ({ walletAddress, index, assets, setAssets, LSP, isCurrentlyS
     <>
       <div //this div handles selected animation
         className={`relative w-12 ${!isCurrentlySelected && "opacity-0"}`}
-        onClick={handleSelected}>
+        onClick={handleSelected}
+      >
         <div //attach drag to this div
-          className={`w-[40vmax] aspect-square relative ${assets[index].isSelected ? "selected-coin" : "tilted-coin"}`}
+          className={`relative aspect-square w-[40vmax]  ${
+            assets[index].isSelected ? "selected-coin" : "tilted-coin"
+          }`}
           ref={drag}
-          style={{ opacity }}>
+          style={{ opacity }}
+        >
           <div
-            className={`font-['Arial'] cursor-default absolute w-[40vmax] aspect-square border-2 border-white top-0 rounded-full  
-        flex flex-col shadow-lg shadow-white items-center justify-start bg-black`}
-            style={{ backgroundColor: assets[index]?.backgroundColor, color: assets[index]?.textColor }}>
+            className={`absolute top-0 flex aspect-square w-[40vmax] cursor-default flex-col items-center justify-start  
+        rounded-full border-2 border-white bg-black font-['Arial'] shadow-lg shadow-white`}
+            style={{
+              backgroundColor: assets[index]?.backgroundColor,
+              color: assets[index]?.textColor,
+            }}
+          >
             <Background assetImage={assets[index].assetImage1} />
             <Name assetName={assets[index].assetName} rotationOffset={-70} />
 
             {assets[index].assetIcon !== "" && (
-              <div className={`absolute top-1/2 -translate-y-1/2 w-[50%] aspect-square flex justify-center items-center rounded-full opacity-50 p-2`}>
-                <img src={assets[index].assetIcon} className="w-full aspect-square select-none rounded-full"></img>
+              <div
+                className={`absolute top-1/2 flex aspect-square w-[50%] -translate-y-1/2 items-center justify-center rounded-full p-2 opacity-50`}
+              >
+                <img
+                  src={assets[index].assetIcon}
+                  className="aspect-square w-full select-none rounded-full"
+                ></img>
               </div>
             )}
 
             <div
-              className="absolute flex flex-col items-center top-1/2 -translate-y-1/2 text-2xl w-[50%] aspect-square overflow-x-auto justify-center rounded-full text-center shadow-white shadow-lg"
-              style={{ background: `radial-gradient(#AAA 20%, transparent, ${assets[index]?.backgroundColor})` }}>
-              <p className="font-['Times'] xl:text-4xl lg:text-3xl md:text-2xl text-md font-bold ">Owned</p>
+              className="absolute top-1/2 flex aspect-square w-[50%] -translate-y-1/2 flex-col items-center justify-center overflow-x-auto rounded-full text-center text-2xl shadow-lg shadow-white"
+              style={{
+                background: `radial-gradient(#AAA 20%, transparent, ${assets[index]?.backgroundColor})`,
+              }}
+            >
+              <p className="text-md font-['Times'] font-bold md:text-2xl lg:text-3xl xl:text-4xl ">
+                Owned
+              </p>
               {assets[index].balanceOf && (
                 <p
-                  className={`mt-1 font-semibold break-all brightness-50 ${
-                    assets[index].balanceOf.length < 5 ? "text-8xl" : assets[index].balanceOf.length < 10 ? "text-3xl" : "text-xl"
-                  }`}>
-                  {assets[index].balanceOf.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}  {/* TO-DO need to fix formatting on this */}
+                  className={`mt-1 break-all font-semibold brightness-50 ${
+                    assets[index].balanceOf.length < 5
+                      ? "text-8xl"
+                      : assets[index].balanceOf.length < 10
+                      ? "text-3xl"
+                      : "text-xl"
+                  }`}
+                >
+                  {assets[index].balanceOf
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                  {/* TO-DO need to fix formatting on this */}
                 </p>
               )}
-              <p className="text-3xl uppercase font-semibold brightness-50">{assets[index].assetSymbol}</p>
+              <p className="text-3xl font-semibold uppercase brightness-50">
+                {assets[index].assetSymbol}
+              </p>
             </div>
           </div>
           {assets[index].isSelected && (

@@ -16,14 +16,22 @@ const WalletCover = ({ flipFunction, walletMetadata }) => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center h-full w-full rounded-l-lg border-8 border-black  bg-opacity-20 relative token-topography scale-x-[-1] text-white`}
-      onClick={flipFunction}>
-      <div className="xl:text-6xl text-3xl mb-10">{walletMetadata?.vaultName ?? "Unnamed Vault"}</div>
-      <img className={`w-1/2 h-1/2 ${animateSpin && "animate-closeVault"}`} src={vaultCover} />
-      <div className="xl:text-xl text-base mt-10">{walletMetadata?.vaultDescription}</div>
+      className={`token-topography relative text-center flex h-full w-full scale-x-[-1] flex-col items-center justify-center  rounded-l-lg border-8 border-black bg-opacity-20 text-white`}
+      onClick={flipFunction}
+    >
+      <div className="mb-10 text-3xl xl:text-6xl">
+        {walletMetadata?.vaultName ?? "Unnamed Vault"}
+      </div>
+      <img
+        className={`md:h-1/2 md:w-1/2 ${animateSpin && "animate-closeVault"}`}
+        src={vaultCover}
+      />
+      <div className="mt-10 text-base xl:text-xl mb-2">
+        {walletMetadata?.vaultDescription}
+      </div>
       {walletMetadata?.vaultAddress && (
-        <div className="xl:text-3xl text-xl rounded-lg border-2 py-1 px-2 bg-slate-800">
-          <Address address={walletMetadata?.vaultAddress} />
+        <div className="rounded-lg border-2 bg-slate-800 py-1 px-2 text-sm md:text-xl xl:text-3xl">
+          <Address address={walletMetadata?.vaultAddress} left={4}/>
         </div>
       )}
     </div>

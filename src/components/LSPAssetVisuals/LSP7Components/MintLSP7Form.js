@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Input } from "../..";
 import { useAssetsContext } from "../../../contexts/AssetsContext";
-const MintLSP7Form = ({ assetAddress,contract }) => {
+const MintLSP7Form = ({ assetAddress, contract }) => {
   const [mintAmount, setMintAmount] = useState(0);
   const [mintToAddress, setMintToAddress] = useState("");
   const { mintLSP7 } = useAssetsContext();
@@ -26,10 +26,12 @@ const MintLSP7Form = ({ assetAddress,contract }) => {
   ];
 
   return (
-    <div className="flex flex-col animate-fadeInLeft">
+    <div className="flex animate-fadeInLeft flex-col">
       <Input
         fields={mintInputs}
-        customFunc={()=>mintLSP7(assetAddress, mintAmount, mintToAddress, contract)}
+        customFunc={() =>
+          mintLSP7(assetAddress, mintAmount, mintToAddress, contract)
+        }
         buttonDescription="Mint"
         themeColor="from-green-500 to-green-600"
         themeText="text-green-700"

@@ -4,7 +4,7 @@
 //  clean up formatting
 //  edit asset data
 
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useAssetsContext } from "../../contexts/AssetsContext";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
@@ -17,21 +17,34 @@ import {
   FullScreenButton,
   FormContainer,
 } from "../../components";
-import { LSPMapping, createErc725Instance, LSP3Schema } from "../../utils/luksoConfigs";
+import {
+  LSPMapping,
+  createErc725Instance,
+  LSP3Schema,
+} from "../../utils/luksoConfigs";
 import { GiTwoCoins } from "react-icons/gi";
 import { AiFillCreditCard } from "react-icons/ai";
 import Slider from "react-slick";
 
-const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
+const inputStyle =
+  "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
 const inputLabel = "block text-white text-sm font-bold";
 
-const SelectedAssetToggle = ({ assetText, selectedAsset, setSelectedAsset, otherAsset }) => {
+const SelectedAssetToggle = ({
+  assetText,
+  selectedAsset,
+  setSelectedAsset,
+  otherAsset,
+}) => {
   return (
     <button
       className={`${
-        selectedAsset ? "font-semibold border-sky-200 shadow-sky-500 shadow-sm bg-sky-500" : "border-slate-200"
-      } text-center xl:w-40 w-36  xl:text-base text-sm border-2 px-2 rounded-lg hover:text-slate-800 hover:bg-slate-200 flex flex-row justify-between items-center`}
-      onClick={() => otherAsset && setSelectedAsset(curr => !curr)}>
+        selectedAsset
+          ? "border-sky-200 bg-sky-500 font-semibold shadow-sm shadow-sky-500"
+          : "border-slate-200"
+      } flex w-36 flex-row  items-center justify-between rounded-lg border-2 px-2 text-center text-sm hover:bg-slate-200 hover:text-slate-800 xl:w-40 xl:text-base`}
+      onClick={() => otherAsset && setSelectedAsset((curr) => !curr)}
+    >
       <p>{assetText}</p>
       <p>{selectedAsset ? "✔️" : "❌"}</p>
     </button>
@@ -55,22 +68,19 @@ const MyAssets = () => {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [walletAddress, setWalletAddress] = useState(currentAccount);
   const [showForm, setShowForm] = useState("Filter Assets");
-  
+
   useEffect(() => {
     if (currentAccount) setActiveMenu(false);
     setWalletAddress(currentAccount);
     handleLoadAssets(currentAccount);
-    
   }, []);
 
-
-
   const sliderSettings = {
-    customPaging: i => {
+    customPaging: (i) => {
       return (
-        <div className="flex flex-col xl:text-[3rem] md:text-[2rem] text-[1rem] text-white items-center">
+        <div className="flex flex-col items-center text-[1rem] text-white md:text-[2rem] xl:text-[3rem]">
           {assets[i].LSP_7_8 === "LSP7" ? <GiTwoCoins /> : <AiFillCreditCard />}
-          <div className="text-sm -translate-y-2 text-center">
+          <div className="-translate-y-2 text-center text-sm">
             {assets[i].address && assets[i].address.substring(0, 8)}
             {assets[i].address && assets[i].address.length > 8 && "..."}
           </div>
@@ -86,36 +96,38 @@ const MyAssets = () => {
     slidesToScroll: 1,
     arrows: false,
     vertical: true,
-   
   };
-
 
   const handleLoadAssets = (walletAddress) => {
     setAssets([]);
     setAssetsLoaded(false);
 
-    assetLoad(walletAddress).then(res => {
+    assetLoad(walletAddress).then((res) => {
       setAssetsLoaded(true);
       if (res) {
-        res.map(asset => {
-          supportsInterface(asset, LSPMapping.LSP7.contract).then(res => {
+        res.map((asset) => {
+          supportsInterface(asset, LSPMapping.LSP7.contract).then((res) => {
             const newAsset = { address: asset, LSP_7_8: "LSP7" };
-            if (res === true && showLSP7Assets) setAssets(curr => [...curr, newAsset]);
+            if (res === true && showLSP7Assets)
+              setAssets((curr) => [...curr, newAsset]);
           });
-          supportsInterface(asset, LSPMapping.LSP8.contract).then(res => {
+          supportsInterface(asset, LSPMapping.LSP8.contract).then((res) => {
             const newAsset = { address: asset, LSP_7_8: "LSP8" };
-            if (res === true && showLSP8Assets) setAssets(curr => [...curr, newAsset]);
+            if (res === true && showLSP8Assets)
+              setAssets((curr) => [...curr, newAsset]);
           });
         });
       }
     });
   };
 
-  const assetLoad = async walletAddress => {
+  const assetLoad = async (walletAddress) => {
     const profile = createErc725Instance(LSP3Schema, walletAddress);
     let result1, result2;
-    if (showReceivedAssets) result1 = await profile.fetchData("LSP5ReceivedAssets[]");
-    if (showIssuedAssets) result2 = await profile.fetchData("LSP12IssuedAssets[]");
+    if (showReceivedAssets)
+      result1 = await profile.fetchData("LSP5ReceivedAssets[]");
+    if (showIssuedAssets)
+      result2 = await profile.fetchData("LSP12IssuedAssets[]");
     const returnvalue = result1?.value.concat(result2?.value) ?? result2.value;
     return returnvalue;
   };
@@ -129,32 +141,45 @@ const MyAssets = () => {
           {activeMenu ? (
             <FullScreenButton text={`My Tokens and NFTs`} />
           ) : (
-            <div className="flex flex-row justify-center gap-28 xl:mx-16 mt-16">
-              <div className="flex flex-col justify-start gap-2 w-5/12 mx-8 text-white">
-                <div className="text-sky-500 font-semibold xl:text-4xl text-2xl">Powered by Lukso Standard Proposals</div>
-                <div className="xl:text-2xl text-lg mb-4 text-white flex flex-row gap-1 items-center">
-                  View and Manage LSP7
-                  (<GiTwoCoins/>)
-
-                   and LSP8 (<AiFillCreditCard/>) Assets</div>
+            <div className="mt-16 flex flex-row justify-center gap-28 xl:mx-16">
+              <div className="mx-8 flex w-5/12 flex-col justify-start gap-2 text-white">
+                 <div className="text-4xl font-semibold text-sky-500 text-center">
+                  Powered by Lukso Standard Proposals
+                </div>
+                <div className="mb-4 flex flex-row items-center gap-1 text-lg text-white xl:text-2xl">
+                  View and Manage LSP7 (<GiTwoCoins />) and LSP8 (
+                  <AiFillCreditCard />) Assets
+                </div>
 
                 <div className="mt-4">
-                  <FormTabs forms={forms} showForm={showForm} setShowForm={setShowForm} />
+                  <FormTabs
+                    forms={forms}
+                    showForm={showForm}
+                    setShowForm={setShowForm}
+                  />
                   {showForm === "Filter Assets" && (
                     <FormContainer
                       title={`Filter Assets`}
                       subtitle={`Filter the View Between LSP7, LSP8, Received and Issued Assets. Known Bug: Owned balance shows your UP balance even if you switch to a vault. For now, to properly view your balance, use the MLW DApp.`}
-                      mainOverride={"border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[35vw]"}
-                      textOverride={"text-sky-400"}>
+                      mainOverride={
+                        "border-sky-400 shadow-sky-400 h-fit rounded-tl-none xl:w-[50vw] lg:w-[35vw]"
+                      }
+                      textOverride={"text-sky-400"}
+                    >
                       <div className="my-4">
-                        <div className={inputLabel}>Selected UP or Vault Address</div>
+                        <div className={inputLabel}>
+                          Selected UP or Vault Address
+                        </div>
                         <select
                           type="text"
                           value={walletAddress}
                           placeholder={"Vault Address"}
-                          onChange={e => setWalletAddress(e.target.value)}
-                          className={inputStyle}>
-                          <option value={currentAccount}>Universal Profile - {currentAccount}</option>
+                          onChange={(e) => setWalletAddress(e.target.value)}
+                          className={inputStyle}
+                        >
+                          <option value={currentAccount}>
+                            Universal Profile - {currentAccount}
+                          </option>
                           {accountAddresses.vaults.map((vault, i) => {
                             return (
                               <option key={vault + i} value={vault}>
@@ -164,8 +189,8 @@ const MyAssets = () => {
                           })}
                         </select>
 
-                        <div className="flex flex-col gap-2 my-4">
-                          <div className="flex flex-row gap-6 h-12">
+                        <div className="my-4 flex flex-col gap-2">
+                          <div className="flex h-12 flex-row gap-6">
                             <SelectedAssetToggle
                               assetText="LSP7 Tokens"
                               selectedAsset={showLSP7Assets}
@@ -180,7 +205,7 @@ const MyAssets = () => {
                             />
                           </div>
 
-                          <div className="flex flex-row gap-6 h-12">
+                          <div className="flex h-12 flex-row gap-6">
                             <SelectedAssetToggle
                               assetText="Owned Assets"
                               selectedAsset={showReceivedAssets}
@@ -198,8 +223,9 @@ const MyAssets = () => {
 
                         <div className="flex items-center justify-end">
                           <button
-                            className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            onClick={()=>handleLoadAssets(walletAddress)}>
+                            className="focus:shadow-outline rounded bg-sky-500 py-2 px-4 font-bold text-white hover:bg-sky-700 focus:outline-none"
+                            onClick={() => handleLoadAssets(walletAddress)}
+                          >
                             Reload Assets
                           </button>
                         </div>
@@ -210,19 +236,25 @@ const MyAssets = () => {
               </div>
 
               {assetsLoaded ? (
-                <div className="flex flex-row justify-center w-6/12">
+                <div className="flex w-6/12 flex-row justify-center">
                   {assets.length > 0 && assetsLoaded ? (
                     <Slider {...sliderSettings}>
                       {assets.map((asset, index) => {
                         return (
                           <>
                             {asset.LSP_7_8 === "LSP7" && (
-                              <div className="px-4 my-20" key={asset+index+"LSP7"}>
+                              <div
+                                className="my-20 px-4"
+                                key={asset + index + "LSP7"}
+                              >
                                 <LSP7TokenCoin assetAddress={asset.address} />
                               </div>
                             )}
                             {asset.LSP_7_8 === "LSP8" && (
-                              <div className="px-4 my-20" key={asset+index+"LSP8"}>
+                              <div
+                                className="my-20 px-4"
+                                key={asset + index + "LSP8"}
+                              >
                                 <LSP8NFTCard assetAddress={asset.address} />
                               </div>
                             )}
@@ -231,11 +263,13 @@ const MyAssets = () => {
                       })}
                     </Slider>
                   ) : (
-                    <div className="text-white text-center self-center">No selected assets found in address {walletAddress}.</div>
+                    <div className="self-center text-center text-white">
+                      No selected assets found in address {walletAddress}.
+                    </div>
                   )}
                 </div>
               ) : (
-                <div className="flex flex-row justify-center w-7/12">
+                <div className="flex w-7/12 flex-row justify-center">
                   <Loading />
                 </div>
               )}

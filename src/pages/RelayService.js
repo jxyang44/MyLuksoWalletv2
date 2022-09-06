@@ -8,10 +8,13 @@
 // import swal from "sweetalert";
 // import { AiOutlineCopy } from "react-icons/ai";
 
-
 const RelayService = () => {
-  return(<div className="text-white text-center p-12">This page is under construction. Please check back soon.👷</div>)
-}
+  return (
+    <div className="p-12 text-center text-white">
+      This page is under construction. Please check back soon.👷
+    </div>
+  );
+};
 
 /*
 const RelayService = () => {

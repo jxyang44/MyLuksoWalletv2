@@ -5,7 +5,8 @@ import { FormContainer, PermissionTypesCheckbox, Loading } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
 
-const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
+const inputStyle =
+  "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
 const inputLabel = "block text-white text-sm font-bold";
 
 const initialFormState = {
@@ -15,7 +16,15 @@ const initialFormState = {
 };
 
 const ManagePermissionsForm = () => {
-  const { currentAccount, accountAddresses, fetchAddresses, getAccountType, addNewPermission, updateExistingPermission, profileJSONMetadata } = useProfileContext();
+  const {
+    currentAccount,
+    accountAddresses,
+    fetchAddresses,
+    getAccountType,
+    addNewPermission,
+    updateExistingPermission,
+    profileJSONMetadata,
+  } = useProfileContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [newAddressSelection, setNewAddressSelection] = useState(false); //true if "New Address" is selected; false if "Existing Address" is selected
   const [newAddressMessage, setNewAddressMessage] = useState(""); //message to display
@@ -24,16 +33,16 @@ const ManagePermissionsForm = () => {
   const [permissions, setPermissions] = useState(); //JSON of allowed permissions
   const [loaded, setLoaded] = useState(false); //true if a valid addressFrom is selected
 
-  const set = name => {
+  const set = (name) => {
     return ({ target }) => {
-      setFormValues(current => ({ ...current, [name]: target.value }));
+      setFormValues((current) => ({ ...current, [name]: target.value }));
     };
   };
 
   useEffect(() => {
     setLoaded(false);
     if (formValues.addressFrom === "") return;
-    fetchAddresses(formValues.addressFrom).then(res => {
+    fetchAddresses(formValues.addressFrom).then((res) => {
       if (res) {
         setOwner(res[3]); // owner of vault/UP
         setPermissionedAddress(res[0][0].value); /// AddressPermissions[]
@@ -43,53 +52,75 @@ const ManagePermissionsForm = () => {
   }, [formValues.addressFrom]);
 
   useEffect(() => {
-    setFormValues(current => ({ ...current, addressTo: "" }));
+    setFormValues((current) => ({ ...current, addressTo: "" }));
   }, [newAddressSelection]);
 
   //updates error messages and form values when new address input is changed
-  const handleNewAddress = e => {
+  const handleNewAddress = (e) => {
     setNewAddressMessage("");
-    setFormValues(current => ({ ...current, addressTo: e.target.value, newAddressValid: false }));
-    if (permissionedAddress?.includes(e.target.value)) setNewAddressMessage("This Address Already has Permissions");
+    setFormValues((current) => ({
+      ...current,
+      addressTo: e.target.value,
+      newAddressValid: false,
+    }));
+    if (permissionedAddress?.includes(e.target.value))
+      setNewAddressMessage("This Address Already has Permissions");
     else {
-      getAccountType(e.target.value).then(res => {
-        if (res === "Invalid") setNewAddressMessage("This Address is Not Valid");
+      getAccountType(e.target.value).then((res) => {
+        if (res === "Invalid")
+          setNewAddressMessage("This Address is Not Valid");
         else {
           setNewAddressMessage(`This Address is a Valid ${res} Account`);
-          setFormValues(current => ({ ...current, newAddressValid: true }));
+          setFormValues((current) => ({ ...current, newAddressValid: true }));
         }
       });
     }
   };
 
   //called on "Submit Changes"
-  const handleGrantPermissions = e => {
+  const handleGrantPermissions = (e) => {
     e.preventDefault();
     if (!currentAccount) return swal("You are not connected to an account.");
-    if (newAddressSelection && !formValues.newAddressValid) return swal("Address of new permissioned account is not valid.");
-    if (formValues.addressFrom === "" || formValues.addressTo === "") return swal("Required fields must be completed.");
+    if (newAddressSelection && !formValues.newAddressValid)
+      return swal("Address of new permissioned account is not valid.");
+    if (formValues.addressFrom === "" || formValues.addressTo === "")
+      return swal("Required fields must be completed.");
 
     swal(
       "Are you sure you would like to submit these changes to the blockchain?",
-      `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+      `${JSON.stringify(permissions, null, 1)
+        .replaceAll("true", "✅")
+        .replaceAll("false", "❌")}`,
       { buttons: true }
-    ).then(value => {
+    ).then((value) => {
       if (value) {
         newAddressSelection
-          ? addNewPermission(formValues.addressFrom, formValues.addressTo, permissions).then(res => {
+          ? addNewPermission(
+              formValues.addressFrom,
+              formValues.addressTo,
+              permissions
+            ).then((res) => {
               console.log(res);
               if (res)
                 swal(
                   `Congratulations! Permissions have been added for ${formValues.addressTo}.`,
-                  `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                  `${JSON.stringify(permissions, null, 1)
+                    .replaceAll("true", "✅")
+                    .replaceAll("false", "❌")}`,
                   "success"
                 );
             })
-          : updateExistingPermission(formValues.addressFrom, formValues.addressTo, permissions).then(res => {
+          : updateExistingPermission(
+              formValues.addressFrom,
+              formValues.addressTo,
+              permissions
+            ).then((res) => {
               if (res)
                 swal(
                   `Congratulations! Permissions have been modified for ${formValues.addressTo}.`,
-                  `${JSON.stringify(permissions, null, 1).replaceAll("true", "✅").replaceAll("false", "❌")}`,
+                  `${JSON.stringify(permissions, null, 1)
+                    .replaceAll("true", "✅")
+                    .replaceAll("false", "❌")}`,
                   "success"
                 );
             });
@@ -102,47 +133,71 @@ const ManagePermissionsForm = () => {
       <FormContainer
         title={`Manage Permissions`}
         subtitle={`Manage Address Permissions to Your Universal Profile & Vaults`}
-        mainOverride={"border-green-500 shadow-green-500 h-fit rounded-tl-none max-w-2xl"}
-        textOverride={"text-green-500"}>
+        mainOverride={
+          "border-green-500 shadow-green-500 h-fit rounded-tl-none max-w-2xl"
+        }
+        textOverride={"text-green-500"}
+      >
         {currentAccount === "" ? (
-          <div className="text-white">Universal Profile address not detected. Please connect.</div>
+          <div className="text-white">
+            Universal Profile address not detected. Please connect.
+          </div>
         ) : (
           <>
             <div className="mb-4">
-              <div className={inputLabel}>Your Profile or Vault Address (required)</div>
+              <div className={inputLabel}>
+                Your Profile or Vault Address (required)
+              </div>
 
               <select
                 type="text"
                 value={formValues.addressFrom}
                 placeholder={"Profile or Vault Address"}
-                onChange={e => setFormValues(current => ({ ...current, addressFrom: e.target.value, addressTo: "" }))}
-                className={inputStyle}>
+                onChange={(e) =>
+                  setFormValues((current) => ({
+                    ...current,
+                    addressFrom: e.target.value,
+                    addressTo: "",
+                  }))
+                }
+                className={inputStyle}
+              >
                 <option value="" disabled>
                   Select an Account
                 </option>
-                <option value={currentAccount}>Universal Profile - {currentAccount}</option>
-                {accountAddresses.vaults.map((vault,i) => {
+                <option value={currentAccount}>
+                  Universal Profile - {currentAccount}
+                </option>
+                {accountAddresses.vaults.map((vault, i) => {
                   return (
-                    <option key={vault+i} value={vault}>
-                      {profileJSONMetadata["MLW_Vault_" + vault]?.vaultName ?? "Unnamed Vault"} - {vault}
+                    <option key={vault + i} value={vault}>
+                      {profileJSONMetadata["MLW_Vault_" + vault]?.vaultName ??
+                        "Unnamed Vault"}{" "}
+                      - {vault}
                     </option>
                   );
                 })}
               </select>
 
-              <div className="flex flex-row gap-4 mb-4">
+              <div className="mb-4 flex flex-row gap-4">
                 <button
-                  className={`text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-                    !newAddressSelection ? "bg-green-500 hover:bg-green-700" : "hover:bg-gray-700"
+                  className={`focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none ${
+                    !newAddressSelection
+                      ? "bg-green-500 hover:bg-green-700"
+                      : "hover:bg-gray-700"
                   }`}
-                  onClick={() => setNewAddressSelection(false)}>
+                  onClick={() => setNewAddressSelection(false)}
+                >
                   Existing Address
                 </button>
                 <button
-                  className={`text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-                    newAddressSelection ? "bg-green-500 hover:bg-green-700" : "hover:bg-gray-700"
+                  className={`focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none ${
+                    newAddressSelection
+                      ? "bg-green-500 hover:bg-green-700"
+                      : "hover:bg-gray-700"
                   }`}
-                  onClick={() => setNewAddressSelection(true)}>
+                  onClick={() => setNewAddressSelection(true)}
+                >
                   New Address
                 </button>
               </div>
@@ -151,9 +206,19 @@ const ManagePermissionsForm = () => {
                 <>
                   {/* show new address panel if selected  */}
                   {newAddressMessage !== "" && (
-                    <div className={`${inputLabel} ${formValues.newAddressValid ? "text-green-500" : "text-red-500"}`}>{newAddressMessage}</div>
+                    <div
+                      className={`${inputLabel} ${
+                        formValues.newAddressValid
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {newAddressMessage}
+                    </div>
                   )}
-                  <div className={inputLabel}>New Address for Permissions (required)</div>
+                  <div className={inputLabel}>
+                    New Address for Permissions (required)
+                  </div>
                   <input
                     className={inputStyle}
                     type="text"
@@ -161,7 +226,7 @@ const ManagePermissionsForm = () => {
                     value={formValues.addressTo}
                     placeholder={"Address (0x...)"}
                     required
-                    onChange={e => handleNewAddress(e)}
+                    onChange={(e) => handleNewAddress(e)}
                   />
                 </>
               ) : (
@@ -169,8 +234,15 @@ const ManagePermissionsForm = () => {
                 formValues.addressFrom !== "" &&
                 (loaded ? (
                   <>
-                    <div className={inputLabel}>Permissioned Account Address (required)</div>
-                    <select value={formValues.addressTo} placeholder={"Permissioned Address"} onChange={set("addressTo")} className={inputStyle}>
+                    <div className={inputLabel}>
+                      Permissioned Account Address (required)
+                    </div>
+                    <select
+                      value={formValues.addressTo}
+                      placeholder={"Permissioned Address"}
+                      onChange={set("addressTo")}
+                      className={inputStyle}
+                    >
                       <option value="" disabled>
                         Select an Account
                       </option>
@@ -180,14 +252,18 @@ const ManagePermissionsForm = () => {
                           return (
                             <option key={address + i} value={address}>
                               {address}
-                            </option> //TO-DO add vault name to selection for clarity
+                            </option>
                           );
                         })}
                     </select>
                   </>
                 ) : (
                   <div className="text-white">
-                    <Loading horizontal={true} size={"w-8 h-8"} textOff={true} />
+                    <Loading
+                      horizontal={true}
+                      size={"w-8 h-8"}
+                      textOff={true}
+                    />
                   </div>
                 ))
               )}
@@ -195,13 +271,15 @@ const ManagePermissionsForm = () => {
 
             <div className="flex items-center justify-between">
               <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={() => setFormValues(initialFormState)}>
+                className="focus:shadow-outline rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700 focus:outline-none"
+                onClick={() => setFormValues(initialFormState)}
+              >
                 Reset
               </button>
               <button
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={handleGrantPermissions}>
+                className="focus:shadow-outline rounded bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700 focus:outline-none"
+                onClick={handleGrantPermissions}
+              >
                 Submit Changes
               </button>
             </div>
@@ -210,7 +288,8 @@ const ManagePermissionsForm = () => {
       </FormContainer>
 
       {/* show permissions check box */}
-      {((!newAddressSelection && formValues.addressTo !== "") || (newAddressSelection && formValues.newAddressValid)) && (
+      {((!newAddressSelection && formValues.addressTo !== "") ||
+        (newAddressSelection && formValues.newAddressValid)) && (
         <div>
           <PermissionTypesCheckbox
             addressFrom={formValues.addressFrom}

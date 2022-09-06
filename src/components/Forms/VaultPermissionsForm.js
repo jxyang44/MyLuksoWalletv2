@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FormContainer, Loading } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
+import { useVaultContext } from "../../contexts/VaultContext";
 import swal from "sweetalert";
 
 const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline mb-4";
@@ -14,7 +15,8 @@ const initialFormState = {
 };
 
 const VaultPermissionsForm = () => {
-  const { currentAccount, accountAddresses, getAllowedAddresses, setAllowedAddresses, profileJSONMetadata } = useProfileContext();
+  const { currentAccount, accountAddresses, profileJSONMetadata } = useProfileContext();
+  const { getAllowedAddresses, setAllowedAddresses } = useVaultContext();
   const [formValues, setFormValues] = useState(initialFormState); //stores form input values; see initialFormState for keys
   const [allVaults, setAllVaults] = useState(accountAddresses.vaults); //ReceivedVaults[] owned by currentAccount
   const [originalAllowedVaults, setOriginalAllowedVaults] = useState([]); //ReceivedVaults[] owned by currentAccount - before submitting changes
@@ -91,7 +93,7 @@ const VaultPermissionsForm = () => {
                     return (
                       <option key={address + i} value={address}>
                         {address}
-                      </option> //TO-DO add vault name to selection for clarity
+                      </option>
                     );
                   })}
               </select>
@@ -121,12 +123,12 @@ const VaultPermissionsForm = () => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700 focus:outline-none"
                 onClick={() => setFormValues(initialFormState)}>
                 Reset
               </button>
               <button
-                className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="focus:shadow-outline rounded bg-violet-500 py-2 px-4 font-bold text-white hover:bg-violet-700 focus:outline-none"
                 onClick={handleSubmit}>
                 Submit Changes
               </button>

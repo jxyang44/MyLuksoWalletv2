@@ -7,26 +7,39 @@ import { RiDeleteBackLine, RiAddLine } from "react-icons/ri";
 
 //@param editMode toggles between edit and view mode
 const ProfileLinks = ({ editMode }) => {
-  const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
+  const { pendingProfileJSONMetadata, setPendingProfileJSONMetadata } =
+    useProfileContext();
   return (
-    <div className="flex flex-row text-sm mb-4 items-center justify-between text-center gap-2 border-2 rounded-2xl bg-slate-800 bg-opacity-50 py-3 px-2">
+    <div className="mb-4 flex flex-row items-center justify-between gap-2 rounded-2xl border-2 bg-slate-800 bg-opacity-50 py-3 px-2 text-center text-sm">
       <div className="text-base text-white">
-        Links <span className="italic font-semibold">({pendingProfileJSONMetadata.links.length || 0}):</span>
+        Links{" "}
+        <span className="font-semibold italic">
+          ({pendingProfileJSONMetadata.links.length || 0}):
+        </span>
       </div>
       {pendingProfileJSONMetadata.links.length > 0 && (
-        <div className="flex flex-col italic text-normal text-white w-[350px]">
+        <div className="text-normal flex w-[350px] flex-col italic text-white">
           {pendingProfileJSONMetadata.links.map((link, index) => {
             return editMode ? ( //edit mode is enabled
-              <div className="flex flex-row items-center gap-1" key={link + index}>
+              <div
+                className="flex flex-row items-center gap-1"
+                key={link + index}
+              >
                 <EditText //enable edit box for link title
                   defaultValue={link.title}
                   inputClassName="bg-success"
                   placeholder="link title"
                   value={pendingProfileJSONMetadata.links[index].title}
-                  onChange={e => {
+                  onChange={(e) => {
                     const tempLinks = [...pendingProfileJSONMetadata.links];
-                    tempLinks.splice(index, 1, { title: e.target.value, url: tempLinks[index].url });
-                    setPendingProfileJSONMetadata(current => ({ ...current, links: tempLinks }));
+                    tempLinks.splice(index, 1, {
+                      title: e.target.value,
+                      url: tempLinks[index].url,
+                    });
+                    setPendingProfileJSONMetadata((current) => ({
+                      ...current,
+                      links: tempLinks,
+                    }));
                   }}
                   style={{
                     borderTopLeftRadius: "9999px",
@@ -46,10 +59,16 @@ const ProfileLinks = ({ editMode }) => {
                   inputClassName="bg-success"
                   placeholder="link url"
                   value={pendingProfileJSONMetadata.links[index].url}
-                  onChange={e => {
+                  onChange={(e) => {
                     const tempLinks = [...pendingProfileJSONMetadata.links];
-                    tempLinks.splice(index, 1, { title: tempLinks[index].title, url: e.target.value });
-                    setPendingProfileJSONMetadata(current => ({ ...current, links: tempLinks }));
+                    tempLinks.splice(index, 1, {
+                      title: tempLinks[index].title,
+                      url: e.target.value,
+                    });
+                    setPendingProfileJSONMetadata((current) => ({
+                      ...current,
+                      links: tempLinks,
+                    }));
                   }}
                   style={{
                     color: "#3b82f6",
@@ -64,12 +83,16 @@ const ProfileLinks = ({ editMode }) => {
                   }}
                 />
                 <button //button to remove the link
-                  className="bg-[#9ca3af] p-1.5 rounded-r-full hover:text-red-600"
+                  className="rounded-r-full bg-[#9ca3af] p-1.5 hover:text-red-600"
                   onClick={() => {
                     const tempLinks = [...pendingProfileJSONMetadata.links];
                     tempLinks.splice(index, 1);
-                    setPendingProfileJSONMetadata(current => ({ ...current, links: tempLinks }));
-                  }}>
+                    setPendingProfileJSONMetadata((current) => ({
+                      ...current,
+                      links: tempLinks,
+                    }));
+                  }}
+                >
                   <RiDeleteBackLine />
                 </button>
               </div>
@@ -77,9 +100,10 @@ const ProfileLinks = ({ editMode }) => {
               <a //edit mode is disabled - just show title and href to url
                 key={link + index}
                 href={pendingProfileJSONMetadata.links[index].url}
-                className="text-lg not-italic z-50 text-left text-blue-500 hover:text-blue-300"
+                className="z-50 text-left text-lg not-italic text-blue-500 hover:text-blue-300"
                 rel="noreferrer"
-                target="_blank">
+                target="_blank"
+              >
                 {pendingProfileJSONMetadata.links[index].title}
               </a>
             );
@@ -90,10 +114,17 @@ const ProfileLinks = ({ editMode }) => {
       {pendingProfileJSONMetadata.links.length < 5 &&
         editMode && ( //add new link; cap at 5
           <button
-            className="text-lg bg-[#9ca3af] p-1.5 rounded-full hover:contrast-150"
+            className="rounded-full bg-[#9ca3af] p-1.5 text-lg hover:contrast-150"
             onClick={() =>
-              setPendingProfileJSONMetadata(current => ({ ...current, links: [...current.links, { title: "new title", url: "new url" }] }))
-            }>
+              setPendingProfileJSONMetadata((current) => ({
+                ...current,
+                links: [
+                  ...current.links,
+                  { title: "new title", url: "new url" },
+                ],
+              }))
+            }
+          >
             <RiAddLine />
           </button>
         )}

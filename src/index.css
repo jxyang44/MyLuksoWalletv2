@@ -16,7 +16,11 @@ body {
   height: 0.5vw;
 }
 ::-webkit-scrollbar-thumb {
-  background-image: radial-gradient(at 50% 50%, theme("colors.slate.200") 0%, theme("colors.slate.500") 100%);
+  background-image: radial-gradient(
+    at 50% 50%,
+    theme("colors.slate.200") 0%,
+    theme("colors.slate.500") 100%
+  );
   border-radius: 0.5vw;
 }
 ::-webkit-scrollbar-track {
@@ -52,7 +56,11 @@ body {
 .assets-carousel-dots li div:hover,
 .assets-carousel-dots li div:focus {
   color: theme("colors.sky.500");
-  background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
+  background-image: linear-gradient(
+    to bottom right,
+    theme("colors.slate.800"),
+    theme("colors.slate.700")
+  );
 }
 
 .assets-carousel-dots li.slick-active {
@@ -63,10 +71,17 @@ body {
 /* glossy finish for UP card in MLW DApp */
 .glassmorphism {
   background-color: #dedcfa;
-  background-image: radial-gradient(at 83% 67%, rgb(152, 231, 156) 0, transparent 58%),
-    radial-gradient(at 13% 17%, rgb(152, 231, 156) 0, transparent 18%), radial-gradient(at 67% 20%, hsla(357, 94%, 71%, 1) 0, transparent 59%),
-    radial-gradient(at 88% 35%, hsla(222, 81%, 65%, 1) 0, transparent 50%), radial-gradient(at 31% 91%, hsla(9, 61%, 61%, 1) 0, transparent 52%),
-    radial-gradient(at 27% 71%, hsla(336, 91%, 65%, 1) 0, transparent 49%), radial-gradient(at 74% 89%, hsla(30, 98%, 65%, 1) 0, transparent 51%),
+  background-image: radial-gradient(
+      at 83% 67%,
+      rgb(152, 231, 156) 0,
+      transparent 58%
+    ),
+    radial-gradient(at 13% 17%, rgb(152, 231, 156) 0, transparent 18%),
+    radial-gradient(at 67% 20%, hsla(357, 94%, 71%, 1) 0, transparent 59%),
+    radial-gradient(at 88% 35%, hsla(222, 81%, 65%, 1) 0, transparent 50%),
+    radial-gradient(at 31% 91%, hsla(9, 61%, 61%, 1) 0, transparent 52%),
+    radial-gradient(at 27% 71%, hsla(336, 91%, 65%, 1) 0, transparent 49%),
+    radial-gradient(at 74% 89%, hsla(30, 98%, 65%, 1) 0, transparent 51%),
     radial-gradient(at 53% 75%, hsla(174, 94%, 68%, 1) 0, transparent 45%);
 }
 
@@ -106,7 +121,11 @@ body {
 }
 
 .swal-modal {
-  background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
+  background-image: linear-gradient(
+    to bottom right,
+    theme("colors.slate.800"),
+    theme("colors.slate.700")
+  );
   border: 3px solid white;
   border-radius: 20px;
 }
@@ -123,7 +142,11 @@ body {
 }
 
 .swal-button:hover {
-  background-image: linear-gradient(to bottom, theme("colors.green.700"), white);
+  background-image: linear-gradient(
+    to bottom,
+    theme("colors.green.700"),
+    white
+  );
   color: black;
 }
 
@@ -132,7 +155,11 @@ body {
 }
 
 .swal-button--cancel:hover {
-  background-image: linear-gradient(to bottom, theme("colors.slate.700"), white);
+  background-image: linear-gradient(
+    to bottom,
+    theme("colors.slate.700"),
+    white
+  );
 }
 
 .metal-bg {
@@ -147,7 +174,6 @@ body {
   opacity: 1;
 }
 
-
 .perspective-l {
   transform: perspective(800px) rotateY(25deg) scale(0.9) rotateX(10deg);
   filter: blur(2px);
@@ -160,7 +186,8 @@ body {
 
 @keyframes customPerspectiveL {
   100% {
-    transform: perspective(800px) rotateY(-15deg) translateY(-50px) rotateX(10deg) scale(1);
+    transform: perspective(800px) rotateY(-15deg) translateY(-50px)
+      rotateX(10deg) scale(1);
     filter: blur(0);
     opacity: 1;
   }

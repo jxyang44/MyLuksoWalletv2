@@ -9,7 +9,7 @@ const UploadBannerImage = ({ id, currentImage }) => {
   const { setPendingProfileJSONMetadata } = useProfileContext();
   const [image, setImage] = useState({ preview: "", raw: "" });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     // swal({
     //   title: "Upload from drive or URL?",
     //   buttons: {
@@ -35,7 +35,10 @@ const UploadBannerImage = ({ id, currentImage }) => {
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
-      setPendingProfileJSONMetadata(current => ({ ...current, backgroundImage: e.target.files[0] })); //temporarily set background image to actual file - lspfactory formats when user commits change
+      setPendingProfileJSONMetadata((current) => ({
+        ...current,
+        backgroundImage: e.target.files[0],
+      })); //temporarily set background image to actual file - lspfactory formats when user commits change
     }
   };
 
@@ -44,16 +47,32 @@ const UploadBannerImage = ({ id, currentImage }) => {
       <label htmlFor={id}>
         {!image.preview && //if no metadata, then use current uploaded image, or lukso logo if no current image
           (currentImage ? (
-            <img src={currentImage || defaultImage} className="max-h-full cursor-pointer" alt="Banner Image" />
+            <img
+              src={currentImage || defaultImage}
+              className="max-h-full cursor-pointer"
+              alt="Banner Image"
+            />
           ) : (
             //if current image is not passed in props, use default text
-            <div className="flex flex-col items-center text-center text-7xl text-blue-500 p-4">
-              <div className="text-sm">Upload Banner Image</div>
+            <div className="flex flex-col items-center p-4 text-center text-7xl brightness-200">
+              <div className="text-base">Upload Banner Image</div>
             </div>
           ))}
-        {image.preview && <img src={image.preview} className="max-h-full cursor-pointer" alt="Banner Image" />} {/* metadata found use this image */}
+        {image.preview && (
+          <img
+            src={image.preview}
+            className="max-h-full cursor-pointer"
+            alt="Banner Image"
+          />
+        )}{" "}
+        {/* metadata found use this image */}
       </label>
-      <input id={id} type="file" className="hidden h-0" onChange={handleChange} />
+      <input
+        id={id}
+        type="file"
+        className="hidden h-0"
+        onChange={handleChange}
+      />
     </div>
   );
 };

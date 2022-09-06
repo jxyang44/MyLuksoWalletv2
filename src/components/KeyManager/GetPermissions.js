@@ -11,16 +11,24 @@ const GetPermissions = ({ address, addressOf, children }) => {
   const { getPermissionsOfAddresses } = useProfileContext();
 
   const checkPermissions = () => {
-    getPermissionsOfAddresses(address, addressOf).then(res =>
-      swal(`Permissions for ${address} on ${addressOf ?? "Universal Profile"}: `, JSON.stringify(res, null, 1).replaceAll("true", "✅").replaceAll("false", "❌"))
+    getPermissionsOfAddresses(address, addressOf).then((res) =>
+      swal(
+        `Permissions for ${address} on ${addressOf ?? "Universal Profile"}: `,
+        JSON.stringify(res, null, 1)
+          .replaceAll("true", "✅")
+          .replaceAll("false", "❌")
+      )
     );
   };
 
   return (
-    <button className="text-blue-400 flex flex-row items-center gap-1 hover:text-blue-50" onClick={() => checkPermissions()}>
+    <button
+      className="flex flex-row items-center gap-1 text-blue-400 hover:text-blue-50"
+      onClick={() => checkPermissions()}
+    >
       {children}
       <FaUserLock />
-      <div className="opacity-0 hover:opacity-100 transition duration-300 w-fit absolute hover:translate-x-3 hover:translate-y-5 text-white z-10 text-xs">
+      <div className="absolute z-10 w-fit text-xs text-white opacity-0 transition duration-300 hover:translate-x-3 hover:translate-y-5 hover:opacity-100">
         Permissions
       </div>
     </button>

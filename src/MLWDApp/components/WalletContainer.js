@@ -47,68 +47,139 @@ const WalletContainer = ({ walletAddress, walletMetadata }) => {
 
   const assetLoad = async () => {
     const profile = createErc725Instance(LSP3Schema, walletAddress);
-    const result = await profile.fetchData(ownedAsset ? "LSP5ReceivedAssets[]" : "LSP12IssuedAssets[]");
+    const result = await profile.fetchData(
+      ownedAsset ? "LSP5ReceivedAssets[]" : "LSP12IssuedAssets[]"
+    );
     return result.value;
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mb-4" style={{ scrollbarWidth: "8px" }}>
-      <div className="w-[95%] xl:h-[75vh] h-[70vh] flex flex-row">
+    <div
+      className="mb-4 flex flex-col items-center justify-center"
+      style={{ scrollbarWidth: "8px" }}
+    >
+      <div className="flex  w-[95%] flex-row xl:h-[75vh] md:h-[80vh] lg:h-[70vh]">
         <div
-          className={`${binderContainer} ${leftBinder} ${flipOpenL ? " flipOpenL" : "flipCloseL"}`}
-          style={{ backgroundImage: `url(${containerTexture})`, backgroundColor: walletMetadata?.vaultColor }}>
+          className={`${binderContainer} ${leftBinder} ${
+            flipOpenL ? " flipOpenL" : "flipCloseL"
+          }`}
+          style={{
+            backgroundImage: `url(${containerTexture})`,
+            backgroundColor: walletMetadata?.vaultColor,
+          }}
+        >
           {showInnerL ? (
             <>
               <div //left buckle closes vault
-                className={buckle + leftBuckle + ` hover:translate-x-1 transition duration-700`}
+                className={
+                  buckle +
+                  leftBuckle +
+                  ` transition duration-700 hover:translate-x-1`
+                }
                 onClick={handleLeftBuckle}
-                style={{ backgroundImage: `url(${buckleTexture})` }}>
+                style={{ backgroundImage: `url(${buckleTexture})` }}
+              >
                 <img src={buttonFront} className="w-6" />
-                <div className="opacity-50 hover:opacity-100 transition duration-700 w-fit absolute xl:text-base text-xs translate-x-2 hover:translate-x-5 text-white z-10 ">
+                <div className="absolute z-10 w-fit translate-x-2 text-xs text-white opacity-50 transition duration-700 hover:translate-x-5 hover:opacity-100 xl:text-base ">
                   Close Wallet
                 </div>
               </div>
-              <WalletLeftProfile walletAddress={walletAddress} walletMetadata={walletMetadata} /> {/* profile information, addresses, vaults */}
+              <WalletLeftProfile
+                walletAddress={walletAddress}
+                walletMetadata={walletMetadata}
+              />{" "}
+              {/* profile information, addresses, vaults */}
             </>
           ) : (
-            <WalletCover flipFunction={handleLeftBuckle} walletMetadata={walletMetadata} /> //front wallet cover
+            <WalletCover
+              flipFunction={handleLeftBuckle}
+              walletMetadata={walletMetadata}
+            /> //front wallet cover
           )}
         </div>
         <div
-          className="h-[98%] self-center xl:w-8 w-2 bg-black  border-black border-y-4 border-x-2 rounded-md flex justify-center"
-          style={{ backgroundImage: `url(${containerTexture})`, backgroundColor: walletMetadata?.vaultColor }}>
+          className="flex h-[98%] w-2 justify-center self-center  rounded-md border-y-4 border-x-2 border-black bg-black xl:w-8"
+          style={{
+            backgroundImage: `url(${containerTexture})`,
+            backgroundColor: walletMetadata?.vaultColor,
+          }}
+        >
           <div className="h-full w-3 bg-slate-700 bg-opacity-50"></div>
         </div>
 
         <div
           className={`${binderContainer} ${rightBinder}`}
-          style={{ backgroundImage: `url(${containerTexture})`, backgroundColor: walletMetadata?.vaultColor }}>
+          style={{
+            backgroundImage: `url(${containerTexture})`,
+            backgroundColor: walletMetadata?.vaultColor,
+          }}
+        >
           <div //right buckle
-            className={buckle + rightBuckle + ` hover:-translate-x-1 transition duration-700`}
-            style={{ backgroundImage: `url(${buckleTexture})` }}>
-            <div className="flex flex-row items-center relative">
+            className={
+              buckle +
+              rightBuckle +
+              ` transition duration-700 hover:-translate-x-1`
+            }
+            style={{ backgroundImage: `url(${buckleTexture})` }}
+          >
+            <div className="relative flex flex-row items-center">
               <img src={buttonBack} className="w-6" />
-              <div className="absolute text-white text-right opacity-50 xl:text-base text-xs">Toggle LSPs</div>
+              <div className="absolute text-right text-xs text-white opacity-50 xl:text-base">
+                Toggle LSPs
+              </div>
             </div>
             <div
-              className="flex flex-col justify-center border-2 p-2 shadow-black shadow-lg border-slate-800 xl:w-[200%] w-[400%] rounded-l-xl h-full opacity-0 hover:opacity-100 
-                transition duration-700 xl:text-base text-xs absolute translate-x-2 hover:-translate-x-14 hover:h-[110%] text-white z-10 "
-              style={{ backgroundImage: `url(${buckleTexture})` }}>
+              className="absolute z-10 flex h-full w-[400%] translate-x-2 flex-col justify-center rounded-l-xl border-2 border-slate-800 p-2 text-xs text-white 
+                opacity-0 shadow-lg shadow-black transition duration-700 hover:h-[110%] hover:-translate-x-14 hover:opacity-100 xl:w-[200%] xl:text-base "
+              style={{ backgroundImage: `url(${buckleTexture})` }}
+            >
               {/* right buckle displays option to switch between LSP7, LSP8 and other */}
-              <button className="w-full text-left hover:text-black hover:font-semibold" onClick={() => setAssetType("LSP7")}>
+              <button
+                className="w-full text-left hover:font-semibold hover:text-black"
+                onClick={() => setAssetType("LSP7")}
+              >
                 LSP7 Assets
               </button>
-              <button className="w-full text-left hover:text-black hover:font-semibold" onClick={() => setAssetType("LSP8")}>
+              <button
+                className="w-full text-left hover:font-semibold hover:text-black"
+                onClick={() => setAssetType("LSP8")}
+              >
                 LSP8 Assets
               </button>
-              <button className="w-full text-left hover:text-black hover:font-semibold" onClick={() => setAssetType("Other")}>
+              <button
+                className="w-full text-left hover:font-semibold hover:text-black"
+                onClick={() => setAssetType("Other")}
+              >
                 Other Assets
               </button>
             </div>
           </div>
-          {assetType === "LSP7" && <WalletRightContents walletAddress={walletAddress} walletMetadata={walletMetadata} LSP={"LSP7"} ownedAsset={ownedAsset} setOwnedAsset={setOwnedAsset} assetLoad={assetLoad}/>}
-          {assetType === "LSP8" && <WalletRightContents walletAddress={walletAddress} walletMetadata={walletMetadata} LSP={"LSP8"} ownedAsset={ownedAsset} setOwnedAsset={setOwnedAsset} assetLoad={assetLoad}/>}
-          {assetType === "Other" && <div className="text-white">Under construction. Only LSP7 and LSP8 assets are supported at this time.</div>}
+          {assetType === "LSP7" && (
+            <WalletRightContents
+              walletAddress={walletAddress}
+              walletMetadata={walletMetadata}
+              LSP={"LSP7"}
+              ownedAsset={ownedAsset}
+              setOwnedAsset={setOwnedAsset}
+              assetLoad={assetLoad}
+            />
+          )}
+          {assetType === "LSP8" && (
+            <WalletRightContents
+              walletAddress={walletAddress}
+              walletMetadata={walletMetadata}
+              LSP={"LSP8"}
+              ownedAsset={ownedAsset}
+              setOwnedAsset={setOwnedAsset}
+              assetLoad={assetLoad}
+            />
+          )}
+          {assetType === "Other" && (
+            <div className="text-white">
+              Under construction. Only LSP7 and LSP8 assets are supported at
+              this time.
+            </div>
+          )}
         </div>
       </div>
     </div>

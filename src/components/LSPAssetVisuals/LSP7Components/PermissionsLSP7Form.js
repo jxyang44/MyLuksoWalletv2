@@ -1,12 +1,12 @@
 //transfer form on back of LSP7 coin
 
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Input } from "../..";
 import { useAssetsContext } from "../../../contexts/AssetsContext";
 import { useProfileContext } from "../../../contexts/ProfileContext";
 
 const PermissionsLSP7 = ({ assetAddress, contract }) => {
-  const {currentAccount} = useProfileContext();
+  const { currentAccount } = useProfileContext();
   const [transferToAddress, setTransferToAddress] = useState("");
   //const [transferFromAddress, setTransferFromAddress] = useState("");
   const { transferOwnership } = useAssetsContext();
@@ -22,10 +22,10 @@ const PermissionsLSP7 = ({ assetAddress, contract }) => {
   ];
 
   return (
-    <div className="flex flex-col animate-fadeInLeft">
+    <div className="flex animate-fadeInLeft flex-col">
       <Input
         fields={permissionsInputs}
-        customFunc={()=>transferOwnership(assetAddress, transferToAddress)}
+        customFunc={() => transferOwnership(assetAddress, transferToAddress)}
         buttonDescription="Transfer"
         themeColor="from-red-500 to-red-600"
         themeText="text-red-700"

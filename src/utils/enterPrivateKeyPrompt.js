@@ -1,7 +1,7 @@
 //prompt for private key using key manager
 import swal from "sweetalert";
 
-export const enterPrivateKey = (inputMessage,functionCall,successMessage) => {
+export const enterPrivateKey = (inputMessage, functionCall, successMessage) => {
   swal(
     `Hackathon Note: Manual input of a private key is not safe. \nWe are working to move this feature to the backend. 👷`,
     inputMessage,
@@ -10,11 +10,10 @@ export const enterPrivateKey = (inputMessage,functionCall,successMessage) => {
       button: true,
     }
   )
-    .then(value => {
+    .then((value) => {
       if (value) {
-        functionCall.then(res => {
-          if (res)
-            swal(successMessage, "", "success");
+        functionCall.then((res) => {
+          if (res) swal(successMessage, "", "success");
         });
       } else {
         swal("No input detected.");

@@ -1,40 +1,27 @@
 //context provider to manage extension connection, Universal Profile state, vault settings, permissions, and key manager
 //TO-DO organize these into separate contexts - this is getting messy
 
-import React, { useState, createContext, useContext } from "react";
-import Web3 from "web3";
+import React, { createContext, useContext } from "react";
+
 import {
-  LSP3Schema,
   UniversalProfileContract,
-  LSP6Contract,
   LSP9Contract,
   web3Provider,
   LSP6Schema,
-  LSP1Schema,
-  LSP10Schema,
-  createErc725Instance,
+  LSP1VaultContract,
   INTERFACE_IDS,
   constants,
+  LSP6Contract,
+  LSP10Schema
 } from "../utils/luksoConfigs";
-import { useStateContext } from "./StateContext";
+import { useProfileContext } from "./ProfileContext";
 import swal from "sweetalert";
 
 const VaultContext = createContext();
-const { ethereum } = window;
-export let web3Window;
 
-export const VaultProvider = ({ children }) => { 
+export const VaultProvider = ({ children }) => {
+  const { currentAccount, createErc725Instance, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
 
-
-  const { setTheme, setUPColor, setUPTextColor, setThemeDefaults } = useStateContext(); //state variables for website themes, fetched from UP metadata
-  const [currentAccount, setCurrentAccount] = useState(""); // current UP address
-  const [isProfileLoaded, setIsProfileLoaded] = useState(false); // true if profile metadata is fetched
-  const [profileJSONMetadata, setProfileJSONMetadata] = useState(defaultMetadata); // profile metadata - should always be in sync with JSON metadata on IPFS
-  const [pendingProfileJSONMetadata, setPendingProfileJSONMetadata] = useState(defaultMetadata); // keeps track of pending profile metadata that the user makes locally, but hasn't committed to uploading to the blockchain
-  const [useRelay, setUseRelay] = useState(false); // true if user has enabled relay transaction service
-  const [accountAddresses, setAccountAddresses] = useState(defaultAddresses); // stores permissions, URD, vault, and key manager addresses for the connected UP
-
- 
   //  ------------------------------------------------------  //
   //  ------------------  VAULT FUNCTIONS ------------------  //
   //  ------------------------------------------------------  //
@@ -87,159 +74,164 @@ export const VaultProvider = ({ children }) => {
     }
   };
 
-  //  ------------------------------------------------------  //
-  //  --------------------  PERMISSIONS --------------------  //
-  //  ------------------------------------------------------  //
 
-  //@desc adds a new permission to the account - contains conditional logic for both UP and vaults
-  //@addressFrom the address of your account (UP or vault) that needs permissions managed
-  //@addressTo the address of the beneficiary account that permissions should be granted/modified/removed from
-  //@permissions decoded permissions JSON object to be changed
-  //@return a promise that resolves to the executed transaction
-  async function addNewPermission(addressFrom, addressTo, permissions) {
-    if (!currentAccount) return swal("You are not connected to an account.", "", "warning");
-    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.", "", "warning");
+  //deploys vault and URD
+  //https://docs.lukso.tech/guides/vault/create-a-vault
+  //https://docs.lukso.tech/guides/vault/edit-vault-data
+  const deployVault = async setRecentVaultAddress => {
     try {
-      swal(`Adding new permissions for ${addressTo} to ${addressFrom}...`, { button: false });
+      const myVault = new web3Window.eth.Contract(LSP9Contract.abi);
+      return await myVault
+        .deploy({
+          data: LSP9Contract.bytecode,
+          arguments: [currentAccount],
+        })
+        .send({
+          from: currentAccount,
+          gas: 5_000_000,
+          gasPrice: "1000000000",
+        })
+        .on("receipt", receipt => {
+          console.log(receipt);
+          localStorage.setItem("recentLSP9Address", receipt.contractAddress);
+          setRecentVaultAddress(receipt.contractAddress);
+        })
+        .once("sending", payload => {
+          swal("Deploying vault", "The deployment process will begin once the transaction is confirmed. Please wait...", { button: false });
+          console.log(payload);
+        })
+        .on("error", error => console.log(error));
+    } catch (error) {
+      console.log(error);
+      swal("Something went wrong.", JSON.stringify(error), "warning");
+    }
+  };
 
-      const erc725 = createErc725Instance(LSP6Schema, addressFrom);
+  const deployVaultURD = async setRecentVaultURDAddress => {
+    try {
+      const myURDVault = new web3Window.eth.Contract(LSP1VaultContract.abi);
+      return await myURDVault
+        .deploy({
+          data: LSP1VaultContract.bytecode,
+        })
+        .send({
+          from: currentAccount,
+          gas: 5_000_000,
+          gasPrice: "1000000000",
+        })
+        .on("receipt", receipt => {
+          console.log(receipt);
+          localStorage.setItem("recentLSP9URDAddress", receipt.contractAddress);
+          setRecentVaultURDAddress(receipt.contractAddress);
+        })
+        .once("sending", payload => {
+          swal(
+            "Deploying vault universal receiver delegate.",
+            "The deployment process will begin once the transaction is confirmed. Please wait...",
+            { button: false }
+          );
+          console.log(payload);
+        })
+        .on("error", error => console.log(error));
+    } catch (error) {
+      console.log(error);
+      swal("Something went wrong.", JSON.stringify(error), "warning");
+    }
+  };
 
-      //3 items need to be updated for adding a new permissions (comments below)
+  const addURDToVaultFunc = async privateKey => {
+    try {
+      const myEOA = web3Window.eth.accounts.wallet.add(privateKey);
+      swal("Please wait... adding URD to vault.", { button: false });
+      const URD_DATA_KEY = constants.ERC725YKeys.LSP0.LSP1UniversalReceiverDelegate;
+      const myVaultAddress = localStorage.getItem("recentLSP9Address");
+      const myURDAddress = localStorage.getItem("recentLSP9URDAddress");
 
-      //key1: increment length of AddressPermissions[]
-      const permissionsArray = await erc725.getData("AddressPermissions[]");
-      const addressLengthKey = permissionsArray.key; //0xdf30dba06db6a30e65354d9a64c609861f089545ca58c6b4dbe31a5f338cb0e3
-      const currentPermissionsCount = permissionsArray?.value.length ?? 0;
-      const newPermissionsCount = "0x" + ("0".repeat(64 - (currentPermissionsCount + 1).toString().length) + (currentPermissionsCount + 1));
+      const myVault = new web3Window.eth.Contract(LSP9Contract.abi, myVaultAddress);
+      const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
+      const setDataPayload = await myVault.methods["setData(bytes32,bytes)"](URD_DATA_KEY, myURDAddress).encodeABI();
+      const executePayload = await myUP.methods.execute(0, myVaultAddress, 0, setDataPayload).encodeABI();
 
-      //key2: get index of beneficiary in AddressPermissions[]
-      const beneficiaryIndexKey = addressLengthKey.slice(0, 34) + "0000000000000000000000000000000" + currentPermissionsCount;
-      const beneficiaryAddress = addressTo;
+      const keyManagerAddress = await myUP.methods.owner().call();
+      const keyManagerContract = new web3Window.eth.Contract(LSP6Contract.abi, keyManagerAddress);
 
-      //console.log(permissionsArray, currentPermissionsCount, newPermissionsCount, addressLengthKey);
-
-      //key3: permissions of the beneficiary address
-      swal("Encoding permissions...", { button: false });
-      const beneficiaryPermissions = erc725.encodePermissions(permissions);
-      const data = erc725.encodeData({
-        keyName: "AddressPermissions:Permissions:<address>",
-        dynamicKeyParts: beneficiaryAddress,
-        value: beneficiaryPermissions,
-      });
-
-      const myUniversalProfile = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
-
-      if (currentAccount === addressFrom) {
-        //if the address is the Universal Profile, send directly from the extension
-        swal("Adding permissions. Please confirm...", { button: false });
-        return await myUniversalProfile.methods["setData(bytes32[],bytes[])"](
-          [
-            addressLengthKey, // length of AddressPermissions[]
-            beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
-            data.keys[0], // permissions of the beneficiary
-          ],
-          [newPermissionsCount, beneficiaryAddress, data.values[0]]
-        ).send({ from: currentAccount, gasLimit: 300_000 });
+      if (useRelay) {
+        return executeViaKeyManager(myUP.methods.execute(0, myVaultAddress, 0, setDataPayload), "Adding URD to Vault via Key Manager...");
       } else {
-        //if the address is a vault, execute via key manager
-        const myVault = new web3Window.eth.Contract(LSP9Contract.abi, addressFrom);
-        const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
-        const setDataPayload = myVault.methods["setData(bytes32[],bytes[])"](
-          [
-            addressLengthKey, // length of AddressPermissions[]
-            beneficiaryIndexKey, // index of beneficiary in AddressPermissions[]
-            data.keys[0], // permissions of the beneficiary
-          ],
-          [newPermissionsCount, beneficiaryAddress, data.values[0]]
-        ).encodeABI();
-        const executePayload = await myUP.methods.execute(0, addressFrom, 0, setDataPayload);
-        executeViaKeyManager(executePayload.encodeABI, `Please wait. Adding permissions via key manager...`, "Your permissions were added!");
+        return await keyManagerContract.methods.execute(executePayload).send({
+          from: myEOA.address,
+          gasLimit: 600_000,
+        });
       }
     } catch (error) {
       console.log(error);
       swal("Something went wrong.", JSON.stringify(error), "warning");
     }
-  }
+  };
 
-  //@desc updates permissions for an existing account - contains conditional logic for both UP and vaults
-  //@addressFrom the address of your account (UP or vault) that needs permissions managed
-  //@addressTo the address of the beneficiary account that permissions should be granted/modified/removed from
-  //@permissions decoded permissions JSON object to be changed
-  //@return a promise that resolves to the executed transaction
-  async function updateExistingPermission(addressFrom, addressTo, permissions) {
-    if (!currentAccount) return swal("You are not connected to an account.", "", "warning");
-    if (!addressFrom || !addressTo || !permissions) return swal("A required address was not provided.", "", "warning");
+  async function addVaultToUP(vaultAddress) {
     try {
-      swal(`Updating permissions for ${addressTo} on ${addressFrom}...`, { button: false });
+      swal("Adding vault to Universal Profile...", `Vault address: ${vaultAddress}`, { button: false, closeOnClickOutside: true });
 
-      const erc725 = createErc725Instance(LSP6Schema, addressFrom);
+      const web3 = web3Window;
 
-      swal("Encoding permissions...", { button: false });
-      const beneficiaryAddress = addressTo;
+      const erc725 = createErc725Instance(LSP10Schema, currentAccount); //LSP10Vaults[],LSP10VaultsMap:<address>
 
-      const beneficiaryPermissions = erc725.encodePermissions(permissions);
+      // key1: length of LSP10Vaults[]
+      const permissionsArray = await erc725.getData("LSP10Vaults[]");
+      const addressLengthKey = permissionsArray.key; //0x55482936e01da86729a45d2b87a6b1d3bc582bea0ec00e38bdb340e3af6f9f06
+      const currentPermissionsCount = permissionsArray?.value.length ?? 0;
+      const newPermissionsCount = "0x" + ("0".repeat(64 - (currentPermissionsCount + 1).toString().length) + (currentPermissionsCount + 1));
+      console.log(permissionsArray, currentPermissionsCount, newPermissionsCount, addressLengthKey);
 
-      const data = erc725.encodeData({
-        keyName: "AddressPermissions:Permissions:<address>",
-        dynamicKeyParts: beneficiaryAddress,
-        value: beneficiaryPermissions,
-      });
+      // key2: index of vault in LSP10Vaults[]
+      const beneficiaryIndexKey = addressLengthKey.slice(0, 34) + "0000000000000000000000000000000" + currentPermissionsCount;
+      const beneficiaryAddress = vaultAddress;
 
-      const myUniversalProfile = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
+      const myUniversalProfile = new web3.eth.Contract(UniversalProfileContract.abi, currentAccount);
+      const payloadFunction = await myUniversalProfile.methods["setData(bytes32[],bytes[])"](
+        [
+          addressLengthKey, // length of LSP10Vaults[]
+          beneficiaryIndexKey, // index of vault in LSP10Vaults[]
+        ],
+        [newPermissionsCount, beneficiaryAddress]
+      );
 
-      if (currentAccount === addressFrom) {
-        //if the address is the Universal Profile, send directly from the extension
-        swal("Updating permissions. Please confirm...", { button: false });
-        return await myUniversalProfile.methods["setData(bytes32,bytes)"](data.keys[0], data.values[0]).send({
+      console.log(payloadFunction);
+
+      if (useRelay) {
+        //use key manager
+        return executeViaKeyManager(payloadFunction.encodeABI, "Adding vault to Universal Profile via key manager...");
+      } else {
+        //pay from account balance
+        swal("Preparing transaction. Please confirm...", { button: false });
+        return await payloadFunction.send({
           from: currentAccount,
           gasLimit: 300_000,
         });
-      } else {
-        //if the address is a vault, execute via key manager
-        const myVault = new web3Window.eth.Contract(LSP9Contract.abi, addressFrom);
-        const myUP = new web3Window.eth.Contract(UniversalProfileContract.abi, currentAccount);
-        const setDataPayload = myVault.methods["setData(bytes32,bytes)"](data.keys[0], data.values[0]).encodeABI();
-        const executePayload = await myUP.methods.execute(0, addressFrom, 0, setDataPayload);
-        executeViaKeyManager(executePayload.encodeABI, `Please wait. Updating permissions via key manager...`, "Your permissions were updated!");
       }
     } catch (error) {
       console.log(error);
       swal("Something went wrong.", JSON.stringify(error), "warning");
     }
   }
+
+  const getOwner = async address => {
+    const universalProfileContract = new web3Provider.eth.Contract(UniversalProfileContract.abi, address);
+    return await universalProfileContract.methods.owner().call();
+  };
 
   return (
     <VaultContext.Provider
       value={{
-        defaultMetadata,
-        connectProfile,
-        loginWithKey,
-        connectProfileUsingUPAddress,
-        currentAccount,
-        setCurrentAccount,
-        profileJSONMetadata,
-        setProfileJSONMetadata,
-        pendingProfileJSONMetadata,
-        setPendingProfileJSONMetadata,
-        isProfileLoaded,
-        setIsProfileLoaded,
-        maxImageIndex,
-        disconnectUPExtension,
-        fetchProfileMetadata,
-        web3Window,
-        useRelay,
-        setUseRelay,
-        executeViaKeyManager,
-        accountAddresses,
-        setAccountAddresses,
-        getPermissionsOfAddresses,
-        fetchAddresses,
-        getAccountType,
-        addNewPermission,
-        updateExistingPermission,
         isVault,
         getAllowedAddresses,
         setAllowedAddresses,
+        deployVault,
+        deployVaultURD,
+        addURDToVaultFunc,
+        addVaultToUP,
+        getOwner,
       }}>
       {children}
     </VaultContext.Provider>

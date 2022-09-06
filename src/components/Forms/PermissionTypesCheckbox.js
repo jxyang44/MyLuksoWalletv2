@@ -22,40 +22,65 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 //   SUPER_DELEGATECALL: false,
 // };
 
-const PermissionTypesCheckbox = ({ addressFrom, addressTo, permissions, setPermissions }) => {
+const PermissionTypesCheckbox = ({
+  addressFrom,
+  addressTo,
+  permissions,
+  setPermissions,
+}) => {
   const [loaded, setLoaded] = useState(false);
-  const { getPermissionsOfAddresses, profileJSONMetadata} = useProfileContext();
+  const { getPermissionsOfAddresses, profileJSONMetadata,currentAccount } =
+    useProfileContext();
   const [originalPermissions, setOriginalPermissions] = useState();
   // {originalPermissions[key] === permissions[key] && "DEFAULT"}
   useEffect(() => {
     setLoaded(false);
-    getPermissionsOfAddresses(addressTo, addressFrom).then(res => {
+    getPermissionsOfAddresses(addressTo, addressFrom).then((res) => {
       setOriginalPermissions(res);
       setPermissions(res);
       setLoaded(true);
     });
   }, [addressTo]);
 
-  const handleChange = key => {
-    setPermissions(curr => ({ ...curr, [key]: !permissions[key] }));
+  const handleChange = (key) => {
+    setPermissions((curr) => ({ ...curr, [key]: !permissions[key] }));
   };
 
   return (
     <>
       {loaded ? (
-        <div className={`max-w-2xl text-white border-2 shadow-md rounded-lg px-8 pt-2 pb-8 mb-4 bg-slate-800 border-green-500 shadow-green-500`}>
-          <div className=" pb-1 mb-5 border-b-4 border-white">
-            <div className={`font-semibold text-2xl text-green-500`}>Permissions</div>
-            <div className="text-white flex flex-row gap-1">
-              Permissions for <Address address={addressTo} left={4} right={6} /> on {profileJSONMetadata["MLW_Vault_" + addressFrom]?.vaultName ?? "Unnamed Vault"} - <Address address={addressFrom} left={4} right={6} />.
+        <div
+          className={`mb-4 max-w-2xl sm:w-[90vw] rounded-lg border-2 border-green-500 bg-slate-800 px-8 pt-2 pb-8 text-white shadow-md shadow-green-500`}
+        >
+          <div className=" mb-5 border-b-4 border-white pb-1">
+            <div className={`text-2xl font-semibold text-green-500`}>
+              Permissions
+            </div>
+            <div className="flex flex-wrap gap-1 text-white">
+              Permissions for <Address address={addressTo} left={4} right={6} />{" "}
+              on{" "}
+              {addressFrom === currentAccount ? "Universal Profile": profileJSONMetadata["MLW_Vault_" + addressFrom]?.vaultName ??
+                "Unnamed Vault"}{" "}
+              - <Address address={addressFrom} left={4} right={6} />.
             </div>
           </div>
           <div className=" grid grid-cols-2">
             {Object.keys(permissions).map((key, index) => {
               return (
                 <div className="flex flex-row items-center gap-1" key={index}>
-                  <input type="checkbox" value={permissions[key]} checked={permissions[key]} onChange={() => handleChange(key)} />
-                  {key} {originalPermissions[key] !== permissions[key] && <div className="font-semibold text-red-500"> - MODIFIED</div>}
+                  <input
+                    type="checkbox"
+                    value={permissions[key]}
+                    checked={permissions[key]}
+                    onChange={() => handleChange(key)}
+                  />
+                  {key}{" "}
+                  {originalPermissions[key] !== permissions[key] && (
+                    <div className="font-semibold text-red-500">
+                      {" "}
+                      - MODIFIED
+                    </div>
+                  )}
                 </div>
               );
             })}

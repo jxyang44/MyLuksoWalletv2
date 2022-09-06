@@ -6,6 +6,7 @@ import App from "./App";
 import { StateProvider } from "./contexts/StateContext";
 import { ProfileProvider } from "./contexts/ProfileContext";
 import { AssetsProvider } from "./contexts/AssetsContext";
+import { VaultProvider } from "./contexts/VaultContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -15,11 +16,13 @@ root.render(
   // <React.StrictMode>
   <StateProvider>
     <ProfileProvider>
+      <VaultProvider>
       <AssetsProvider>
         <DndProvider backend={HTML5Backend}>
           <App />
         </DndProvider>
       </AssetsProvider>
+      </VaultProvider>
     </ProfileProvider>
   </StateProvider>
   // </React.StrictMode>

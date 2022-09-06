@@ -14,9 +14,15 @@ const GrantPermissions = () => {
     swal(`Grant permissions to MLW?`, "warning", {
       button: true,
     })
-      .then(value => {
+      .then((value) => {
         if (value) {
-          addNewPermission(currentAccount, MM_PublicKey, { SETDATA: true, TRANSFERVALUE: true, DEPLOY: true, CALL: true, SIGN: true });
+          addNewPermission(currentAccount, MM_PublicKey, {
+            SETDATA: true,
+            TRANSFERVALUE: true,
+            DEPLOY: true,
+            CALL: true,
+            SIGN: true,
+          });
         }
       })
       .catch(() => {
@@ -26,7 +32,10 @@ const GrantPermissions = () => {
 
   return (
     <div>
-      <ButtonClean buttonText={"Grant Permissions"} buttonFunc={handleGrantPermissions} />
+      <ButtonClean
+        buttonText={"Grant Permissions"}
+        buttonFunc={handleGrantPermissions}
+      />
     </div>
   );
 };

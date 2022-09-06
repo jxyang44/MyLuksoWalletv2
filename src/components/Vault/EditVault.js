@@ -5,7 +5,12 @@ import { VaultStep } from ".";
 import { useNavigate } from "react-router-dom";
 const EditVault = () => {
   const navigate = useNavigate();
-  return <VaultStep buttonText="5. Modify your Vault Settings" buttonFunc={() => navigate("../myvaults")} />;
+  return (
+    <VaultStep
+      buttonText="5. Modify your Vault Settings"
+      buttonFunc={() => navigate("../myvaults")}
+    />
+  );
 };
 
 export default EditVault;

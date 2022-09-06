@@ -18,8 +18,10 @@ export { default as FormTabs } from "./Basics/FormTabs"; //tabs for forms
 export { default as Input } from "./Basics/Input"; //input form on large LSP visuals
 export { default as FormContainer } from "./Basics/FormContainer"; //container for forms
 export { default as FullScreenButton } from "./Basics/FullScreenButton"; //button to go full screen
-export { default as Address } from "./EOAAccount/Address"; //address component with blockscout link and copy address 
+export { default as Address } from "./EOAAccount/Address"; //address component with blockscout link and copy address
 export { default as LYXBalanceFuncs } from "./EOAAccount/LYXBalanceFuncs"; //UP native token balance and transfer component
+export { default as ContainerWithHeader } from "./Basics/ContainerWithHeader"; //container with title and subtitle
+export { default as SampleAccounts } from "./Basics/SampleAccounts"; //sample accounts for demonstration
 
 //components for the get started page
 export { default as StepLeft } from "./GetStarted/StepLeft"; //instrucions box for the "Get Started" page

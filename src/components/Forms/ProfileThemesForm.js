@@ -7,10 +7,16 @@ import { useStateContext } from "../../contexts/StateContext";
 
 const ProfileThemesForm = () => {
   const { setPendingProfileJSONMetadata } = useProfileContext();
-  const { theme, setTheme, UPColor, setUPColor, UPTextColor, setUPTextColor } = useStateContext();
-  
+  const { theme, setTheme, UPColor, setUPColor, UPTextColor, setUPTextColor } =
+    useStateContext();
+
   useEffect(() => {
-    setPendingProfileJSONMetadata(current => ({ ...current, MLWTheme: theme, MLWUPColor: UPColor, MLWUPTextColor: UPTextColor }));
+    setPendingProfileJSONMetadata((current) => ({
+      ...current,
+      MLWTheme: theme,
+      MLWUPColor: UPColor,
+      MLWUPTextColor: UPTextColor,
+    }));
   }, [theme, UPColor, UPTextColor]);
 
   const setToDefault = async () => {
@@ -20,13 +26,18 @@ const ProfileThemesForm = () => {
   };
 
   return (
-    <FormContainer title={"Profile Themes"} subtitle={"Settings Will Stay with Your Profile"} mainOverride={"w-[50vw]"}>
-      <div className="flex flex-row items-center mb-4 justify-between h-8">
-        <div className=" text-white font-semibold">Theme Settings</div> 
+    <FormContainer
+      title={"Profile Themes"}
+      subtitle={"Settings Will Stay with Your Profile"}
+      mainOverride={"w-[50vw]"}
+    >
+      <div className="mb-4 flex h-8 flex-row items-center justify-between">
+        <div className=" font-semibold text-white">Theme Settings</div>
         <select
           value={theme}
-          onChange={e => setTheme(e.target.value)}
-          className={`shadow appearance-none border rounded py-2 px-3 bg-transparent text-white leading-tight focus:outline-none focus:shadow-outline mb-4`}>
+          onChange={(e) => setTheme(e.target.value)}
+          className={`focus:shadow-outline mb-4 appearance-none rounded border bg-transparent py-2 px-3 leading-tight text-white shadow focus:outline-none`}
+        >
           <option className="bg-slate-600" value="slate">
             slate
           </option>
@@ -89,16 +100,28 @@ const ProfileThemesForm = () => {
           </option>
         </select>
       </div>
-      <div className="flex flex-row items-center mb-4 justify-between h-8">
-        <div className=" text-white font-semibold">Universal Profile Color</div>
-        <input type="color" value={UPColor} onChange={e => setUPColor(e.target.value)} className="h-9 w-20 rounded bg-transparent"></input>
+      <div className="mb-4 flex h-8 flex-row items-center justify-between">
+        <div className=" font-semibold text-white">Universal Profile Color</div>
+        <input
+          type="color"
+          value={UPColor}
+          onChange={(e) => setUPColor(e.target.value)}
+          className="h-9 w-20 rounded bg-transparent"
+        ></input>
       </div>
-      <div className="flex flex-row items-center mb-4 justify-between h-8">
-        <div className=" text-white font-semibold">Universal Profile Text Color</div>
-        <input type="color" value={UPTextColor} onChange={e => setUPTextColor(e.target.value)} className="h-9 w-20 rounded bg-transparent"></input>
+      <div className="mb-4 flex h-8 flex-row items-center justify-between">
+        <div className=" font-semibold text-white">
+          Universal Profile Text Color
+        </div>
+        <input
+          type="color"
+          value={UPTextColor}
+          onChange={(e) => setUPTextColor(e.target.value)}
+          className="h-9 w-20 rounded bg-transparent"
+        ></input>
       </div>
 
-      <div className="flex items-center justify-between mt-8">
+      <div className="mt-8 flex items-center justify-between">
         <ButtonColor buttonText={"Reset"} buttonFunc={setToDefault} />
         <UpdateProfile />
       </div>

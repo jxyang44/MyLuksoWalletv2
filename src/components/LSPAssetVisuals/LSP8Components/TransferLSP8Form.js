@@ -1,11 +1,11 @@
 //transfer form on LSP8 card
 
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Input } from "../..";
 import { useAssetsContext } from "../../../contexts/AssetsContext";
 import { useProfileContext } from "../../../contexts/ProfileContext";
-const TransferLSP8 = ({ assetAddress,contract, balanceOf }) => {
-  const {currentAccount} = useProfileContext();
+const TransferLSP8 = ({ assetAddress, contract, balanceOf }) => {
+  const { currentAccount } = useProfileContext();
   const [tokenID, setTokenID] = useState(0);
   const [transferToAddress, setTransferToAddress] = useState("");
   //const [transferFromAddress, setTransferFromAddress] = useState("");
@@ -18,7 +18,6 @@ const TransferLSP8 = ({ assetAddress,contract, balanceOf }) => {
       type: "text",
       value: tokenID,
       setValue: setTokenID,
-   
     },
     // {
     //   label: "Transfer from Address",
@@ -37,10 +36,19 @@ const TransferLSP8 = ({ assetAddress,contract, balanceOf }) => {
   ];
 
   return (
-    <div className="flex flex-col animate-fadeInLeft">
+    <div className="flex animate-fadeInLeft flex-col">
       <Input
         fields={transferInputs}
-        customFunc={()=>transferLSP8(assetAddress, tokenID, transferToAddress, contract, currentAccount, balanceOf)}
+        customFunc={() =>
+          transferLSP8(
+            assetAddress,
+            tokenID,
+            transferToAddress,
+            contract,
+            currentAccount,
+            balanceOf
+          )
+        }
         buttonDescription="Transfer"
         themeColor="from-blue-500 to-blue-600"
         themeText="text-blue-700"

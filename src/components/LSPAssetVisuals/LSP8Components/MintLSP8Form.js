@@ -27,10 +27,12 @@ const MintLSP8Form = ({ assetAddress, contract }) => {
   ];
 
   return (
-    <div className="flex flex-col animate-fadeInLeft">
+    <div className="flex animate-fadeInLeft flex-col">
       <Input
         fields={mintInputs}
-        customFunc={() => mintLSP8(assetAddress, tokenID, mintToAddress, contract)}
+        customFunc={() =>
+          mintLSP8(assetAddress, tokenID, mintToAddress, contract)
+        }
         buttonDescription="Mint"
         themeColor="from-green-500 to-green-600"
         themeText="text-green-700"

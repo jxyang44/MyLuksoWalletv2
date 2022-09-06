@@ -1,6 +1,4 @@
-contains CSS for the MyLuksoWalletComponent
-
-.custom-shadow {
+contains CSS for the MyLuksoWalletComponent .custom-shadow {
   box-shadow: 5px 5px 5px 0px black;
 }
 
@@ -12,7 +10,8 @@ contains CSS for the MyLuksoWalletComponent
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: perspective(1000px) scaleX(0.1) translateY(100px) translateZ(-1000px);
+    transform: perspective(1000px) scaleX(0.1) translateY(100px)
+      translateZ(-1000px);
   }
   100% {
     opacity: 1;
@@ -48,7 +47,11 @@ contains CSS for the MyLuksoWalletComponent
 
 .slick-dots li div:hover,
 .slick-dots li div:focus {
-  background-image: linear-gradient(to bottom right, theme("colors.slate.800"), theme("colors.slate.700"));
+  background-image: linear-gradient(
+    to bottom right,
+    theme("colors.slate.800"),
+    theme("colors.slate.700")
+  );
 }
 
 .slick-dots li.slick-active {
@@ -57,8 +60,6 @@ contains CSS for the MyLuksoWalletComponent
   filter: contrast(1);
   font-weight: bolder;
 }
-
-
 
 /* Flip Wallet Animation */
 
@@ -75,7 +76,6 @@ contains CSS for the MyLuksoWalletComponent
   transform-origin: 102% center;
   animation: flipOpenL 2s linear forwards;
 }
-
 
 @keyframes flipCloseL {
   0% {
@@ -120,7 +120,8 @@ contains CSS for the MyLuksoWalletComponent
 .tilted-coin {
   transform-style: preserve-3d;
   transform-origin: left top;
-  transform:  perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(1vmax);
+  transform: perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4)
+    translateX(2vmax) translatey(1vmax);
   opacity: 1;
   transition: transform 0.4s ease-out;
 }
@@ -128,7 +129,8 @@ contains CSS for the MyLuksoWalletComponent
 .tilted-coin:hover {
   transform-style: preserve-3d;
   transform-origin: left top;
-  transform:  perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4) translateX(2vmax) translatey(0vmax);
+  transform: perspective(1600px) rotateY(-30deg) rotateX(10deg) scale(0.4)
+    translateX(2vmax) translatey(0vmax);
   opacity: 1;
   z-index: 30;
 }
@@ -136,14 +138,15 @@ contains CSS for the MyLuksoWalletComponent
 .selected-coin {
   transform-style: preserve-3d;
   transform-origin: left top;
-  transform:  perspective(1200px) rotateY(-10deg) rotateX(5deg) scale(0.5) translateX(12vmax) translatey(-3vmax)  ;
+  transform: perspective(1200px) rotateY(-10deg) rotateX(5deg) scale(0.5)
+    translateX(12vmax) translatey(-3vmax);
   opacity: 1;
   z-index: 100;
   transition: transform 0.4s ease-out;
 }
 
 /* card name transform */
-.lsp8-name{
+.lsp8-name {
   transform-origin: 50% 0;
   transform: rotate(90deg) translateY(-24vmax);
 }

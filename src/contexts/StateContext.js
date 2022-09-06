@@ -13,7 +13,6 @@ const themeDefaults = {
 };
 
 export const StateProvider = ({ children }) => {
-  const [screenSize, setScreenSize] = useState();
   const [activeMenu, setActiveMenu] = useState(false);
   const [activeProfile, setActiveProfile] = useState(false);
   const [scrollHeight, setScrollHeight] = useState(0);
@@ -108,8 +107,6 @@ export const StateProvider = ({ children }) => {
     <StateContext.Provider
       value={{
         activeMenu,
-        screenSize,
-        setScreenSize,
         scrollHeight,
         setScrollHeight,
         setActiveMenu,
@@ -123,7 +120,8 @@ export const StateProvider = ({ children }) => {
         setUPTextColor,
         THEMES,
         setThemeDefaults,
-      }}>
+      }}
+    >
       {children}
     </StateContext.Provider>
   );

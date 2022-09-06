@@ -13,7 +13,7 @@ const UploadProfileImage = ({ id, currentImage }) => {
 
   useEffect(() => {}, []);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     // swal({
     //   title: "Upload from drive or URL?",
     //   buttons: {
@@ -39,7 +39,10 @@ const UploadProfileImage = ({ id, currentImage }) => {
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
-      setPendingProfileJSONMetadata(current => ({ ...current, profileImage: e.target.files[0] })); //temporarily set profile image to actual file - handle metadata formatting when user commits change
+      setPendingProfileJSONMetadata((current) => ({
+        ...current,
+        profileImage: e.target.files[0],
+      })); //temporarily set profile image to actual file - handle metadata formatting when user commits change
     }
   };
 
@@ -48,16 +51,31 @@ const UploadProfileImage = ({ id, currentImage }) => {
       <label htmlFor={id}>
         {!image.preview &&
           (currentImage ? (
-            <img src={currentImage || defaultImage} className="rounded-full  cursor-pointer" alt="Profile Image" />
+            <img
+              src={currentImage || defaultImage}
+              className="cursor-pointer  rounded-full"
+              alt="Profile Image"
+            />
           ) : (
-            <div className="flex flex-col items-center text-center text-7xl text-blue-500 p-4">
+            <div className="flex flex-col items-center p-4 text-center text-7xl brightness-150">
               <RiUserSearchLine />
               <div className="text-sm">Upload Profile Image</div>
             </div>
           ))}
-        {image.preview && <img src={image.preview} className="rounded-full  cursor-pointer" alt="Profile Image" />}
+        {image.preview && (
+          <img
+            src={image.preview}
+            className="cursor-pointer  rounded-full"
+            alt="Profile Image"
+          />
+        )}
       </label>
-      <input id={id} type="file" className="hidden h-0" onChange={handleChange} />
+      <input
+        id={id}
+        type="file"
+        className="hidden h-0"
+        onChange={handleChange}
+      />
     </div>
   );
 };
