@@ -29,7 +29,6 @@ const ProfileThemesForm = () => {
     <FormContainer
       title={"Profile Themes"}
       subtitle={"Settings Will Stay with Your Profile"}
-      mainOverride={"w-[50vw]"}
     >
       <div className="mb-4 flex h-8 flex-row items-center justify-between">
         <div className=" font-semibold text-white">Theme Settings</div>

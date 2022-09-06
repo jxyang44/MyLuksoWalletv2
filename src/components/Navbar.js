@@ -13,48 +13,43 @@ import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
 
 const Navbar = () => {
-  const {
-    setActiveMenu,
-    activeProfile,
-    setActiveProfile,
-    setScrollHeight,
-    UPColor,
-  } = useStateContext();
-  const {
-    isProfileLoaded,
-    connectProfile,
-    profileJSONMetadata,
-    loginWithKey,
-    useRelay,
-  } = useProfileContext();
+  const { setActiveMenu, activeProfile, setActiveProfile, setScrollHeight, UPColor } = useStateContext();
+  const { isProfileLoaded, connectProfile, profileJSONMetadata, loginWithKey, useRelay } = useProfileContext();
 
   //scroll height used for home page animations
   //resize used for mobile devices
   useEffect(() => {
-    const handleResize = () => {
-      if (
-        window.innerWidth < 768 &&
-        window.screen.orientation.type.includes("portrait")
-      ) {
-        swal(
-          "Mobile device detected.",
-          "The hackathon was designed for desktop operability, so MyLuksoWallet's core functionality is built around the desktop browser extension. \n\n Some features currently will not work for mobile. For the best experience, please rotate your device."
-        );
-      }
-    };
+    if (window.innerWidth < 768 && window.screen.orientation.type.includes("portrait")) {
+      swal(
+        "Mobile device detected.",
+        "The hackathon was designed for desktop operability, so MyLuksoWallet's core functionality is built around the desktop browser extension. \n\n Some features currently will not work for mobile. For the best experience, please rotate your device."
+      );
+    }
+
+    // const handleResize = () => {
+    //   if (
+    //     window.innerWidth < 768 &&
+    //     window.screen.orientation.type.includes("portrait")
+    //   ) {
+    //     swal(
+    //       "Mobile device detected.",
+    //       "The hackathon was designed for desktop operability, so MyLuksoWallet's core functionality is built around the desktop browser extension. \n\n Some features currently will not work for mobile. For the best experience, please rotate your device."
+    //     );
+    //   }
+    // };
     const handleScroll = () => setScrollHeight(window.scrollY);
-    window.addEventListener("resize", handleResize);
+    // window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
-    handleResize();
+    // handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      //  window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleProfileClick = () => {
-    setActiveProfile((current) => !current);
+    setActiveProfile(current => !current);
 
     // displays a warning if the user has pending changes and closes their profile window - commented out due to overactive message
     // if (activeProfile && JSON.stringify(pendingProfileJSONMetadata) !== JSON.stringify(profileJSONMetadata)) {
@@ -81,10 +76,7 @@ const Navbar = () => {
 
   return (
     <div className="relative flex h-14 items-center justify-between">
-      <div
-        onClick={() => setActiveMenu((curr) => !curr)}
-        className="relative cursor-pointer rounded p-3 text-slate-300 hover:text-white"
-      >
+      <div onClick={() => setActiveMenu(curr => !curr)} className="relative cursor-pointer rounded p-3 text-slate-300 hover:text-white">
         <AiOutlineMenu />
       </div>
 
@@ -94,33 +86,19 @@ const Navbar = () => {
             <div
               className={`flex cursor-pointer items-center justify-between gap-1 rounded-lg bg-slate-600 from-white py-1 px-1
           transition-all duration-500 hover:bg-gradient-to-t ${
-            activeProfile
-              ? "bg-gradient-to-t  opacity-70"
-              : "bg-gradient-to-b shadow-md shadow-black/80 "
+            activeProfile ? "bg-gradient-to-t  opacity-70" : "bg-gradient-to-b shadow-md shadow-black/80 "
           }`}
               style={{ backgroundColor: UPColor ?? "#FFFFFF" }}
-              onClick={handleProfileClick}
-            >
+              onClick={handleProfileClick}>
               {profileJSONMetadata.profileImage.length ? (
-                <img
-                  className="h-6 w-6 rounded-full"
-                  src={profileJSONMetadata.profileImage[0].url.replace(
-                    "ipfs://",
-                    IPFS_GATEWAY
-                  )}
-                />
+                <img className="h-6 w-6 rounded-full" src={profileJSONMetadata.profileImage[0].url.replace("ipfs://", IPFS_GATEWAY)} />
               ) : (
                 <div className="text-gray-400">
                   <RiUserSearchLine />
                 </div>
               )}
               <p className="ml-1 flex flex-row items-center gap-2 text-sm font-bold text-black xl:text-base">
-                {profileJSONMetadata.name}{" "}
-                {activeProfile ? (
-                  <MdKeyboardArrowUp />
-                ) : (
-                  <MdKeyboardArrowDown />
-                )}
+                {profileJSONMetadata.name} {activeProfile ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
               </p>
             </div>
             {/* <button
@@ -133,17 +111,17 @@ const Navbar = () => {
           </>
         ) : (
           <div className="mt-5 flex flex-col items-end gap-1">
-            <ButtonColor
-              buttonText="Connect Profile"
-              buttonFunc={() => connectProfile()}
-              customStyle={"bg-blue-500 hover:bg-blue-700 md:text-base text-sm"}
-            />
-            <div className="flex w-fit flex-col gap-1 text-xs font-semibold text-white xl:text-sm">
+            <button
+              className={`focus:shadow-outline rounded-2xl bg-gradient-to-br from-sky-400 via-sky-200 to-sky-300 py-1 px-3 md:px-6 text-sm font-semibold text-sky-700 hover:text-white hover:bg-gradient-to-bl hover:shadow-white hover:shadow-sm focus:outline-none md:text-base`}
+              onClick={() => connectProfile()}>
+              Connect Profile
+            </button>
+
+            <div className="flex w-fit flex-col gap-0.5 text-xs text-white xl:text-sm">
               <button //manual log-in with public key
-                className="flex flex-row items-center justify-center rounded-xl border border-white px-3 opacity-80 hover:bg-slate-200 hover:text-slate-800"
-                onClick={() => loginWithKey("UP Address")}
-              >
-                <MdOutlineLogin /> &nbsp; UP Address Login
+                className="flex flex-row items-center justify-center rounded-xl border border-white px-2 opacity-80 hover:bg-slate-200 hover:text-slate-800"
+                onClick={() => loginWithKey("UP Address")}>
+                <MdOutlineLogin /> &nbsp; Manual Login
               </button>
             </div>
           </div>

@@ -9,13 +9,12 @@ import {
   GetStarted,
   MyProfile,
   MyAssets,
-  RelayService,
   CreateToken,
   CreateVault,
-  ProfileSearch,
   MyVaults,
   UnderConstruction,
 } from "./pages";
+import { useSwipeable } from "react-swipeable";
 
 const ScrollToTop = (props) => {
   const location = useLocation();
@@ -27,17 +26,27 @@ const ScrollToTop = (props) => {
 };
 
 const App = () => {
-  const { theme, activeMenu, THEMES } = useStateContext();
+  const { theme, setActiveMenu, activeMenu, THEMES } = useStateContext();
   const [background, setBackground] = useState(THEMES.background[theme]);
 
   useEffect(() => {
     setBackground(THEMES.background[theme]);
   }, [theme]);
 
+  //enables swipe for mobile
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setActiveMenu(false),
+    onSwipedRight: () => setActiveMenu(true),
+    preventScrollOnSwipe: true,
+    //swipeDuration: 100
+  });
+
+
   return (
     <div
       className={`-z-20 h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-800 sm:w-full`}
       style={{ boxShadow: "inset 0 0 15px black" }}
+      {...handlers}
     >
       <div
         className={`fixed inset-0 h-full w-full bg-gradient-to-br ${background} rounded-lg opacity-25 blur`}

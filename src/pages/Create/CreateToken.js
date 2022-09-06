@@ -104,7 +104,7 @@ const CreateToken = ({ LSP }) => {
           </div>
          
             <div className="flex flex-col md:flex-row justify-between min-h-[85vh]">
-              <div>
+              <div className="md:w-1/2">
                 <FormTabs forms={LSPValues[LSP].forms} showForm={showForm} setShowForm={setShowForm} />
 
                 <div className="flex w-full flex-row gap-2">
@@ -124,13 +124,13 @@ const CreateToken = ({ LSP }) => {
                 </div>
               </div>
               {LSP === "LSP7" && (
-                <div className="flex md:w-1/2 flex-col justify-center ">
+                <div className="flex md:w-1/2 flex-col justify-center">
                   <LSP7TokenCoin createToken={formValues} />
                 </div>
               )}
 
               {LSP === "LSP8" && (
-                <div className="flex md:w-1/2 flex-col justify-center">
+                <div className="flex md:ml-12 md:w-[45vmax] flex-col justify-center">
                   <LSP8NFTCard createToken={formValues} />
                 </div>
               )}

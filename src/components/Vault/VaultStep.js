@@ -15,19 +15,19 @@ const VaultStep = ({
 }) => {
   return (
     <div className="mb-10 flex flex-col items-center">
-      <div className="flex w-11/12 flex-row-re items-center gap-2">
+      <div className="flex w-full items-center gap-2">
         <button
-          className="group flex max-h-16 w-full items-center justify-between rounded-lg border border-sky-500 px-5 py-3 text-sky-500 hover:bg-sky-500"
+          className="group flex max-h-24 w-full items-center justify-between rounded-lg border border-sky-500 px-3 py-3 text-sky-500 hover:bg-sky-500"
           onClick={buttonFunc}
         >
-          <span className="text-lg font-medium group-hover:text-white">
+          <span className="text-base md:text-lg font-medium group-hover:text-white">
             {buttonText}
           </span>
 
           <span className="ml-4 flex-shrink-0 rounded-full border border-sky-500 bg-white p-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-3 w-3 md:h-5 md:w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

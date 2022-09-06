@@ -40,7 +40,7 @@ const Resources = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="grid md:grid-cols-2 gap-4 grid-cols-1">
           <Link
             href={"https://lukso.network/"}
             title={"Homepage"}
