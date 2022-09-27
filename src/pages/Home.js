@@ -24,7 +24,7 @@ const Home = () => {
     <>
       <div className="flex flex-col items-center gap-12 md:gap-36 pb-32 text-white">
         <Welcome />
-        <DigitalIdentity />
+        {/* <DigitalIdentity /> */}
         <WhatisMyLuksoWallet />
         <AssetCards />
         <GetStarted />

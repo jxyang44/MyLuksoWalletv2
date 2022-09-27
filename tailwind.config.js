@@ -20,8 +20,11 @@ module.exports = {
           'closeVault': 'spinCCW 3s ease-out forwards',
           'fadeInLeft': 'fadeInLeft 1s forwards',
           'fadeInTop': 'fadeInTop 4s forwards ease-in',
+          'fadeInCenter': 'fadeInCenter 1.5s forwards ease-in',
           'coin-spin-appear': 'coinSpinAppear 0.6s forwards ease-in',
           'coin-spin-disappear': 'coinSpinDisappear 1.0s forwards ease-out',
+          'profile-in-xl': 'profileInXl 0.2s ease-out',
+          'profile-in': 'profileIn 0.2s ease-out'
         },
         keyframes: {
           wiggle: {
@@ -53,6 +56,10 @@ module.exports = {
             '60%' : { transform: 'translateY(1%)' },
             '100%' : { transform: 'translateY(0%)', opacity:'1' }
           },
+          fadeInCenter: { 
+            '0%' : {  opacity:'0' },
+            '100%' : { opacity:'1' }
+          },
           coinSpinAppear: {
             '0%' : { transform: 'rotateY(0deg)'},
             '100%' : { transform: 'rotateY(90deg)'}
@@ -60,6 +67,26 @@ module.exports = {
           coinSpinDisappear: {
             '0%' : { transform: 'rotateY(90deg)'},
             '100%' : { transform: 'rotateY(0deg)'}
+          },
+          profileInXl: {            
+            '0%' : {
+              opacity: '0',
+              transform: 'perspective(1000px) scale(0.85) translateZ(-2000px)'
+            },
+            '100%' : {
+              opacity: '1',
+              transform: 'perspective(1000px) scale(0.85) translateZ(0)'
+            }
+          },
+          profileIn: {            
+            '0%' : {
+              opacity: '0',
+              transform: 'perspective(1000px) scale(0.6) translateZ(-2000px)'
+            },
+            '100%' : {
+              opacity: '1',
+              transform: 'perspective(1000px) scale(0.6) translateZ(0)'
+            }
           },
         }
       }

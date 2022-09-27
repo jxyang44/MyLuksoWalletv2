@@ -127,7 +127,7 @@ const WalletLSP8 = ({
                 className={`absolute top-1/2 flex aspect-square w-[50%] -translate-y-1/2 items-center justify-center rounded-xl p-2 opacity-50`}
               >
                 <img
-                  src={assets[index].assetImage2}
+                  src={assets[index].assetImage2 ?? assets[index].assetImage1}
                   className="aspect-square w-full select-none"
                 ></img>
               </div>

@@ -12,7 +12,8 @@ import {
   INTERFACE_IDS,
   constants,
   LSP6Contract,
-  LSP10Schema
+  LSP10Schema,
+  createErc725Instance,
 } from "../utils/luksoConfigs";
 import { useProfileContext } from "./ProfileContext";
 import swal from "sweetalert";
@@ -20,7 +21,7 @@ import swal from "sweetalert";
 const VaultContext = createContext();
 
 export const VaultProvider = ({ children }) => {
-  const { currentAccount, createErc725Instance, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
+  const { currentAccount, web3Window, useRelay, executeViaKeyManager } = useProfileContext();
 
   //  ------------------------------------------------------  //
   //  ------------------  VAULT FUNCTIONS ------------------  //
@@ -73,7 +74,6 @@ export const VaultProvider = ({ children }) => {
       console.log(err);
     }
   };
-
 
   //deploys vault and URD
   //https://docs.lukso.tech/guides/vault/create-a-vault

@@ -7,7 +7,7 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 import { useStateContext } from "../contexts/StateContext";
 import { useProfileContext } from "../contexts/ProfileContext";
-import { UniversalProfile, ButtonColor } from "./";
+import { UniversalProfile, Tabs } from "./";
 import { IPFS_GATEWAY } from "../utils/luksoConfigs";
 import { MdOutlineLogin } from "react-icons/md";
 import swal from "sweetalert";
@@ -19,7 +19,8 @@ const Navbar = () => {
   //scroll height used for home page animations
   //resize used for mobile devices
   useEffect(() => {
-    if (window.innerWidth < 768 && window.screen.orientation.type.includes("portrait")) {
+    if (window.innerWidth < 768) {
+      //&& window.screen.orientation.type.includes("portrait")
       swal(
         "Mobile device detected.",
         "The hackathon was designed for desktop operability, so MyLuksoWallet's core functionality is built around the desktop browser extension. \n\n Some features currently will not work for mobile. For the best experience, please rotate your device."
@@ -126,7 +127,10 @@ const Navbar = () => {
             </div>
           </div>
         )}
-        {activeProfile && <UniversalProfile />}
+        {activeProfile && <>
+          <Tabs/>
+          <UniversalProfile />
+        </>}
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ import {
   Address,
   MyMenuItem,
   Loading,
-  ButtonShadow,
   ButtonColor,
   UpdateProfile,
   DisconnectProfile,
@@ -86,7 +85,7 @@ const UniversalProfile = () => {
 
   return (
     <div
-      className="absolute right-1 top-12 w-[640px] origin-top-right scale-[0.6] overflow-auto rounded-xl bg-white bg-opacity-30 p-8 text-black transition xl:scale-[.85]"
+      className="absolute right-1 top-12 w-[640px] origin-top-right scale-[0.6] overflow-auto rounded-xl bg-white bg-opacity-30 p-8 text-black transition xl:scale-[.85] animate-profile-in xl:animate-profile-in-xl"
       style={{
         backgroundColor: UPColor ?? "#FFFFFF",
         color: UPTextColor ?? "#000000",

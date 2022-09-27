@@ -64,7 +64,7 @@ const PermissionTypesCheckbox = ({
               - <Address address={addressFrom} left={4} right={6} />.
             </div>
           </div>
-          <div className=" grid grid-cols-2">
+          <div className=" grid grid-cols-2 sm:grid-cols-1">
             {Object.keys(permissions).map((key, index) => {
               return (
                 <div className="flex flex-row items-center gap-1" key={index}>

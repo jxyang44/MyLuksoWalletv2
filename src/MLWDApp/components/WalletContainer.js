@@ -10,7 +10,6 @@ import buttonFront from "../../assets/MyLuksoWalletVisual/Button/button_front.sv
 import buttonBack from "../../assets/MyLuksoWalletVisual/Button/button_back.svg";
 import containerTexture from "../../assets/MyLuksoWalletVisual/Wallet Texture/white-leather.png";
 import buckleTexture from "../../assets/MyLuksoWalletVisual/Wallet Texture/white-texture.png";
-//iterate through different styles
 
 const WalletContainer = ({ walletAddress, walletMetadata }) => {
   const { setActiveMenu } = useStateContext();

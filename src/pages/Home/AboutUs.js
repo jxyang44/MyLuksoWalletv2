@@ -13,7 +13,7 @@ const QAList = {
   Q3: {
     question: "Is MyLuksoWallet mobile-responsive?",
     answer:
-      "MyLuksoWallet was designed to interact with the browser extension. Currently, it should not be used on mobile devices. When a mobile extension is released, we will work on a mobile-responsive version of MyLuksoWallet.",
+      "MyLuksoWallet was designed to interact with the desktop browser extension. Currently, it should not be used on mobile devices. When a mobile extension is released, we will work on a mobile-responsive version of MyLuksoWallet.",
   },
   Q4: {
     question: "Want to join the team?",
@@ -22,13 +22,21 @@ const QAList = {
   },
   Q5: {
     question: "Who created MyLuksoWallet?",
-    answer: `"Jxyang" is the developer and founder of MyLuksoWallet. He is an active member of the Lukso community.`,
+    answer: `Jeff Yang (Twitter: @jxyang, Discord: jxyang#6165) is the developer and founder of MyLuksoWallet. He is an active member of the Lukso community.`,
+  },
+  Q0: {
+    question: "How do I get started?",
+    answer: `Follow our step-by-step guide to get started with MyLuksoWallet. Just select "Get Started" from the sidebar.`,
+  },
+  Q0A: {
+    question: "What can I do with MyLuksoWallet?",
+    answer: `MyLuksoWallet offers many core profile-related services built using the Lukso Network, including: deploying and customizing Universal Profiles, deploying and minting tokens, deploying and minting NFTs, and deploying and customizing vaults. We are currently working on a relay service and a marketplace.`,
   },
 };
 
 const QandA = ({ question, answer }) => {
   return (
-    <details className="group border-l-4 border-l-sky-500 bg-gray-900 p-6" open>
+    <details className="group border-l-4 border-l-sky-500 bg-gray-900 p-6" close="true">
       <summary className="flex cursor-pointer items-center justify-between">
         <h5 className="text-lg font-medium text-slate-300">{question}</h5>
 
@@ -59,6 +67,8 @@ const AboutUs = () => {
       <div className="mb-8 text-center text-4xl xl:text-5xl text-sky-500">
         About the Project
       </div>
+      <QandA question={QAList.Q0.question} answer={QAList.Q0.answer} />
+      <QandA question={QAList.Q0A.question} answer={QAList.Q0A.answer} />
       <QandA question={QAList.Q1.question} answer={QAList.Q1.answer} />
       <QandA question={QAList.Q2.question} answer={QAList.Q2.answer} />
       <QandA question={QAList.Q3.question} answer={QAList.Q3.answer} />

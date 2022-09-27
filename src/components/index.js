@@ -7,7 +7,7 @@ export { default as UniversalProfile } from "./UniversalProfile"; //universal pr
 export { default as Button } from "./Basics/Button"; //button type 1
 export { default as ButtonClean } from "./Basics/ButtonClean"; //button type 2
 export { default as ButtonShadow } from "./Basics/ButtonShadow"; //button type 3
-export { default as ButtonColor } from "./Basics/ButtonColor"; //button type 3
+export { default as ButtonColor } from "./Basics/ButtonColor"; //button type 4
 export { default as Banner } from "./Basics/Banner"; //banner for top of some pages
 export { default as Loading } from "./Basics/Loading"; //loading animation
 export { default as Footer } from "./Basics/Footer"; //footer
@@ -50,6 +50,7 @@ export { default as DisconnectProfile } from "./UniversalProfile/DisconnectProfi
 export { default as ProfileTags } from "./UniversalProfile/ProfileTags"; //handles profile tags
 export { default as ProfileLinks } from "./UniversalProfile/ProfileLinks"; //handles profile links
 export { default as MyMenuItem } from "./UniversalProfile/MyMenuItem"; //component for icon links at the bottom of the dropdown
+export { default as Tabs } from "./UniversalProfile/Tabs"; //selection tabs for the universal profile
 
 //key manager
 export { default as GetPermissions } from "./KeyManager/GetPermissions"; //shows all permissions associated with a clicked address

@@ -14,6 +14,7 @@ import {
   MyVaults,
   UnderConstruction,
 } from "./pages";
+import { MarketplaceHome,LaunchPadHome,VaultListings } from "./Marketplace";
 import { useSwipeable } from "react-swipeable";
 
 const ScrollToTop = (props) => {
@@ -80,6 +81,9 @@ const App = () => {
                   <Route path="/" element={<Home />} />
                   <Route path="/home" element={<Home />} />
                   <Route path="/myluksowallet" element={<MyLuksoWallet />} />
+                  <Route path="/marketplace" element={<MarketplaceHome />} />
+                  <Route path="/launchpad" element={<LaunchPadHome />} />
+                  <Route path="/vaultlistings" element={<VaultListings />} />
                   <Route path="/getstarted" element={<GetStarted />} />
                   <Route path="/aboutlukso" element={<AboutLukso />} />
                   <Route path="/myuniversalprofile" element={<MyProfile />} />
@@ -111,3 +115,4 @@ const App = () => {
 };
 
 export default App;
+

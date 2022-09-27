@@ -76,21 +76,21 @@ export const links = [
   },
 
   {
-    title: "Search (Pending 👷)",
+    title: "Marketplace",
     links: [
       {
-        name: "Universal Profile Search",
-        page: "profilesearch",
+        name: "Marketplace",
+        page: "marketplace",
         icon: <MdPersonSearch />,
       },
       {
-        name: "Token Search",
-        page: "tokensearch",
+        name: "Launchpad",
+        page: "launchpad",
         icon: <GiTwoCoins />,
       },
       {
-        name: "NFT Search",
-        page: "nftsearch",
+        name: "Vault Listings",
+        page: "vaultlistings",
         icon: <AiTwotoneStar />,
       },
       {

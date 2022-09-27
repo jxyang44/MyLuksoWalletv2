@@ -64,6 +64,12 @@ const Sidebar = () => {
         >
           Wallet DApp
         </button>
+        <button
+          className=" hover:text-slate-white mx-3 w-5/6 rounded border-2 mt-1 py-1 px-3 text-center text-white hover:bg-slate-900"
+          onClick={() => navigate("../Marketplace")}
+        >
+          Marketplace
+        </button>
         {links.map((item) => (
           <div key={item.title}>
             <p className="mx-3 mt-4 bg-gradient-to-tr from-slate-200 to-sky-500 bg-clip-text font-semibold text-transparent">

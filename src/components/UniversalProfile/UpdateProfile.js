@@ -9,10 +9,11 @@ import {
   IPFS_GATEWAY,
   UniversalProfileContract,
 } from "../../utils/luksoConfigs";
-import { ButtonShadow, ButtonColor } from "..";
+import { ButtonColor } from "..";
 import { useProfileContext } from "../../contexts/ProfileContext";
 import swal from "sweetalert";
 
+//customFunc - run BEFORE core upload function
 const UpdateProfile = ({customStyle}) => {
   const {
     web3Window,

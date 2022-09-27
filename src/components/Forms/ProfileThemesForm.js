@@ -6,7 +6,7 @@ import { useProfileContext } from "../../contexts/ProfileContext";
 import { useStateContext } from "../../contexts/StateContext";
 
 const ProfileThemesForm = () => {
-  const { setPendingProfileJSONMetadata } = useProfileContext();
+  const { profileJSONMetadata, setPendingProfileJSONMetadata } = useProfileContext();
   const { theme, setTheme, UPColor, setUPColor, UPTextColor, setUPTextColor } =
     useStateContext();
 
@@ -20,9 +20,9 @@ const ProfileThemesForm = () => {
   }, [theme, UPColor, UPTextColor]);
 
   const setToDefault = async () => {
-    setTheme("slate");
-    setUPColor("#FFFFFF");
-    setUPTextColor("#000000");
+    setTheme(profileJSONMetadata.MLWTheme ?? "slate");
+    setUPColor(profileJSONMetadata.MLWUPColor ?? "#FFFFFF");
+    setUPTextColor(profileJSONMetadata.MLWUPTextColor ?? "#000000");
   };
 
   return (
@@ -31,7 +31,7 @@ const ProfileThemesForm = () => {
       subtitle={"Settings Will Stay with Your Profile"}
     >
       <div className="mb-4 flex h-8 flex-row items-center justify-between">
-        <div className=" font-semibold text-white">Theme Settings</div>
+        <div className=" font-semibold text-white">Browser Theme Settings</div>
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
@@ -100,7 +100,7 @@ const ProfileThemesForm = () => {
         </select>
       </div>
       <div className="mb-4 flex h-8 flex-row items-center justify-between">
-        <div className=" font-semibold text-white">Universal Profile Color</div>
+        <div className=" font-semibold text-white">Universal Profile Primary Color</div>
         <input
           type="color"
           value={UPColor}
@@ -110,7 +110,7 @@ const ProfileThemesForm = () => {
       </div>
       <div className="mb-4 flex h-8 flex-row items-center justify-between">
         <div className=" font-semibold text-white">
-          Universal Profile Text Color
+          Universal Profile Secondary Color
         </div>
         <input
           type="color"

@@ -147,7 +147,7 @@ const WalletRightContents = ({
       });
     }
   };
-
+  console.log(assets)
   //if an asset is selected, shift its position to the front of the pile
   const handleSelected = (asset, index) => {
     const currentSelected = assets[index].isSelected;
